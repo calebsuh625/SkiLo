@@ -37,6 +37,9 @@ struct RootView: View {
         .sheet(item: $store.logRunRequest) { LogRunSheet(request: $0) }
         .sheet(isPresented: $store.showOnboarding) { OnboardingSheet().environment(store) }
         .onKeyPress(.escape) {
+            if store.isFlying { store.stopFlyRequested = true; return .handled }
+            if store.directions.picking != nil { store.directions.picking = nil; return .handled }
+            if store.directions.isOpen { store.closeDirections(); return .handled }
             guard store.selection != nil else { return .ignored }
             store.select(nil, showInspector: false)
             return .handled

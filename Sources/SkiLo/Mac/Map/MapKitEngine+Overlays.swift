@@ -43,6 +43,7 @@ extension MapKitEngine {
             styleTrailRenderer(r, o)
             return r
         }
+        if let o = overlay as? RouteOverlay { return routeRenderer(for: o) }
         if let o = overlay as? StaticOverlay {
             let r = MKPolylineRenderer(polyline: o)
             renderers[ObjectIdentifier(o)] = r

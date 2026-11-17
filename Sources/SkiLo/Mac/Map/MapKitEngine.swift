@@ -86,6 +86,12 @@ final class MapKitEngine: NSObject, MapEngine, MKMapViewDelegate {
     var badgeAnnotations: [Trail.ID: BadgeAnnotation] = [:]
     var labelAnnotation: LabelAnnotation?
     var probes: [ProbeAnnotation] = []
+    // Route + fly-through
+    var currentRoute: MapRoute?
+    var routeOverlays: [RouteOverlay] = []
+    var routePins: [RoutePinAnnotation] = []
+    var fly: FlyThroughState?
+    var flyerPin: RoutePinAnnotation?
 
     // Hover / picking
     var pendingHover: DispatchWorkItem?
@@ -170,6 +176,8 @@ final class MapKitEngine: NSObject, MapEngine, MKMapViewDelegate {
         m.addOverlays(staticOverlays, level: .aboveRoads)
         m.addOverlays(casings, level: .aboveRoads)
         m.addOverlays(strokes, level: .aboveRoads)
+        let route = currentRoute; currentRoute = nil; routeOverlays = []; routePins = []
+        setRoute(route)
         let sel = selectedID; selectedID = nil
         let styles = lastStyles; lastStyles = [:]
         apply(styles: styles)
@@ -318,13 +326,14 @@ final class MapKitEngine: NSObject, MapEngine, MKMapViewDelegate {
             widthScale = scale
             for id in trailOverlays.keys { restyle(id) }
             restyleStatic()
+            restyleRoute()
         }
         if verboseTiming {
             NSLog("MapKitEngine camera: center %.4f, %.4f  dist %.0f m  heading %.0f  pitch %.1f  (width scale %.2f)",
                   cam.center.lat, cam.center.lon, cam.distanceM, cam.headingDeg, cam.pitchDeg, widthScale)
         }
         if pitchFix != nil { checkPitch() }
-        guard scene != nil else { return }
+        guard scene != nil, fly == nil else { return }
         delegate?.mapEngine(self, cameraDidChange: cam)
     }
 

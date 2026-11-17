@@ -120,6 +120,8 @@ extension MapKitEngine {
         if verboseTiming {
             NSLog("MapKitEngine click at (%.0f, %.0f) → %@ (pick %.0f µs)", p.x, p.y, id ?? "nil", lastPickUs)
         }
+        if fly != nil { return }
+        if delegate?.mapEngine(self, didClickAt: coordinate(at: p, trailID: id), trailID: id) == true { return }
         delegate?.mapEngine(self, didSelect: id)
     }
 

@@ -21,6 +21,22 @@ extension DevHooks {
                 default: break
                 }
             }
+            // HT_DIRECTIONS="<lodge or lift name>><trail id>", e.g. "Heavenly Village>t-ridge-run"
+            if let d = e["HT_DIRECTIONS"] {
+                let parts = d.split(separator: ">").map(String.init)
+                let from = store.placeOptions.first { $0.title == parts.first }?.place
+                let to: RoutePlace? = parts.count > 1 ? (store.trail(parts[1]) != nil ? .trail(parts[1]) : store.placeOptions.first { $0.title == parts[1] }?.place) : nil
+                store.openDirections(to: to, from: from)
+                if let r = e["HT_DIFFICULTY"], let v = RouteDifficulty(rawValue: r) { store.directions.difficulty = v; store.recomputeRoute() }
+                if let leg = e["HT_FOCUS_LEG"].flatMap(Int.init), let l = store.directions.route?.legs.first(where: { $0.id == leg }) { store.focusMap(on: l) }
+                if e["HT_FIT_ROUTE"] != nil, let r = store.directions.route { store.requestCamera(.bounds(GeoBounds.containing(r.coords))) }
+            }
+            // HT_FLY=<trail id> | route  (after HT_FLY_DELAY seconds, default 2)
+            if let f = e["HT_FLY"] {
+                DispatchQueue.main.asyncAfter(deadline: .now() + (Double(e["HT_FLY_DELAY"] ?? "") ?? 2)) {
+                    if f == "route", let r = store.directions.route { store.flyThrough(route: r, title: "Route") } else { store.flyThrough(trail: f) }
+                }
+            }
             if let ids = e["HT_MARK_DONE"] {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     for id in ids.split(separator: ",") { store.markDone(String(id)) }

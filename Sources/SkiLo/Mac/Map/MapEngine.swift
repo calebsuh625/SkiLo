@@ -18,6 +18,8 @@ protocol MapEngineDelegate: AnyObject {
     func mapEngine(_ engine: any MapEngine, didHover trailID: Trail.ID?, at point: CGPoint?)  // point in the engine view's coords (top-left origin)
     func mapEngine(_ engine: any MapEngine, cameraDidChange camera: CameraState)
     func mapEngine(_ engine: any MapEngine, didFinishLoading ok: Bool, error: Error?)
+    /// Every click, before selection. Return true to consume it (e.g. dropping a route pin).
+    func mapEngine(_ engine: any MapEngine, didClickAt coordinate: GeoCoordinate, trailID: Trail.ID?) -> Bool
 }
 
 @MainActor
@@ -38,6 +40,10 @@ protocol MapEngine: AnyObject {
     func setCamera(_ preset: CameraPreset, animated: Bool)
     func setCamera(_ state: CameraState, animated: Bool)
     func animateStatusChange(_ id: Trail.ID, to badge: TrailStyle.Badge)   // no-op without .animateStyle
+    func setRoute(_ route: MapRoute?)                            // nil clears
+    func startFlyThrough(_ req: FlyRequest, progress: @escaping (Double, String) -> Void, finished: @escaping () -> Void)
+    func setFlyThroughPaused(_ paused: Bool)
+    func stopFlyThrough()
 
     // Queries for SwiftUI overlays (synchronous)
     func currentCamera() -> CameraState

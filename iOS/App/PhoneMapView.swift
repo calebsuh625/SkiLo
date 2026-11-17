@@ -113,6 +113,9 @@ struct PhoneMapView: View {
         case .california: state = CameraPresets.california
         case .nevada: state = CameraPresets.nevada
         case .mottKillebrew: state = CameraPresets.mottKillebrew
+        case .bounds(let b):
+            let d = min(max(b.diagonalM * 2.5, 1_200), 12_000)
+            state = CameraState(center: b.center, distanceM: d, headingDeg: 180, pitchDeg: 50)
         case .fit(let id):
             guard let t = store.trail(id) else { return }
             let far = t.geometry.joined().map { $0.distance(to: t.midpoint) }.max() ?? 500

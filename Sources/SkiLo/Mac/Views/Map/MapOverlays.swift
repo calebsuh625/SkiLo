@@ -16,7 +16,7 @@ struct MapOverlays: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                if store.legendShown { MapLegend().transition(.opacity) }
+                if store.legendShown && !store.directions.isOpen { MapLegend().transition(.opacity) }
                 Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity, alignment: .leading)

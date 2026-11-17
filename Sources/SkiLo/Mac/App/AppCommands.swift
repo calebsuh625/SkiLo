@@ -60,6 +60,13 @@ struct AppCommands: Commands {
             Button("Override Rating…") { if let id = store.selection { OverrideCoordinator.request(for: id, store: store) } }
                 .keyboardShortcut("r", modifiers: [.command, .shift]).disabled(selected == nil)
             Divider()
+            Button("Directions…") {
+                if let id = store.selection { store.openDirections(to: .trail(id)) } else { store.openDirections() }
+            }
+            .keyboardShortcut("g", modifiers: .command)
+            Button("Fly Through Trail") { if let id = store.selection { store.flyThrough(trail: id) } }
+                .keyboardShortcut("p", modifiers: [.command, .option]).disabled(selected == nil)
+            Divider()
             Button("Open in Apple Maps") {
                 if let t = selected {
                     let item = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: t.midpoint.lat, longitude: t.midpoint.lon)))

@@ -124,6 +124,13 @@ struct TrailInspector: View {
                 Button { store.showOnMap(t.id) } label: { Label("Show on Map", systemImage: "map") }
             }
             .controlSize(.regular)
+            HStack {
+                Button { store.openDirections(to: .trail(t.id)) } label: { Label("Directions Here", systemImage: "point.topleft.down.to.point.bottomright.curvepath") }
+                    .help("Route from a lodge or lift to the top of this trail (⌘G)")
+                Button { store.flyThrough(trail: t.id) } label: { Label("Fly Through", systemImage: "play.fill") }
+                    .help("Fly down this trail on the 3D map (⌥⌘P)")
+            }
+            .controlSize(.regular)
         }
     }
 

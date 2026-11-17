@@ -65,6 +65,19 @@ final class AppStore {
     var toast: Toast?
     var logRunRequest: LogRunRequest?           // RootView presents LogRunSheet
     var showOnboarding = false
+    // Routing & day planning (session state; closures persist for the day).
+    var directions = DirectionsState()
+    var closures = Closures() { didSet { if closures != oldValue, let d = try? JSONEncoder().encode(closures) { uiDefaults?.set(d, forKey: "plan.closures") } } }
+    /// The plan drawn on the map (set from the Today screen's "Show on Map").
+    var shownPlan: DayPlan?
+    var planner = PlannerState()
+    var forecast: ForecastState = .idle
+    /// Fly-through the map should play next; MapScreen consumes it.
+    var flyRequest: FlyRequest?
+    /// True while a fly-through plays; set by the map.
+    var isFlying = false
+    /// Set to stop the playing fly-through (Esc); the map clears it.
+    var stopFlyRequested = false
     /// Set by `bootstrap()` for load problems; RootView shows it and sets it back to nil.
     var pendingAlert: StoreAlert?
     /// True when the document on disk is from a newer app: edits stay in memory only.
@@ -78,6 +91,15 @@ final class AppStore {
     @ObservationIgnored private var terminateObserver: NSObjectProtocol?
     @ObservationIgnored private var ratingsCache: (revision: Int, ratings: [Trail.ID: Int])?
     @ObservationIgnored private var eloCache: (revision: Int, history: [EloPoint])?
+    @ObservationIgnored private var routerCache: Router?
+    let resort: ResortInfo = .heavenly
+    /// Built on first use (~50 ms).
+    var router: Router {
+        if let r = routerCache { return r }
+        let r = Router(catalog: catalog)
+        routerCache = r
+        return r
+    }
 
     init(catalog: TrailCatalog, userData: UserData, persistence: UserDataStore?, progression: any ProgressionEngine = DefaultProgressionEngine()) {
         self.catalog = catalog
@@ -94,6 +116,7 @@ final class AppStore {
             if d.object(forKey: "ui.inspectorShown") != nil { inspectorShown = d.bool(forKey: "ui.inspectorShown") }
             if d.object(forKey: "ui.legendShown") != nil { legendShown = d.bool(forKey: "ui.legendShown") }
             if let s = d.string(forKey: "map.baseStyle"), let v = MapBaseStyle(rawValue: s) { mapBaseStyle = v }
+            if let data = d.data(forKey: "plan.closures"), let c = try? JSONDecoder().decode(Closures.self, from: data) { closures = c }
         }
     }
 

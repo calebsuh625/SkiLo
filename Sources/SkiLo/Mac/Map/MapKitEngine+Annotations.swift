@@ -117,6 +117,7 @@ extension MapKitEngine {
             v.zPriority = .defaultUnselected
             return v
         }
+        if let a = annotation as? RoutePinAnnotation { return routePinView(for: a) }
         if let a = annotation as? LabelAnnotation {
             let v = (m.dequeueReusableAnnotationView(withIdentifier: TrailLabelView.reuseID) as? TrailLabelView)
                 ?? TrailLabelView(annotation: a, reuseIdentifier: TrailLabelView.reuseID)

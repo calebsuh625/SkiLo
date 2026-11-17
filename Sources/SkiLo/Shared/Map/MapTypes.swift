@@ -1,7 +1,7 @@
 import Foundation
 
 /// Camera and base-style types shared by the Mac and iPhone maps.
-enum CameraPreset: Equatable { case overview, california, nevada, mottKillebrew, fit(Trail.ID) }
+enum CameraPreset: Equatable { case overview, california, nevada, mottKillebrew, fit(Trail.ID), bounds(GeoBounds) }
 struct CameraState: Codable, Equatable {
     var center: GeoCoordinate
     var distanceM: Double
@@ -44,4 +44,29 @@ struct TrailStyle: Equatable {
     var badge: Badge
     var emphasis: Emphasis
     var label: String?         // shown only when selected
+}
+
+/// A route drawn over the trails (directions or a planned day).
+struct MapRoute: Equatable {
+    struct Leg: Equatable {
+        enum Kind: Equatable { case ski, lift, traverse }
+        var kind: Kind
+        var coords: [GeoCoordinate]
+        var focused: Bool = false
+    }
+    var legs: [Leg]
+    var start: GeoCoordinate?
+    var end: GeoCoordinate?
+}
+
+/// A camera fly-through along a path (one trail, or a whole route).
+struct FlyRequest: Equatable, Identifiable {
+    struct Segment: Equatable {
+        var label: String
+        var kind: MapRoute.Leg.Kind
+        var coords: [GeoCoordinate]
+    }
+    let id = UUID()
+    var title: String
+    var segments: [Segment]
 }
