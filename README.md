@@ -30,6 +30,18 @@ Elo (`Progression/Elo.swift`).
 Data lives in `~/Library/Application Support/SkiLo/`: `accounts.json` (usernames + salted
 PBKDF2 password hashes) and `accounts/<id>/userdata.json` per account (atomic writes, undo in memory).
 
+## iPhone app
+
+`SkiLoiOS.xcodeproj` builds the iPhone app (iOS 18+). It compiles `Sources/SkiLo/Shared/` (models,
+ratings, Elo, accounts, store, shared views) plus the phone-only screens in `iOS/App/`, so the Mac
+and iPhone apps share one codebase. Mac-only code lives in `Sources/SkiLo/Mac/`.
+
+- **Simulator:** open `SkiLoiOS.xcodeproj` in Xcode, pick an iPhone simulator, press Run.
+- **Your iPhone:** in Xcode select the SkiLo target → Signing & Capabilities → choose your Apple ID
+  team, plug in the phone, press Run. With a free Apple ID the app expires after 7 days.
+- Tabs: Map (3D satellite, tap a trail), Trails (swipe right = done / ran again, left = bucket),
+  Bucket, Progress, Me (account, run log). Accounts and data stay on each device; they do not sync.
+
 ## Data provenance and regeneration
 
 - `data/` holds the source inputs (OSM extract, DEM tiles, curated modifiers, calibration anchors,

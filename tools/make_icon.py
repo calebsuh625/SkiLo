@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Draws the SkiLo app icon and writes assets/AppIcon.icns (+ assets/AppIcon.png).
+"""Draws the SkiLo app icon: assets/AppIcon.icns (+ .png preview) for the Mac and a full-bleed
+iOS/App/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png for the iPhone.
 
 Design: macOS rounded-square tile, dusk-blue sky, two snowy peaks, and a rising Elo line that
 climbs past the summit and ends in an arrow — skiing + rating in one mark.
@@ -128,7 +129,10 @@ def draw_icon():
     colored.putalpha(line.getchannel("A"))
     art = Image.alpha_composite(art, colored)
 
-    # --- clip to the tile, add drop shadow ---
+    # iPhone: full-bleed square (iOS rounds the corners itself; no transparency allowed)
+    ios = art.crop((INSET, INSET, INSET + BODY, INSET + BODY)).convert("RGB").resize((1024, 1024), Image.LANCZOS)
+
+    # --- Mac: clip to the tile, add drop shadow ---
     mask = tile_mask()
     tile = Image.new("RGBA", (N, N), (0, 0, 0, 0))
     tile.paste(art, (0, 0), mask)
@@ -142,12 +146,16 @@ def draw_icon():
     shadow.putalpha(sm)
     shadow = shadow.transform((N, N), Image.AFFINE, (1, 0, 0, 0, 1, -12 * S)).filter(ImageFilter.GaussianBlur(22 * S))
     out = Image.alpha_composite(shadow, tile)
-    return out.resize((1024, 1024), Image.LANCZOS)
+    return out.resize((1024, 1024), Image.LANCZOS), ios
 
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    icon = draw_icon()
+    icon, ios = draw_icon()
+    ios_dir = os.path.join(ROOT, "iOS", "App", "Assets.xcassets", "AppIcon.appiconset")
+    os.makedirs(ios_dir, exist_ok=True)
+    ios.save(os.path.join(ios_dir, "AppIcon-1024.png"))
+    print("wrote", os.path.join(ios_dir, "AppIcon-1024.png"))
     png_path = os.path.join(OUT_DIR, "AppIcon.png")
     icon.save(png_path)
     with tempfile.TemporaryDirectory() as tmp:
