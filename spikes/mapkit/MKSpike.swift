@@ -1,4 +1,4 @@
-// HeavenlyTracker — MapKit spike variant B: MKMapView (AppKit) inside SwiftUI via NSViewRepresentable.
+// SkiLo — MapKit spike variant B: MKMapView (AppKit) inside SwiftUI via NSViewRepresentable.
 // Gives mapViewDidFinishLoadingMap / mapViewDidFinishRenderingMap timing (SwiftUI Map has no such
 // callback), MKPolyline overlays with MKPolylineRenderer, NSClickGestureRecognizer picking, and an
 // in-process probe of MapKit's pitch clamp vs camera distance.

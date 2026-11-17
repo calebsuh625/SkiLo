@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>HeavenlyTracker</string>
+	<string>SkiLo</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.calebsuh.HeavenlyTracker</string>
+	<string>com.calebsuh.SkiLo</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>HeavenlyTracker</string>
+	<string>SkiLo</string>
 	<key>CFBundleDisplayName</key>
-	<string>Heavenly Tracker</string>
+	<string>SkiLo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

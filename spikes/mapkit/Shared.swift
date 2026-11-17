@@ -1,4 +1,4 @@
-// HeavenlyTracker MapKit spike — shared code (config, logging, OSM data model, screen-space picking).
+// SkiLo MapKit spike — shared code (config, logging, OSM data model, screen-space picking).
 // Compiled into both spike (SwiftUI Map) and spike_mk (MKMapView via NSViewRepresentable).
 
 import SwiftUI
@@ -9,9 +9,9 @@ import AppKit
 
 enum Config {
     static let launch = Date()
-    static let jsonPath = "/Users/calebsuh/Projects/HeavenlyTracker/data/raw/heavenly_osm.json"
+    static let jsonPath = "/Users/calebsuh/Projects/SkiLo/data/raw/heavenly_osm.json"
     static let outDir: String = ProcessInfo.processInfo.environment["SPIKE_OUT"]
-        ?? "/Users/calebsuh/Projects/HeavenlyTracker/spikes/mapkit/out"
+        ?? "/Users/calebsuh/Projects/SkiLo/spikes/mapkit/out"
     static let delay: Double = Double(ProcessInfo.processInfo.environment["SPIKE_DELAY"] ?? "12") ?? 12
     static let elevationMode: String = ProcessInfo.processInfo.environment["SPIKE_ELEVATION"] ?? "realistic"
     static let styleMode: String = ProcessInfo.processInfo.environment["SPIKE_STYLE"] ?? "hybrid" // hybrid|imagery|standard

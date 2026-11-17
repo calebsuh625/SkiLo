@@ -1,4 +1,4 @@
-// HeavenlyTracker — MapKit 3D terrain feasibility spike (macOS, SwiftUI Map).
+// SkiLo — MapKit 3D terrain feasibility spike (macOS, SwiftUI Map).
 // Build: ./build.sh   Run: ./run.sh [realistic|flat] [delaySeconds]
 // Loads the raw OSM Overpass JSON, draws all downhill pistes + lifts as MapPolylines over
 // .hybrid(elevation: .realistic), pitched camera, click-to-select via MapReader + nearest-segment

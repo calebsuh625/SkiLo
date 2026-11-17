@@ -1,4 +1,4 @@
-# HeavenlyTracker — Architecture Design
+# SkiLo — Architecture Design
 
 Status: v1 decision document, 2026-11-01. Author: architect agent. Audience: the parallel build
 agents (see `docs/BUILD_PLAN.md`) and the orchestrator.
@@ -22,7 +22,7 @@ disagree, §6 states the resolution; this document wins over all of them.
 | `data/boundary.json` | one closed outer ring, 338 vertices |
 | `data/dem/{heavenly_dem.f32,heavenly_dem.png,dem_meta.json}` | present (12.8 MB / 2.3 MB) |
 | `Package.swift`, `Makefile`, `tools/build_app.sh`, `tools/Info.plist`, `README.md` | read; tools-version 6.0, macOS 15, `.swiftLanguageMode(.v5)`, CLT-only test flags |
-| `Sources/HeavenlyTracker/*.swift` (5 files), `Tests/HeavenlyTrackerTests/SmokeTests.swift` | read |
+| `Sources/SkiLo/*.swift` (5 files), `Tests/SkiLoTests/SmokeTests.swift` | read |
 | `spikes/mapkit/{Shared.swift,MKSpike.swift,README.md}` | read; `pickTrail` / `pointSegmentDistance` reused in design |
 | Spike reports + judge panel (3 lenses) | in the task input |
 
@@ -108,23 +108,23 @@ Not chosen:
 
 ## 2. Module layout
 
-One SwiftPM **executable target** `HeavenlyTracker` (the existing `Package.swift` is kept: tools
+One SwiftPM **executable target** `SkiLo` (the existing `Package.swift` is kept: tools
 6.0, macOS 15, `.swiftLanguageMode(.v5)`, resources `.copy("Resources")`, CLT test flags). The UX
 spec's separate `HeavenlyCore` library target is **not** used: a second target would need
 `public` on every type and complicates `@testable import`; folder discipline gives the same layering.
-Tests are `Tests/HeavenlyTrackerTests` with `import Testing` and `@testable import HeavenlyTracker`
+Tests are `Tests/SkiLoTests` with `import Testing` and `@testable import SkiLo`
 (already proven to work by the build agent).
 
 ```
-HeavenlyTracker/
+SkiLo/
   Package.swift                      unchanged
   Makefile, tools/build_app.sh       sync-data now runs tools/build_catalog.py (WP1); test → tools/run_tests.sh (WP0)
   tools/run_tests.sh, tools/testhost/ swift-testing runner for CLT-only machines (architect, verified)
   tools/build_trails.py              existing pipeline (OSM + DEM → data/*.json), untouched
   tools/build_catalog.py             NEW: data/*.json + curated_modifiers + overrides → Resources/trails.json
   data/overrides/trail_overrides.json NEW: hand corrections (area, subArea, lift) applied last
-  Sources/HeavenlyTracker/
-    App/            HeavenlyTrackerApp.swift, AppDelegate.swift, AppCommands.swift (menus/shortcuts),
+  Sources/SkiLo/
+    App/            SkiLoApp.swift, AppDelegate.swift, AppCommands.swift (menus/shortcuts),
                     AppResources.swift, ResourceCheck.swift, SelfCapture.swift, DevHooks.swift
     Models/         GeoCoordinate.swift, Catalog.swift (TrailCatalog, Trail, Lift, Connector, enums),
                     UserData.swift, TrailFilter.swift, RGBA.swift          — pure value types, no logic
@@ -150,7 +150,7 @@ HeavenlyTracker/
       Shared/       RatingPill.swift, BandSymbol.swift, StatusGlyph.swift, ReadinessChip.swift,
                     Format.swift, ToastView.swift
     Resources/      trails.json (the catalog, §4) — generated, never hand-edited after WP1
-  Tests/HeavenlyTrackerTests/   TestSupport.swift + one test file per package
+  Tests/SkiLoTests/   TestSupport.swift + one test file per package
 ```
 
 Dependency rules (enforced by review, not the compiler):
@@ -176,8 +176,8 @@ Dependency rules (enforced by review, not the compiler):
  data/curated_modifiers.json ────┤                 │              │   tools/build_catalog.py  (WP1, stdlib only)
  data/overrides/trail_overrides.json ──┘           │              │   = `make sync-data`
                                  ▼                 ▼              ▼
-                 Sources/HeavenlyTracker/Resources/trails.json   (catalog, schema §4, ~0.7 MB)
-                                 │  bundled by SwiftPM → HeavenlyTracker_HeavenlyTracker.bundle/Resources/trails.json
+                 Sources/SkiLo/Resources/trails.json   (catalog, schema §4, ~0.7 MB)
+                                 │  bundled by SwiftPM → SkiLo_SkiLo.bundle/Resources/trails.json
  ═══════════════════════════════ runtime ══════════════════════════════════════════════════════════
  CatalogLoader.loadBundled()  ── JSONDecoder ──▶ TrailCatalog
         └─ for each trail: trail.rating = DifficultyRating.breakdown(trail.ratingInput, trail.modifiers)
@@ -204,7 +204,7 @@ revision bump → `MapScreen` recomputes styles → `engine.apply(styles:)` + `e
 
 ## 4. The catalog JSON schema the app consumes (final)
 
-File: `Sources/HeavenlyTracker/Resources/trails.json`, produced only by `tools/build_catalog.py`.
+File: `Sources/SkiLo/Resources/trails.json`, produced only by `tools/build_catalog.py`.
 Accessed with `Bundle.appResources.url(forResource: "trails", withExtension: "json", subdirectory: "Resources")`
 (never `Bundle.module`, see README). Env `HT_CATALOG=/abs/path.json` overrides the bundled file
 (dev/testing).
@@ -323,7 +323,7 @@ stored): `green <25, blue <50, black <75, doubleBlack ≥75`.
 ## 5. Rating: how RATING_METHOD.md is wired to the data
 
 - **Source of truth is Swift**: `DifficultyRating.breakdown(_: RatingInput, _: CuratedModifiers) -> RatingBreakdown`
-  (`Sources/HeavenlyTracker/Rating/DifficultyRating.swift`), a line-for-line port of RATING_METHOD §3.10.
+  (`Sources/SkiLo/Rating/DifficultyRating.swift`), a line-for-line port of RATING_METHOD §3.10.
   It runs once per trail at catalog load (`CatalogLoader`), 126 × microseconds. The pipeline does
   **not** precompute the breakdown; it only ships the inputs plus `expectedRating` as a cross-check.
 - **Inputs** (`Trail.ratingInput`):
@@ -401,7 +401,7 @@ stored): `green <25, blue <50, black <75, doubleBlack ≥75`.
 
 ## 7. The abstract `MapEngine` interface (normative Swift)
 
-`Sources/HeavenlyTracker/Map/MapEngine.swift` — written verbatim by WP0, never edited afterwards.
+`Sources/SkiLo/Map/MapEngine.swift` — written verbatim by WP0, never edited afterwards.
 
 ```swift
 import Foundation
@@ -594,7 +594,7 @@ Budget: ≤ 1.0 GB footprint at the closest allowed camera, idle CPU ≈ 0 (MapK
 Types are UX_SPEC §7.2 verbatim (`TrailStatus`, `UserTrailState`, `Conditions`, `RunLogEntry`,
 `SkiDayMeta`, `SkillPoint`, `UserProfile`, `UserData`), defined in `Models/UserData.swift` by WP0.
 
-- Location: `~/Library/Application Support/HeavenlyTracker/userdata.json` (+ `userdata.backup.json`,
+- Location: `~/Library/Application Support/SkiLo/userdata.json` (+ `userdata.backup.json`,
   `userdata.corrupt-<ts>.json`, `userdata.pre-import-<ts>.json`). Env **`HT_USERDATA_DIR`** redirects
   the whole directory (tests, screenshots, dev hooks never touch real data).
 - Encoding: `JSONEncoder` with `.iso8601` dates, `[.prettyPrinted, .sortedKeys]`; atomic write to
@@ -647,7 +647,7 @@ the window appears, so every package can screenshot real states without a human:
 | `HT_MARK_DONE=t-gunbarrel,t-maggie-s` | mark done at +1 s (exercises animation + toast + persistence) |
 | `HT_BUCKET=t-bill-s` | add to bucket |
 
-Run the bare executable (`.build/<config>/HeavenlyTracker`) for ad-hoc shots (no LaunchServices
+Run the bare executable (`.build/<config>/SkiLo`) for ad-hoc shots (no LaunchServices
 quirk), or the assembled app with `-ApplePersistenceIgnoreState YES` (see README). Always use
 `run_in_background`/`timeout`, and look at the PNG with the Read tool before claiming anything rendered.
 

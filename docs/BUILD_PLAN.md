@@ -1,4 +1,4 @@
-# HeavenlyTracker — Build Plan for Parallel Implementation
+# SkiLo — Build Plan for Parallel Implementation
 
 Status: v1, 2026-11-01. Companion to `docs/DESIGN.md` (architecture, schema, decisions) and
 `docs/UX_SPEC.md` (screens, behaviour). When this plan and the UX spec disagree on *interfaces* or
@@ -30,7 +30,7 @@ swift build 2>&1 | tail -20                                    # debug, ~35 s co
 swift build -c release                                          # release
 tools/run_tests.sh                                              # ALL tests (swift-testing) — see warning below
 tools/run_tests.sh --filter Rating                              # suites/tests matching a regex
-tools/build_app.sh            # release .app → build/HeavenlyTracker.app (ad-hoc signed)
+tools/build_app.sh            # release .app → build/SkiLo.app (ad-hoc signed)
 tools/build_app.sh verify     # launches the .app headless, screenshots to build/verify.png, exits
 ```
 
@@ -66,9 +66,9 @@ tools/build_app.sh verify     # launches the .app headless, screenshots to build
 A half-written file from another agent breaks everybody's `swift build`. Therefore each of WP1–WP5:
 
 1. Copies the tree once WP0 has landed:
-   `rsync -a --exclude .build --exclude build --exclude spikes --exclude data/dem/tiles /Users/calebsuh/Projects/HeavenlyTracker/ /private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c504cfe6ddb2/scratchpad/wpN/`
+   `rsync -a --exclude .build --exclude build --exclude spikes --exclude data/dem/tiles /Users/calebsuh/Projects/SkiLo/ /private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c504cfe6ddb2/scratchpad/wpN/`
 2. Works and builds in that copy (`swift build`, `tools/run_tests.sh --filter …`, screenshots).
-3. When green, copies **only its owned files** back into `/Users/calebsuh/Projects/HeavenlyTracker/`
+3. When green, copies **only its owned files** back into `/Users/calebsuh/Projects/SkiLo/`
    (`cp` per file or `rsync` with an explicit file list; never a whole-tree rsync back).
 4. Reports the exact list of files delivered.
 
@@ -87,7 +87,7 @@ OUT=/private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c504cfe6ddb2
 mkdir -p $OUT/userdata
 HT_USERDATA_DIR=$OUT/userdata HT_SCREENSHOT=$OUT/map_ca.png HT_SCREENSHOT_DELAY=10 \
 HT_SECTION=map HT_CAMERA=california HT_SELECT=t-gunbarrel \
-timeout 60 .build/arm64-apple-macosx/release/HeavenlyTracker ; echo "exit $?"
+timeout 60 .build/arm64-apple-macosx/release/SkiLo ; echo "exit $?"
 ```
 Run it with `run_in_background` (or `&` + `timeout`), then **Read the PNG** and describe honestly
 what rendered. `screencapture -l` needs Screen Recording permission for the terminal; it worked for
@@ -111,9 +111,9 @@ signature the other packages compile against exists**. Stubs return sensible def
 
 ### WP0.1 File operations
 
-1. Move existing files: `Sources/HeavenlyTracker/{HeavenlyTrackerApp,AppResources,ResourceCheck,SelfCapture}.swift`
-   → `Sources/HeavenlyTracker/App/`. Delete `ContentView.swift`. Split `AppDelegate` out of
-   `HeavenlyTrackerApp.swift` into `App/AppDelegate.swift` (same code, plus `applicationShouldTerminate`
+1. Move existing files: `Sources/SkiLo/{SkiLoApp,AppResources,ResourceCheck,SelfCapture}.swift`
+   → `Sources/SkiLo/App/`. Delete `ContentView.swift`. Split `AppDelegate` out of
+   `SkiLoApp.swift` into `App/AppDelegate.swift` (same code, plus `applicationShouldTerminate`
    is **not** needed — the store flushes on `willTerminateNotification`).
 2. `Package.swift`: unchanged (verify it still builds after the moves; SwiftPM picks up subfolders).
    `Makefile`: change only the `test` target so that it reads
@@ -127,7 +127,7 @@ signature the other packages compile against exists**. Stubs return sensible def
    unless the owner column says otherwise); "STUB → WPn" = compiling placeholder replaced by WPn.
 
 ```
-App/HeavenlyTrackerApp.swift      FULL (owner WP0)
+App/SkiLoApp.swift      FULL (owner WP0)
 App/AppDelegate.swift             FULL (WP0)
 App/AppResources.swift            FULL (moved, WP0)
 App/ResourceCheck.swift           FULL (moved, WP0)
@@ -183,8 +183,8 @@ Views/Shared/ReadinessChip.swift  FULL minimal (WP4)
 Views/Shared/Format.swift         FULL (WP4)
 Views/Shared/ToastView.swift      STUB → WP4
 Resources/trails.json             placeholder in the FINAL schema (2 trails) → WP1 replaces
-Tests/HeavenlyTrackerTests/TestSupport.swift  FULL
-Tests/HeavenlyTrackerTests/SmokeTests.swift   FULL (rewritten)
+Tests/SkiLoTests/TestSupport.swift  FULL
+Tests/SkiLoTests/SmokeTests.swift   FULL (rewritten)
 ```
 
 ### WP0.2 Shared contract — verbatim Swift
@@ -199,19 +199,19 @@ text). That verified tree is at
 (scratch; may vanish) — if it still exists, copy its `Sources/` and `Tests/` as the starting point
 and then do WP0.1's moves/deletes; this document remains the authority if they differ.
 
-#### `App/HeavenlyTrackerApp.swift`
+#### `App/SkiLoApp.swift`
 ```swift
 import SwiftUI
 import AppKit
 
 @main
 @MainActor
-struct HeavenlyTrackerApp: App {
+struct SkiLoApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var store = AppStore.bootstrap()
 
     var body: some Scene {
-        WindowGroup("Heavenly Tracker") {
+        WindowGroup("SkiLo") {
             RootView()
                 .environment(store)
                 .frame(minWidth: 1000, minHeight: 640)
@@ -1090,7 +1090,7 @@ final class UserDataStore {
     static func defaultDirectory() -> URL {
         if let d = DevHooks.userDataDirectory { return d }
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        return base.appendingPathComponent("HeavenlyTracker", isDirectory: true)
+        return base.appendingPathComponent("SkiLo", isDirectory: true)
     }
     init(directory: URL) { self.directory = directory }
 
@@ -1475,18 +1475,18 @@ Gunbarrel Express), one connector, the real boundary ring is optional (an empty 
 valid). `expectedRating` may be omitted (null) in the placeholder. `ratingEngineVersion` =
 `rating-v1-2026-11-01`. WP1 overwrites this file.
 
-#### `Tests/HeavenlyTrackerTests/TestSupport.swift`
+#### `Tests/SkiLoTests/TestSupport.swift`
 ```swift
 import Foundation
 import Testing
-@testable import HeavenlyTracker
+@testable import SkiLo
 
 enum TestPaths {
     /// Repo root derived from this file's compile-time path (works in copies of the tree too).
     static let repoRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     static func data(_ relative: String) -> URL { repoRoot.appendingPathComponent("data").appendingPathComponent(relative) }
     static func scratchDirectory(_ name: String) throws -> URL {
-        let u = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("HeavenlyTrackerTests-\(name)-\(UUID().uuidString)", isDirectory: true)
+        let u = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("SkiLoTests-\(name)-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: u, withIntermediateDirectories: true)
         return u
     }
@@ -1508,11 +1508,11 @@ enum Fixtures {
 }
 ```
 
-#### `Tests/HeavenlyTrackerTests/SmokeTests.swift`
+#### `Tests/SkiLoTests/SmokeTests.swift`
 ```swift
 import Testing
 import Foundation
-@testable import HeavenlyTracker
+@testable import SkiLo
 
 @Suite("Scaffold smoke tests")
 struct SmokeTests {
@@ -1568,18 +1568,18 @@ Read `build/verify.png`: a window with a dark-gray map placeholder (stub engine)
 ```
 tools/build_catalog.py                               NEW (python3 -I, stdlib only: json, re, math, sys, datetime, argparse)
 data/overrides/trail_overrides.json                  NEW
-Sources/HeavenlyTracker/Resources/trails.json        REPLACES WP0 placeholder (generated, ~0.7 MB)
+Sources/SkiLo/Resources/trails.json        REPLACES WP0 placeholder (generated, ~0.7 MB)
 Makefile                                             EDIT the sync-data target only (WP0 already changed `test`)
-Sources/HeavenlyTracker/Rating/DifficultyRating.swift REPLACES stub
-Tests/HeavenlyTrackerTests/RatingTests.swift         NEW
-Tests/HeavenlyTrackerTests/CatalogTests.swift        NEW
+Sources/SkiLo/Rating/DifficultyRating.swift REPLACES stub
+Tests/SkiLoTests/RatingTests.swift         NEW
+Tests/SkiLoTests/CatalogTests.swift        NEW
 data/README.md                                       NEW (optional: one page on the files and rerun commands)
 ```
 
 ### WP1.1 `tools/build_catalog.py`
 Inputs: `data/trails.json`, `data/lifts.json`, `data/boundary.json`, `data/curated_modifiers.json`,
 `data/overrides/trail_overrides.json`, `data/calibration_anchors.json` (for validation only).
-Output: `Sources/HeavenlyTracker/Resources/trails.json` exactly per DESIGN §4 (also `--out PATH`).
+Output: `Sources/SkiLo/Resources/trails.json` exactly per DESIGN §4 (also `--out PATH`).
 Rules: DESIGN §4.5 (slug, ids, area, subArea, grooming mapping, geometry, midpoint, profile grade,
 stats rename, modifiers verbatim, `expectedRating` via the RATING_METHOD Appendix B Python
 reference, bounds). Print a summary (counts, 6-band histogram, anchors check) and exit 1 on any
@@ -1658,7 +1658,7 @@ Port RATING_METHOD §3.10 exactly, with these adaptations:
 tools/build_app.sh sync-data                                            # same via make
 tools/run_tests.sh --filter "Rating|Catalog"                                    # green
 tools/run_tests.sh                                                      # everything else still green
-ls -la Sources/HeavenlyTracker/Resources/trails.json                    # < 1.5 MB
+ls -la Sources/SkiLo/Resources/trails.json                    # < 1.5 MB
 ```
 ### WP1.5 Acceptance
 - Script idempotent (two runs → identical file except `generatedAt`).
@@ -1671,15 +1671,15 @@ ls -la Sources/HeavenlyTracker/Resources/trails.json                    # < 1.5 
 
 ### Files
 ```
-Sources/HeavenlyTracker/Store/AppStore.swift              REPLACES stub (keep every public signature; add, never remove)
-Sources/HeavenlyTracker/Persistence/UserDataStore.swift   REPLACES stub
-Sources/HeavenlyTracker/Persistence/Migrations.swift      REPLACES stub
-Sources/HeavenlyTracker/Persistence/ExportImport.swift    REPLACES stub
-Sources/HeavenlyTracker/Style/Ramp.swift                  REPLACES stub
-Sources/HeavenlyTracker/Style/TrailStyleBuilder.swift     REPLACES stub
-Tests/HeavenlyTrackerTests/StoreTests.swift               NEW
-Tests/HeavenlyTrackerTests/PersistenceTests.swift         NEW
-Tests/HeavenlyTrackerTests/StyleTests.swift               NEW
+Sources/SkiLo/Store/AppStore.swift              REPLACES stub (keep every public signature; add, never remove)
+Sources/SkiLo/Persistence/UserDataStore.swift   REPLACES stub
+Sources/SkiLo/Persistence/Migrations.swift      REPLACES stub
+Sources/SkiLo/Persistence/ExportImport.swift    REPLACES stub
+Sources/SkiLo/Style/Ramp.swift                  REPLACES stub
+Sources/SkiLo/Style/TrailStyleBuilder.swift     REPLACES stub
+Tests/SkiLoTests/StoreTests.swift               NEW
+Tests/SkiLoTests/PersistenceTests.swift         NEW
+Tests/SkiLoTests/StyleTests.swift               NEW
 ```
 
 ### WP2.1 `AppStore` (must implement; interface from WP0 is frozen, you may add members)
@@ -1769,15 +1769,15 @@ second launch's `userdata.json` contains the done state (cat the file in the rep
 
 ### Files
 ```
-Sources/HeavenlyTracker/Map/MapSceneBuilder.swift   REPLACES stub
-Sources/HeavenlyTracker/Map/CameraPresets.swift     REPLACES stub
-Sources/HeavenlyTracker/Map/Picking.swift           REPLACES stub
-Sources/HeavenlyTracker/Map/MapKitEngine.swift      REPLACES stub (may split into MapKitEngine+Overlays.swift, +Picking.swift, +Annotations.swift in Map/)
-Sources/HeavenlyTracker/Map/MapHostView.swift       may edit
-Sources/HeavenlyTracker/Views/Map/MapScreen.swift   REPLACES stub
-Sources/HeavenlyTracker/Views/Map/MapOverlays.swift REPLACES stub (legend, camera chips, hover tooltip, OSM attribution, offline banner)
-Tests/HeavenlyTrackerTests/PickingTests.swift       NEW
-Tests/HeavenlyTrackerTests/CameraPresetsTests.swift NEW
+Sources/SkiLo/Map/MapSceneBuilder.swift   REPLACES stub
+Sources/SkiLo/Map/CameraPresets.swift     REPLACES stub
+Sources/SkiLo/Map/Picking.swift           REPLACES stub
+Sources/SkiLo/Map/MapKitEngine.swift      REPLACES stub (may split into MapKitEngine+Overlays.swift, +Picking.swift, +Annotations.swift in Map/)
+Sources/SkiLo/Map/MapHostView.swift       may edit
+Sources/SkiLo/Views/Map/MapScreen.swift   REPLACES stub
+Sources/SkiLo/Views/Map/MapOverlays.swift REPLACES stub (legend, camera chips, hover tooltip, OSM attribution, offline banner)
+Tests/SkiLoTests/PickingTests.swift       NEW
+Tests/SkiLoTests/CameraPresetsTests.swift NEW
 ```
 Do not touch `Map/MapEngine.swift`. Do not read `AppStore` from inside `Map/*` (only `Views/Map/*` may).
 
@@ -1858,12 +1858,12 @@ swift build -c release
 S=/private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c504cfe6ddb2/scratchpad/wp3shots; mkdir -p $S/ud
 for cam in overview california nevada mottKillebrew; do
   HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/$cam.png HT_SCREENSHOT_DELAY=10 HT_SECTION=map HT_CAMERA=$cam \
-  timeout 60 .build/arm64-apple-macosx/release/HeavenlyTracker; done
+  timeout 60 .build/arm64-apple-macosx/release/SkiLo; done
 HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/selected_done.png HT_SCREENSHOT_DELAY=10 HT_SECTION=map \
   HT_CAMERA=california HT_SELECT=t-gunbarrel HT_MARK_DONE=t-gunbarrel HT_BUCKET=t-the-face \
-  timeout 60 .build/arm64-apple-macosx/release/HeavenlyTracker
+  timeout 60 .build/arm64-apple-macosx/release/SkiLo
 HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/outline.png HT_SCREENSHOT_DELAY=6 HT_SECTION=map HT_BASE_STYLE=outline \
-  timeout 60 .build/arm64-apple-macosx/release/HeavenlyTracker
+  timeout 60 .build/arm64-apple-macosx/release/SkiLo
 tools/run_tests.sh --filter "Picking|CameraPresets"
 ```
 Also measure: log `apply(styles:)` time and pick time; `/usr/bin/time -l` max RSS for the
@@ -1888,20 +1888,20 @@ california shot (target ≤ 1.1 GB).
 
 ### Files
 ```
-Sources/HeavenlyTracker/Views/Shell/RootView.swift            REPLACES stub
-Sources/HeavenlyTracker/Views/Shell/SidebarView.swift         REPLACES stub
-Sources/HeavenlyTracker/Views/Shell/MiniProgressCard.swift    REPLACES stub
-Sources/HeavenlyTracker/Views/Shell/FilterMenu.swift          NEW (shared filter control; Map/Trails/Bucket toolbars use it)
-Sources/HeavenlyTracker/Views/Trails/TrailsScreen.swift       REPLACES stub (+ helpers in Views/Trails/)
-Sources/HeavenlyTracker/Views/Inspector/TrailInspector.swift  REPLACES stub
-Sources/HeavenlyTracker/Views/Inspector/ElevationProfileChart.swift  REPLACES stub
-Sources/HeavenlyTracker/Views/Inspector/RatingBreakdownView.swift    REPLACES stub
-Sources/HeavenlyTracker/Views/Inspector/OverridePopover.swift        REPLACES stub
-Sources/HeavenlyTracker/Views/Settings/SettingsView.swift     REPLACES stub
-Sources/HeavenlyTracker/Views/Onboarding/OnboardingSheet.swift REPLACES stub
-Sources/HeavenlyTracker/Views/Shared/*.swift                  polish allowed; keep initializers
-Sources/HeavenlyTracker/App/AppCommands.swift                 REPLACES stub
-Tests/HeavenlyTrackerTests/FilterTests.swift                  NEW (TrailFilter.matches + Format)
+Sources/SkiLo/Views/Shell/RootView.swift            REPLACES stub
+Sources/SkiLo/Views/Shell/SidebarView.swift         REPLACES stub
+Sources/SkiLo/Views/Shell/MiniProgressCard.swift    REPLACES stub
+Sources/SkiLo/Views/Shell/FilterMenu.swift          NEW (shared filter control; Map/Trails/Bucket toolbars use it)
+Sources/SkiLo/Views/Trails/TrailsScreen.swift       REPLACES stub (+ helpers in Views/Trails/)
+Sources/SkiLo/Views/Inspector/TrailInspector.swift  REPLACES stub
+Sources/SkiLo/Views/Inspector/ElevationProfileChart.swift  REPLACES stub
+Sources/SkiLo/Views/Inspector/RatingBreakdownView.swift    REPLACES stub
+Sources/SkiLo/Views/Inspector/OverridePopover.swift        REPLACES stub
+Sources/SkiLo/Views/Settings/SettingsView.swift     REPLACES stub
+Sources/SkiLo/Views/Onboarding/OnboardingSheet.swift REPLACES stub
+Sources/SkiLo/Views/Shared/*.swift                  polish allowed; keep initializers
+Sources/SkiLo/App/AppCommands.swift                 REPLACES stub
+Tests/SkiLoTests/FilterTests.swift                  NEW (TrailFilter.matches + Format)
 ```
 
 ### WP4.1 `RootView` (UX §1.1–§1.3)
@@ -1971,8 +1971,8 @@ Capsule top-right, `.regularMaterial`, symbol + text + action buttons, auto-dism
 ### WP4.9 Verify
 ```sh
 swift build && tools/run_tests.sh --filter Filter
-S=…/wp4shots; for sec in trails bucket progress log; do HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/$sec.png HT_SCREENSHOT_DELAY=4 HT_SECTION=$sec HT_SELECT=t-gunbarrel timeout 40 .build/debug/HeavenlyTracker; done
-HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/inspector_done.png HT_SCREENSHOT_DELAY=6 HT_SECTION=trails HT_SELECT=t-gunbarrel HT_MARK_DONE=t-gunbarrel timeout 40 .build/debug/HeavenlyTracker
+S=…/wp4shots; for sec in trails bucket progress log; do HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/$sec.png HT_SCREENSHOT_DELAY=4 HT_SECTION=$sec HT_SELECT=t-gunbarrel timeout 40 .build/debug/SkiLo; done
+HT_USERDATA_DIR=$S/ud HT_SCREENSHOT=$S/inspector_done.png HT_SCREENSHOT_DELAY=6 HT_SECTION=trails HT_SELECT=t-gunbarrel HT_MARK_DONE=t-gunbarrel timeout 40 .build/debug/SkiLo
 ```
 (Other sections may still show WP5 stubs; that is fine — the shell, table, inspector and toast are what you verify.)
 
@@ -1989,16 +1989,16 @@ window shot. FilterTests green.
 
 ### Files
 ```
-Sources/HeavenlyTracker/Progression/DefaultProgressionEngine.swift  REPLACES stub
-Sources/HeavenlyTracker/Progression/Milestones.swift               REPLACES stub
-Sources/HeavenlyTracker/Views/Bucket/BucketScreen.swift            REPLACES stub
-Sources/HeavenlyTracker/Views/Bucket/AddTrailPopover.swift         REPLACES stub
-Sources/HeavenlyTracker/Views/Log/LogScreen.swift                  REPLACES stub
-Sources/HeavenlyTracker/Views/Log/LogRunSheet.swift                REPLACES stub
-Sources/HeavenlyTracker/Views/Log/EditDaySheet.swift               REPLACES stub
-Sources/HeavenlyTracker/Views/Progress/ProgressScreen.swift        REPLACES stub (+ chart helpers in Views/Progress/)
-Tests/HeavenlyTrackerTests/ProgressionTests.swift                  NEW
-Tests/HeavenlyTrackerTests/MilestoneTests.swift                    NEW
+Sources/SkiLo/Progression/DefaultProgressionEngine.swift  REPLACES stub
+Sources/SkiLo/Progression/Milestones.swift               REPLACES stub
+Sources/SkiLo/Views/Bucket/BucketScreen.swift            REPLACES stub
+Sources/SkiLo/Views/Bucket/AddTrailPopover.swift         REPLACES stub
+Sources/SkiLo/Views/Log/LogScreen.swift                  REPLACES stub
+Sources/SkiLo/Views/Log/LogRunSheet.swift                REPLACES stub
+Sources/SkiLo/Views/Log/EditDaySheet.swift               REPLACES stub
+Sources/SkiLo/Views/Progress/ProgressScreen.swift        REPLACES stub (+ chart helpers in Views/Progress/)
+Tests/SkiLoTests/ProgressionTests.swift                  NEW
+Tests/SkiLoTests/MilestoneTests.swift                    NEW
 ```
 
 ### WP5.1 `DefaultProgressionEngine` (UX §7.5 + DESIGN §6.5)
@@ -2078,7 +2078,7 @@ attribution, dev hooks), optionally `assets/AppIcon.icns` (UX §8.4; `iconutil` 
    fix cross-package errors minimally; prefer fixing the consumer over changing a contract.
 2. `tools/build_app.sh sync-data` (regenerate the catalog), `tools/run_tests.sh` (all suites green — look for the `✔ Test run with N tests` line).
 3. `tools/build_app.sh` (release .app) and `tools/build_app.sh verify`.
-4. Acceptance walk-through with the **assembled app** (`build/HeavenlyTracker.app/Contents/MacOS/HeavenlyTracker -ApplePersistenceIgnoreState YES`
+4. Acceptance walk-through with the **assembled app** (`build/SkiLo.app/Contents/MacOS/SkiLo -ApplePersistenceIgnoreState YES`
    with `HT_*`), fresh `HT_USERDATA_DIR`, in this order, one screenshot each:
    a. launch, no env except `HT_SCREENSHOT`+`HT_USERDATA_DIR` and `HT_SKIP_ONBOARDING` unset → onboarding sheet;
    b. `HT_SECTION=map HT_CAMERA=overview` → 3D terrain, 126 coloured trails, legend, chips, Apple logo;
@@ -2093,7 +2093,7 @@ attribution, dev hooks), optionally `assets/AppIcon.icns` (UX §8.4; `iconutil` 
 5. Memory/time: `/usr/bin/time -l` on shot (c); report max RSS and time-to-screenshot.
 6. Write `docs/ACCEPTANCE.md`: the P0 checklist from UX §9.1 with pass/fail, screenshot paths,
    test counts, known gaps.
-7. Launch through LaunchServices once (`tools/build_app.sh run`, then `pkill -TERM -x HeavenlyTracker`)
+7. Launch through LaunchServices once (`tools/build_app.sh run`, then `pkill -TERM -x SkiLo`)
    and confirm `lsappinfo` saw it, to prove the bundle works outside the headless path.
 
 ### WP6.2 Acceptance (V1 done)
@@ -2126,7 +2126,7 @@ WP6 45–60 min. The map (WP3) and the two screen packages are the long poles; s
 ## Appendix C — Verified WP0 view/shared stub sources
 
 Extracted from the architect's compile-checked scratch tree (built with 0 errors, tests 4/4, app launched).
-Copy verbatim into `Sources/HeavenlyTracker/<path>`.
+Copy verbatim into `Sources/SkiLo/<path>`.
 
 #### `App/AppCommands.swift`
 ```swift

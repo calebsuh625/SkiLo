@@ -1,5 +1,5 @@
 // swift-tools-version: 6.0
-// HeavenlyTracker — native macOS ski progression tracker for Heavenly Mountain Resort.
+// SkiLo — native macOS ski progression tracker for Heavenly Mountain Resort.
 // Built with Command Line Tools only (no Xcode license required): see Makefile / README.md.
 import PackageDescription
 import Foundation
@@ -24,17 +24,17 @@ let testLinkerFlags: [LinkerSetting] = usingCLT ? [.unsafeFlags([
 ])] : []
 
 let package = Package(
-    name: "HeavenlyTracker",
+    name: "SkiLo",
     platforms: [
         .macOS(.v15),
     ],
     targets: [
         .executableTarget(
-            name: "HeavenlyTracker",
-            path: "Sources/HeavenlyTracker",
+            name: "SkiLo",
+            path: "Sources/SkiLo",
             // Whole Resources/ directory is copied verbatim into the resource bundle
-            // (HeavenlyTracker_HeavenlyTracker.bundle/Resources/...). In app code use
-            // Bundle.appResources (Sources/HeavenlyTracker/AppResources.swift), NOT Bundle.module:
+            // (SkiLo_SkiLo.bundle/Resources/...). In app code use
+            // Bundle.appResources (Sources/SkiLo/AppResources.swift), NOT Bundle.module:
             // SwiftPM's generated Bundle.module never looks in <app>/Contents/Resources.
             resources: [
                 .copy("Resources"),
@@ -46,9 +46,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "HeavenlyTrackerTests",
-            dependencies: ["HeavenlyTracker"],
-            path: "Tests/HeavenlyTrackerTests",
+            name: "SkiLoTests",
+            dependencies: ["SkiLo"],
+            path: "Tests/SkiLoTests",
             swiftSettings: [.swiftLanguageMode(.v5)] + testSwiftFlags,
             linkerSettings: testLinkerFlags
         ),

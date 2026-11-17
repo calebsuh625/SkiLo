@@ -1,6 +1,6 @@
-# HeavenlyTracker V1 acceptance (WP6, 2026-11-02)
+# SkiLo V1 acceptance (WP6, 2026-11-02)
 
-Assembled release app: `build/HeavenlyTracker.app` (ad-hoc signed, `codesign --verify` valid).
+Assembled release app: `build/SkiLo.app` (ad-hoc signed, `codesign --verify` valid).
 Screenshots: `/private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c504cfe6ddb2/scratchpad/acc/` (each viewed; descriptions below are of what was actually seen).
 
 ## Commands and results
@@ -8,7 +8,7 @@ Screenshots: `/private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c5
 - `tools/build_app.sh sync-data`: 126 trails, 34 connectors, 23 lifts, anchors 29/29 within tolerance.
 - `tools/run_tests.sh`: `Test run with 120 tests in 12 suites passed after 0.873 seconds.`
 - `tools/build_app.sh verify`: screenshot written, Bundle.appResources resolves, trails.json 467713 bytes.
-- LaunchServices: `open build/HeavenlyTracker.app`; `lsappinfo` listed bundleID com.calebsuh.HeavenlyTracker pid 35807 (Foreground); `pkill -TERM` ended it. PASS.
+- LaunchServices: `open build/SkiLo.app`; `lsappinfo` listed bundleID com.calebsuh.SkiLo pid 35807 (Foreground); `pkill -TERM` ended it. PASS.
 - `grep -rn "pending" Sources/ | grep -i WP`: empty. PASS (no stubs left).
 - Memory/time (`/usr/bin/time -l`, shot c California+select): 12.76 s wall (10 s of it is the capture delay), max RSS 952 MB (target <= 1.1 GB met in this run). Other runs: overview 246 MB, mark-done 626 MB. WP3 reported 3-6 GB in earlier runs, so RSS is variable; not guaranteed.
 
@@ -45,6 +45,6 @@ Screenshots: `/private/tmp/claude-501/-Users-calebsuh/810bede8-95e3-4752-88a3-c5
 - FIXED: sidebar bucket badge counts only ids present in the catalog (`bucketBadgeCount`, test added).
 - Memory: engine already diffs styles (only changed trails restyled) and caches renderers. Only change made: map line-width scale quantised to 0.2 steps so zooming redraws all lines less often. Same scenario max RSS: before 472 MB, after 458/498/480 MB (no measurable change). The 3-6 GB reports were NOT reproduced; likely MapKit's own 3D terrain/imagery tile cache at close pitch, not fixed.
 - Tests: 124 tests in 13 suites pass. New tests cover log run (Log, timesSkied, skill history), moveBucket, export/import round trip (dates are stored to whole seconds, so sub-second precision is lost by design).
-- Installed to ~/Applications/HeavenlyTracker.app, codesign valid, launches via `open` (lsappinfo confirmed). Real data folder is ~/Library/Application Support/HeavenlyTracker (created on first change; not present yet, so no test data written there).
+- Installed to ~/Applications/SkiLo.app, codesign valid, launches via `open` (lsappinfo confirmed). Real data folder is ~/Library/Application Support/SkiLo (created on first change; not present yet, so no test data written there).
 - Still unverified (need real clicks): export/import file panels, LogRunSheet UI, drag-reorder in Bucket UI, keyboard shortcuts, hover, offline fallback, override popover, notes editing.
 - Tight rating anchors (Milky Way Bowl, North Bowl) pass with zero slack. No AppIcon.

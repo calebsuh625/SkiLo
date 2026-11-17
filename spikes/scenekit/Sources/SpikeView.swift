@@ -12,7 +12,7 @@ final class SpikeModel: ObservableObject {
     let config: [String: String] = ProcessInfo.processInfo.environment
 
     init() {
-        spikeDir = URL(fileURLWithPath: config["SPIKE_DIR"] ?? "/Users/calebsuh/Projects/HeavenlyTracker/spikes/scenekit")
+        spikeDir = URL(fileURLWithPath: config["SPIKE_DIR"] ?? "/Users/calebsuh/Projects/SkiLo/spikes/scenekit")
         let osm = URL(fileURLWithPath: config["SPIKE_OSM"] ?? spikeDir.appendingPathComponent("../../data/raw/heavenly_osm.json").standardized.path)
         let stride = Int(config["DEM_STRIDE"] ?? "") ?? 2
         let tex = config["SPIKE_TEXTURE"] ?? "hillshade_tex.png"

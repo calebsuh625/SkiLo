@@ -1,4 +1,4 @@
-# HeavenlyTracker — Product, UX and Data-Model Spec
+# SkiLo — Product, UX and Data-Model Spec
 
 Status: v1 draft, 2026-11-01. Owner: spec agent. Audience: the parallel build agents (data pipeline,
 rating engine, map engine, screens, persistence) and the orchestrator.
@@ -13,7 +13,7 @@ this document are normative; anything marked *(later)* is out of V1 scope.
 
 ## 0. One-paragraph product definition
 
-HeavenlyTracker is a **ski progression tracker for Heavenly Mountain Resort** (South Lake Tahoe,
+SkiLo is a **ski progression tracker for Heavenly Mountain Resort** (South Lake Tahoe,
 CA/NV). Every named trail gets a **1–100 difficulty rating** (not just green/blue/black), the user
 keeps a **bucket list** of trails, **crosses them off on a 3D map**, logs runs, and watches a
 **skill estimate (1–100)** climb over time with suggestions for what to ski next.
@@ -137,8 +137,8 @@ struct TrailFilter: Equatable, Codable {
 ### 1.6 Menu bar (`.commands`)
 
 ```
-HeavenlyTracker   File                 Edit            View                     Trail                    Window   Help
-  About             Export Data…  ⇧⌘E   Undo   ⌘Z      Map            ⌘1        Mark Done        ⌘D     (system) HeavenlyTracker Help
+SkiLo   File                 Edit            View                     Trail                    Window   Help
+  About             Export Data…  ⇧⌘E   Undo   ⌘Z      Map            ⌘1        Mark Done        ⌘D     (system) SkiLo Help
   Settings… ⌘,      Import Data…  ⇧⌘I   Redo  ⇧⌘Z      Trails         ⌘2        Add to Bucket    ⌘B              Data & Attribution (OSM/ODbL)
   (system)          ──────────────      Cut/Copy/Paste  Bucket List    ⌘3        Log Run…         ⌘L              Reveal Data Folder
                     Reveal Data File    Select All ⌘A   Progress       ⌘4        Override Rating… ⇧⌘R
@@ -516,7 +516,7 @@ with its note, and `Reset` clears it.
 ### 3.5 Notes/photos
 
 Notes: `UserTrailState.notes` (plain text), autosave 600 ms after the last keystroke. Photos
-*(later)*: files copied into `~/Library/Application Support/HeavenlyTracker/photos/<trailID>/`,
+*(later)*: files copied into `~/Library/Application Support/SkiLo/photos/<trailID>/`,
 referenced by filename in `UserTrailState.photoFilenames`.
 
 ---
@@ -946,7 +946,7 @@ Unlock dates are stored in `profile.unlockedMilestones` so they survive catalog/
 
 ### 7.7 Persistence: one JSON document
 
-Path: `~/Library/Application Support/HeavenlyTracker/userdata.json`
+Path: `~/Library/Application Support/SkiLo/userdata.json`
 (`FileManager.url(for: .applicationSupportDirectory, in: .userDomainMask)` + bundle id folder).
 
 - **Atomic writes**: encode to `Data` (ISO-8601 dates, sorted keys, pretty-printed), write to
@@ -980,7 +980,7 @@ by syncing the file via `NSUbiquitousKeyValueStore`-triggered merge or CloudKit)
 
 ### 7.8 Export / import
 
-- **Export Data… (`Cmd+Shift+E`)**: `NSSavePanel`, default name `HeavenlyTracker-2026-11-01.json`;
+- **Export Data… (`Cmd+Shift+E`)**: `NSSavePanel`, default name `SkiLo-2026-11-01.json`;
   writes the same document plus `"exportedAt"`. Also **Export Log as CSV** *(later)*:
   `date,trail,rating,conditions,multiplier,confidence,notes`.
 - **Import Data… (`Cmd+Shift+I`)**: `NSOpenPanel` → decode (with migrations) → summary sheet
@@ -1080,7 +1080,7 @@ the bottom-right of the trail line. No text. Generate as SVG → PNG set (16…1
 - [ ] **P0 Log**: ski-day grouped list, Log Run sheet, edit/delete, day meta.
 - [ ] **P0 Progress**: 4 stat tiles, skill line chart, histogram, ready-for list, milestones grid.
 - [ ] **P0 Packaging**: `swift build` SwiftPM executable + script that assembles
-      `HeavenlyTracker.app` (Info.plist, icon, bundled `trails.json`), launches without Xcode.
+      `SkiLo.app` (Info.plist, icon, bundled `trails.json`), launches without Xcode.
 - [ ] **P1 Export/Import** (replace + merge).
 
 Acceptance for V1: launch → onboarding → Map shows 3D terrain with 126 colored trails → click
@@ -1108,11 +1108,11 @@ Widgets.
 Shared file layout (SwiftPM):
 
 ```
-HeavenlyTracker/
-  Package.swift                      # targets: HeavenlyCore (lib), HeavenlyTracker (exe)
+SkiLo/
+  Package.swift                      # targets: HeavenlyCore (lib), SkiLo (exe)
   Sources/HeavenlyCore/{Models,Rating,Progression,Persistence,Style,MapEngine.swift}
-  Sources/HeavenlyTracker/{App,Shell,Map,Trails,Inspector,Bucket,Log,Progress,Settings}
-  Sources/HeavenlyTracker/Resources/trails.json
+  Sources/SkiLo/{App,Shell,Map,Trails,Inspector,Bucket,Log,Progress,Settings}
+  Sources/SkiLo/Resources/trails.json
   Tests/HeavenlyCoreTests/
   tools/, data/raw/, data/overrides/, docs/
 ```

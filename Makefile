@@ -1,8 +1,8 @@
-# HeavenlyTracker — build a SwiftUI macOS .app with Command Line Tools only (no Xcode license).
+# SkiLo (SkiLo target) — build a SwiftUI macOS .app with Command Line Tools only (no Xcode license).
 #
-#   make            -> release build + assemble build/HeavenlyTracker.app + ad-hoc codesign
+#   make            -> release build + assemble build/SkiLo.app + ad-hoc codesign
 #   make debug      -> same, from a debug build
-#   make run        -> build then `open build/HeavenlyTracker.app`
+#   make run        -> build then `open build/SkiLo.app`
 #   make test       -> swift test (swift-testing; XCTest is NOT shipped with CLT)
 #   make verify     -> launch the .app headless, self-screenshot, check Bundle.module, quit
 #   make sync-data  -> run tools/build_catalog.py (data/*.json -> Resources/trails.json)
@@ -22,13 +22,15 @@ SHELL        := /bin/bash
 
 export DEVELOPER_DIR := /Library/Developer/CommandLineTools
 
-APP_NAME     := HeavenlyTracker
-BUNDLE_ID    := com.calebsuh.HeavenlyTracker
+APP_NAME     := SkiLo
+# User-facing name of the .app; the executable, module and data folder keep APP_NAME.
+PRODUCT_NAME := SkiLo
+BUNDLE_ID    := com.calebsuh.SkiLo
 CONFIG       ?= release
 ARCH         ?= $(shell uname -m)
 
 BUILD_DIR    := build
-APP          := $(BUILD_DIR)/$(APP_NAME).app
+APP          := $(BUILD_DIR)/$(PRODUCT_NAME).app
 CONTENTS     := $(APP)/Contents
 MACOS_DIR    := $(CONTENTS)/MacOS
 RES_DIR      := $(CONTENTS)/Resources
@@ -61,7 +63,7 @@ build:
 # --- assemble the .app bundle ----------------------------------------------------------
 # The SwiftPM resource bundle goes in Contents/Resources (the only codesign-legal spot). NB: the
 # generated Bundle.module does NOT look there (only <app root> and the .build path), which is
-# why app code must use Bundle.appResources (Sources/HeavenlyTracker/AppResources.swift).
+# why app code must use Bundle.appResources (Sources/SkiLo/AppResources.swift).
 app: build
 	@echo ">> assembling $(APP) ($(CONFIG))"
 	rm -rf "$(APP)"

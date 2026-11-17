@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Sources/HeavenlyTracker/Resources/trails.json (DESIGN.md section 4) from data/*.json.
+"""Build Sources/SkiLo/Resources/trails.json (DESIGN.md section 4) from data/*.json.
 
 Run:  python3 -I tools/build_catalog.py [--out PATH]
 Stdlib only. Exits 1 on any validation failure.
@@ -14,7 +14,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
-DEFAULT_OUT = os.path.join(ROOT, "Sources", "HeavenlyTracker", "Resources", "trails.json")
+DEFAULT_OUT = os.path.join(ROOT, "Sources", "SkiLo", "Resources", "trails.json")
 
 RATING_ENGINE_VERSION = "rating-v1-2026-11-01"
 

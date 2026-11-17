@@ -10,7 +10,7 @@ import SwiftUI
 import WebKit
 
 let env = ProcessInfo.processInfo.environment
-let spikeDir = URL(fileURLWithPath: env["SPIKE_DIR"] ?? "/Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre")
+let spikeDir = URL(fileURLWithPath: env["SPIKE_DIR"] ?? "/Users/calebsuh/Projects/SkiLo/spikes/maplibre")
 let webDir = spikeDir.appendingPathComponent("web")
 let outDir = spikeDir.appendingPathComponent("out")
 let captureDelay: Double = Double(env["SPIKE_CAPTURE_SEC"] ?? "12") ?? 12

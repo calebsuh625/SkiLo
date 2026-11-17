@@ -1,6 +1,6 @@
 # MapKit 3D terrain spike (macOS)
 
-Feasibility spike for the HeavenlyTracker 3D trail map using Apple MapKit. Two variants share
+Feasibility spike for the SkiLo 3D trail map using Apple MapKit. Two variants share
 `Shared.swift` (OSM loading, screen-space picking, screenshot/click/drape test helpers):
 
 - `main.swift`  -> `spike`    SwiftUI `Map` + `MapPolyline`, `.mapStyle(.hybrid(elevation: .realistic))`,
@@ -9,7 +9,7 @@ Feasibility spike for the HeavenlyTracker 3D trail map using Apple MapKit. Two v
                               `MKPolyline` overlays, `NSClickGestureRecognizer` picking, render-complete timing, pitch-clamp probe.
 
 Both are bare executables (no .app bundle, no xcodebuild). They read
-`/Users/calebsuh/Projects/HeavenlyTracker/data/raw/heavenly_osm.json` (hardcoded), draw all downhill pistes
+`/Users/calebsuh/Projects/SkiLo/data/raw/heavenly_osm.json` (hardcoded), draw all downhill pistes
 colored by `piste:difficulty` and lifts, then after `SPIKE_DELAY` seconds screenshot themselves into `out/`,
 run a pick-function test and a synthetic-click test, screenshot again, analyze the screenshot, log, and exit.
 

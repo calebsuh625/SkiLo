@@ -1,7 +1,7 @@
 ## How to run (no tech skills needed)
-Double-click `HeavenlyTracker.app` in your Applications folder (Home > Applications). If macOS says it is blocked or from an unidentified developer, right-click the app and choose Open, then click Open again. You only have to do this once.
+Double-click `SkiLo.app` in your Applications folder (Home > Applications). If macOS says it is blocked or from an unidentified developer, right-click the app and choose Open, then click Open again. You only have to do this once.
 
-# HeavenlyTracker
+# SkiLo
 
 A native macOS ski progression tracker for Heavenly Mountain Resort (South Lake Tahoe).
 Fine-grained 1–100 trail difficulty ratings, a 3D trail map, and a bucket list you can cross off.
@@ -21,10 +21,14 @@ tools/run_tests.sh --filter Rating
 runs nothing, exit 0). `tools/run_tests.sh` builds a small dlopen host that calls swift-testing's
 entry point. Fallback only: `env -u DEVELOPER_DIR swift test` with a full Xcode toolchain.
 
-First launch shows an onboarding sheet (self-rated skill 1-100, optional backfill). Sections:
-Map (3D MapKit terrain, 126 colour-coded trails, click to select), Trails (sortable table),
-Bucket List, Progress, Log. User data lives in
-`~/Library/Application Support/HeavenlyTracker/userdata.json` (atomic writes, undo in memory).
+First launch asks you to create an account (username + password, stored only on this Mac;
+"Remember me" keeps you signed in). A new account then shows the onboarding sheet (self-rated
+skill 1-100, optional backfill). Sections: Map (3D MapKit terrain, 126 colour-coded trails, click
+to select), Trails (sortable table), Bucket List, Progress, Log. Every completed run updates your
+Elo (`Progression/Elo.swift`).
+
+Data lives in `~/Library/Application Support/SkiLo/`: `accounts.json` (usernames + salted
+PBKDF2 password hashes) and `accounts/<id>/userdata.json` per account (atomic writes, undo in memory).
 
 ## Data provenance and regeneration
 
@@ -32,7 +36,7 @@ Bucket List, Progress, Log. User data lives in
   overrides in `data/overrides/trail_overrides.json`).
 - `tools/build_catalog.py` merges them and computes the 1-100 rating for each trail (method:
   `docs/RATING_METHOD.md`; it asserts the 29 calibration anchors are within tolerance). It writes
-  `Sources/HeavenlyTracker/Resources/trails.json` (126 trails, 34 connectors, 23 lifts).
+  `Sources/SkiLo/Resources/trails.json` (126 trails, 34 connectors, 23 lifts).
   Regenerate with `tools/build_app.sh sync-data`; output is idempotent apart from `generatedAt`.
 - The Swift rating code (`Rating/DifficultyRating.swift`) is tested to match the Python output.
 
@@ -78,13 +82,13 @@ via SwiftPM plus a Makefile that assembles the `.app` bundle by hand.
 Use the wrapper, which pins `DEVELOPER_DIR` and calls CLT's own `make`:
 
 ```sh
-tools/build_app.sh            # swift build -c release -> build/HeavenlyTracker.app (ad-hoc signed)
+tools/build_app.sh            # swift build -c release -> build/SkiLo.app (ad-hoc signed)
 tools/build_app.sh debug      # same, debug configuration
-tools/build_app.sh run        # build + open build/HeavenlyTracker.app
+tools/build_app.sh run        # build + open build/SkiLo.app
 tools/build_app.sh test       # runs tools/run_tests.sh (swift-testing)
 tools/build_app.sh verify     # launch the .app headless, self-screenshot to build/verify.png,
                               #   print the resource-bundle status, exit
-tools/build_app.sh sync-data  # regenerate Sources/HeavenlyTracker/Resources/trails.json (tools/build_catalog.py)
+tools/build_app.sh sync-data  # regenerate Sources/SkiLo/Resources/trails.json (tools/build_catalog.py)
 tools/build_app.sh clean
 ```
 
@@ -101,18 +105,18 @@ tools/run_tests.sh   # NOT bare `swift test`
 ### How the .app is assembled (`make app`)
 
 1. `swift build -c $(CONFIG)` (release by default).
-2. Copy `.build/<arch>-apple-macosx/<config>/HeavenlyTracker` → `Contents/MacOS/`.
-3. Copy the SwiftPM resource bundle `HeavenlyTracker_HeavenlyTracker.bundle` → `Contents/Resources/`.
-4. Copy `tools/Info.plist` → `Contents/Info.plist` (bundle id `com.calebsuh.HeavenlyTracker`,
+2. Copy `.build/<arch>-apple-macosx/<config>/SkiLo` → `Contents/MacOS/`.
+3. Copy the SwiftPM resource bundle `SkiLo_SkiLo.bundle` → `Contents/Resources/`.
+4. Copy `tools/Info.plist` → `Contents/Info.plist` (bundle id `com.calebsuh.SkiLo`,
    `LSMinimumSystemVersion 15.0`, `NSHighResolutionCapable`, `NSPrincipalClass NSApplication`),
    write `PkgInfo`, copy `assets/AppIcon.icns` if it exists (else the `CFBundleIconFile` key is
    dropped).
-5. `codesign --force --deep --sign - build/HeavenlyTracker.app` and verify.
+5. `codesign --force --deep --sign - build/SkiLo.app` and verify.
 
 ### Resources: use `Bundle.appResources`, not `Bundle.module`
 
 `Package.swift` declares `resources: [.copy("Resources")]`, so everything under
-`Sources/HeavenlyTracker/Resources/` is bundled and addressed with a `subdirectory: "Resources"`:
+`Sources/SkiLo/Resources/` is bundled and addressed with a `subdirectory: "Resources"`:
 
 ```swift
 Bundle.appResources.url(forResource: "trails", withExtension: "json", subdirectory: "Resources")
@@ -124,7 +128,7 @@ rejects ("unsealed contents present in the bundle root") — and then a hard-cod
 `.build/...` path. It never looks in `Contents/Resources`. Tested empirically with the `.build`
 copy hidden: bundle in `Contents/Resources` → fatalError; in `Contents/MacOS` → fatalError;
 at the app root → works but cannot be signed. `Bundle.appResources`
-(`Sources/HeavenlyTracker/AppResources.swift`) checks `Contents/Resources` first and falls back
+(`Sources/SkiLo/AppResources.swift`) checks `Contents/Resources` first and falls back
 to `Bundle.module`, so `swift run` and `swift test` still work from `.build/`.
 
 ### Tests
@@ -151,19 +155,19 @@ swift test -Xswiftc -F$CLT/Library/Developer/Frameworks \
 - **Language mode:** tools-version 6.0 with `.swiftLanguageMode(.v5)` on both targets, so
   SwiftUI/MapKit/SceneKit delegate code produces concurrency *warnings*, not Swift 6 *errors*.
   Flip to `.v6` per-target when ready.
-- **Bare executable windows:** running `.build/release/HeavenlyTracker` directly (no
+- **Bare executable windows:** running `.build/release/SkiLo` directly (no
   `Info.plist`) still opens a window because `AppDelegate` forces
   `NSApp.setActivationPolicy(.regular)`.
 - **Headless screenshots:** set `HT_SCREENSHOT=/abs/path.png` (optional
   `HT_SCREENSHOT_DELAY=<seconds>`, default 3) when launching the binary; it captures its own
   window with `screencapture -l <windowNumber>`, writes `<path>.txt` with the resource-bundle
   status, and exits. The terminal may need Screen Recording permission the first time.
-- **Direct launch of `Contents/MacOS/HeavenlyTracker` shows no window** after the app has been
+- **Direct launch of `Contents/MacOS/SkiLo` shows no window** after the app has been
   launched once through LaunchServices (`make run` / Finder): `NSApp.windows` stays empty
-  indefinitely. Deleting the visible saved state (`$TMPDIR/com.calebsuh.HeavenlyTracker.savedState`,
+  indefinitely. Deleting the visible saved state (`$TMPDIR/com.calebsuh.SkiLo.savedState`,
   the Preferences plist) does not clear it, but launching with `-ApplePersistenceIgnoreState YES`
   always works, and `open` always works. `make verify` therefore passes that flag; do the same
-  for any ad-hoc direct launch of the bundled binary. The bare `.build/<config>/HeavenlyTracker`
+  for any ad-hoc direct launch of the bundled binary. The bare `.build/<config>/SkiLo`
   executable is unaffected.
 - `/usr/bin/timeout` exists on this macOS and is used by `make verify`.
 

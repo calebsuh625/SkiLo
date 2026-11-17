@@ -51,7 +51,7 @@ DATA_DIR = ROOT / "data"
 DEM_DIR = DATA_DIR / "dem"
 TILE_DIR = DEM_DIR / "tiles"
 
-USER_AGENT = "HeavenlyTracker/0.1 (personal ski progression tracker; python-urllib)"
+USER_AGENT = "SkiLo/0.1 (personal ski progression tracker; python-urllib)"
 TILE_URL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/elevation?latitude={lats}&longitude={lons}"
 EPQS_URL = "https://epqs.nationalmap.gov/v1/json?x={lon}&y={lat}&units=Meters&wkid=4326"

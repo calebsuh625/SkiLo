@@ -26,6 +26,6 @@ if [ ! -x "$HOST" ] || [ tools/testhost/main.swift -nt "$HOST" ]; then
     tools/testhost/main.swift -o "$HOST"
 fi
 swift build --build-tests --scratch-path "$SCRATCH" 2>&1 | tail -3
-BUNDLE="$SCRATCH/${ARCH}-apple-macosx/debug/HeavenlyTrackerPackageTests.xctest/Contents/MacOS/HeavenlyTrackerPackageTests"
+BUNDLE="$SCRATCH/${ARCH}-apple-macosx/debug/SkiLoPackageTests.xctest/Contents/MacOS/SkiLoPackageTests"
 test -f "$BUNDLE" || { echo "test bundle not found: $BUNDLE"; exit 2; }
 HT_TEST_BUNDLE="$BUNDLE" exec "$HOST" "$@"
