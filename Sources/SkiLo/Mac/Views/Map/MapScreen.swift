@@ -90,6 +90,20 @@ struct MapScreen: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .transition(.move(edge: .leading).combined(with: .opacity))
                 }
+                if let plan = store.shownPlan, !store.directions.isOpen, !model.flying {
+                    HStack(spacing: 10) {
+                        Image(systemName: "map.fill").foregroundStyle(.tint)
+                        Text("Day plan · \(plan.stops.count) trails · back by \(Format.time(plan.finishTime))").font(.callout.weight(.medium))
+                        Button { store.flyThroughPlan() } label: { Image(systemName: "play.fill") }.buttonStyle(.borderless).help("Fly through the day")
+                        Button { store.section = .today } label: { Image(systemName: "list.bullet") }.buttonStyle(.borderless).help("Open the plan")
+                        Button { store.shownPlan = nil } label: { Image(systemName: "xmark") }.buttonStyle(.borderless).help("Hide the plan")
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 8)
+                    .background(.regularMaterial, in: Capsule())
+                    .shadow(radius: 4, y: 1)
+                    .padding(.bottom, 56)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
                 if model.flying {
                     FlyThroughHUD(model: model, onPause: { engine.setFlyThroughPaused($0) }, onStop: { engine.stopFlyThrough() })
                         .padding(.bottom, 24)

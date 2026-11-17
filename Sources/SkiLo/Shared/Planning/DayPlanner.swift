@@ -11,6 +11,8 @@ struct DayPlan: Equatable, Sendable {
         var finish: Date
         /// False when it ends after the lifts close.
         var fits: Bool
+        /// The only way there (or out) uses trails above your difficulty limit.
+        var needsHarderTerrain = false
     }
     var startPlace: RoutePlace
     var startTime: Date
@@ -20,6 +22,7 @@ struct DayPlan: Equatable, Sendable {
     var finishTime: Date
     /// Targets no route could reach (closures or difficulty).
     var unreachable: [Trail.ID]
+    var returnNeedsHarderTerrain = false
 
     var route: Route {
         var legs = stops.flatMap(\.route.legs) + returnRoute.legs
@@ -42,6 +45,8 @@ struct PlannerState: Equatable {
     var error: String?
     /// Which day the Today screen is planning: 0 = today, 1 = tomorrow.
     var dayOffset = 0
+    /// Conditions you set yourself (overrides the forecast).
+    var conditionsOverride: SnowConditions.Kind?
 
     /// 9:00 today, or tomorrow once today's lifts have closed.
     static func defaultStart(now: Date = .now, openHour: Int = 9, closeHour: Int = 16, calendar: Calendar = .current) -> Date {
@@ -57,6 +62,10 @@ enum DayPlanner {
                      optimizeOrder: Bool, router: Router, cost baseCost: RouteCostModel) -> DayPlan {
         var cost = baseCost
         cost.alwaysAllowed.formUnion(targets)
+        // When the limit leaves no way on (e.g. a run that ends where only harder trails lead
+        // out), fall back to any difficulty and flag the stop instead of dropping trails.
+        var relaxed = cost
+        relaxed.maxRating = nil
         let unique = targets.reduce(into: [Trail.ID]()) { if !$0.contains($1) { $0.append($1) } }
         guard let startNode = router.node(for: start) else {
             return DayPlan(startPlace: start, startTime: startTime, stops: [], returnRoute: .empty, finishTime: startTime, unreachable: unique)
@@ -68,16 +77,26 @@ enum DayPlanner {
         var here = startNode
         var clock = startTime
 
-        while !remaining.isEmpty {
+        func nearest(_ candidates: [Trail.ID], from here: Int, cost: RouteCostModel) -> (id: Trail.ID, edges: [(from: Int, edge: RouteGraph.Edge)], seconds: Double)? {
             let search = router.graph.search(from: here, cost: cost)
-            // Candidate order: nearest (approach + run) first, or simply the next one listed.
-            let candidates = optimizeOrder ? remaining : [remaining[0]]
             var best: (id: Trail.ID, edges: [(from: Int, edge: RouteGraph.Edge)], seconds: Double)?
             for id in candidates {
                 guard let top = router.node(for: .trail(id)), let approach = search.path(to: top) else { continue }
                 let edges = approach + router.trailRun(id)
                 let route = router.legs(from: edges, cost: cost)
                 if route.seconds < (best?.seconds ?? .infinity) { best = (id, edges, route.seconds) }
+            }
+            return best
+        }
+
+        while !remaining.isEmpty {
+            // Candidate order: nearest (approach + run) first, or simply the next one listed.
+            let candidates = optimizeOrder ? remaining : [remaining[0]]
+            var harder = false
+            var best = nearest(candidates, from: here, cost: cost)
+            if best == nil, baseCost.maxRating != nil {
+                best = nearest(candidates, from: here, cost: relaxed)
+                harder = best != nil
             }
             guard let b = best else {
                 // Nothing left is reachable from here (or the listed next one isn't).
@@ -86,19 +105,26 @@ enum DayPlanner {
                 continue
             }
             remaining.removeAll { $0 == b.id }
-            let route = router.legs(from: b.edges, cost: cost)
+            let route = router.legs(from: b.edges, cost: harder ? relaxed : cost)
             let finish = clock.addingTimeInterval(route.seconds)
-            stops.append(DayPlan.Stop(id: stops.count, trailID: b.id, route: route, start: clock, finish: finish, fits: finish <= closeTime))
+            stops.append(DayPlan.Stop(id: stops.count, trailID: b.id, route: route, start: clock, finish: finish,
+                                      fits: finish <= closeTime, needsHarderTerrain: harder))
             clock = finish
             here = b.edges.last?.edge.to ?? here
         }
 
         var back = Route.empty
+        var returnNeedsHarderTerrain = false
         if here != startNode {
-            let search = router.graph.search(from: here, cost: cost, target: startNode)
-            if let edges = search.path(to: startNode) { back = router.legs(from: edges, cost: cost) }
+            if let edges = router.graph.search(from: here, cost: cost, target: startNode).path(to: startNode) {
+                back = router.legs(from: edges, cost: cost)
+            } else if let edges = router.graph.search(from: here, cost: relaxed, target: startNode).path(to: startNode) {
+                back = router.legs(from: edges, cost: relaxed)
+                returnNeedsHarderTerrain = true
+            }
         }
         return DayPlan(startPlace: start, startTime: startTime, stops: stops, returnRoute: back,
-                       finishTime: clock.addingTimeInterval(back.seconds), unreachable: unreachable)
+                       finishTime: clock.addingTimeInterval(back.seconds), unreachable: unreachable,
+                       returnNeedsHarderTerrain: returnNeedsHarderTerrain)
     }
 }

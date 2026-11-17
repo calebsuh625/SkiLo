@@ -37,6 +37,14 @@ extension DevHooks {
                     if f == "route", let r = store.directions.route { store.flyThrough(route: r, title: "Route") } else { store.flyThrough(trail: f) }
                 }
             }
+            // HT_PLAN=top5 (Today's Pick) or id,id ; HT_PLAN_SHOW=1 draws it on the map
+            if let p = e["HT_PLAN"] {
+                store.loadForecast()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    store.addToPlan(p == "top5" ? store.todaysPicks.prefix(5).map(\.trailID) : p.split(separator: ",").map(String.init))
+                    if e["HT_PLAN_SHOW"] != nil { store.showPlanOnMap() }
+                }
+            }
             if let ids = e["HT_MARK_DONE"] {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     for id in ids.split(separator: ",") { store.markDone(String(id)) }

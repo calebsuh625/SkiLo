@@ -2,7 +2,8 @@ import Foundation
 
 /// What the snow is likely doing on a given day, from recent and forecast weather.
 struct SnowConditions: Equatable, Sendable {
-    enum Kind: String, Sendable {
+    enum Kind: String, Sendable, CaseIterable, Identifiable {
+        var id: Self { self }
         case powder, freshSnow, stormy, firm, spring, normal
         var title: String {
             switch self {
@@ -52,15 +53,7 @@ struct SnowConditions: Equatable, Sendable {
         else if recent < 3 && (today.tempMinC <= -3 || freezeThaw) { kind = .firm }
         else { kind = .normal }
 
-        var tips: [String] = []
-        switch kind {
-        case .powder: tips.append("Get to ungroomed runs and glades early, before they're tracked out.")
-        case .freshSnow: tips.append("Off-piste and bumps will be soft; groomers are fast.")
-        case .stormy: tips.append("Trees give the best visibility. Upper lifts may go on wind hold.")
-        case .firm: tips.append("Stick to fresh corduroy in the morning and keep your edges sharp.")
-        case .spring: tips.append("Start on east-facing runs, then follow the sun to south and west faces as they soften.")
-        case .normal: tips.append("Good all-round day: a fine time to push your level.")
-        }
+        var tips = [defaultTip(for: kind)]
         if windy { tips.append(String(format: "Gusts to %.0f km/h: exposed ridge lifts may close.", today.gustMaxKmh)) }
         if cold { tips.append("Very cold: plan warm-up breaks and favor sunny slopes.") }
         return SnowConditions(kind: kind, windy: windy, cold: cold, freshCm: fresh, tips: tips)

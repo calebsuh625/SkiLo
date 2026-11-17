@@ -57,6 +57,7 @@ struct RootView: View {
     @ViewBuilder private var content: some View {
         switch store.section {
         case .map: MapScreen()
+        case .today: TodayScreen()
         case .trails: TrailsScreen()
         case .bucket: BucketScreen()
         case .progress: ProgressScreen()

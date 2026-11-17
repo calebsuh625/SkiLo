@@ -125,3 +125,66 @@ struct PlannerTests {
         #expect(cal.component(.day, from: next) == 11 && cal.component(.hour, from: next) == 9)
     }
 }
+
+@Suite("Planning in the store")
+@MainActor
+struct StorePlanningTests {
+    @Test func planFallsBackToHarderTerrainInsteadOfDroppingTrails() throws {
+        let store = try Fixtures.makeStore()
+        store.planner.difficulty = .comfortable
+        // A double black plus an easy trail: the easy one must not be dropped just because the
+        // black's run-out is above the limit.
+        let black = store.catalog.trails.max { $0.rating.total < $1.rating.total }!
+        let green = store.catalog.trails.filter { $0.rating.total < 15 && $0.stats.lengthM > 300 }.first!
+        store.addToPlan([black.id, green.id])
+        let plan = try #require(store.planner.plan)
+        #expect(plan.unreachable.isEmpty)
+        #expect(Set(plan.stops.map(\.trailID)) == [black.id, green.id])
+    }
+
+    @Test func showOnMapDrawsThePlanAndDirectionsTakePrecedence() throws {
+        let store = try Fixtures.makeStore()
+        store.addToPlan(Array(store.catalog.trails.prefix(2).map(\.id)))
+        store.showPlanOnMap()
+        #expect(store.section == .map)
+        #expect(store.mapRoute != nil)
+        let planLegs = store.mapRoute?.legs.count
+        store.openDirections(to: .trail(store.catalog.trails[5].id))
+        #expect(store.mapRoute?.legs.count != planLegs || store.directions.route != nil)
+        store.closeDirections()
+        #expect(store.mapRoute != nil)        // back to the plan; closing directions drops the plan only via showPlanOnMap
+    }
+
+    @Test func conditionsOverrideChangesPicks() throws {
+        let store = try Fixtures.makeStore()
+        store.planner.conditionsOverride = .firm
+        #expect(store.conditions.kind == .firm)
+        let firm = store.todaysPicks.map(\.trailID)
+        store.planner.conditionsOverride = .powder
+        #expect(store.conditions.kind == .powder)
+        #expect(store.todaysPicks.map(\.trailID) != firm)
+    }
+
+    @Test func closedLiftIsAvoidedByDirections() throws {
+        let store = try Fixtures.makeStore()
+        let gondola = store.lift(named: "Heavenly Gondola")!
+        store.openDirections(to: .liftTop(store.lift(named: "Sky Express")!.id), from: .liftBottom(store.lift(named: "Aerial Tramway")!.id))
+        let before = try #require(store.directions.route)
+        let used = before.liftIDs.first { $0 != store.lift(named: "Sky Express")!.id }
+        if let used {
+            store.setClosed(lift: used, true)
+            #expect(store.directions.route.map { !$0.liftIDs.contains(used) } ?? true)
+            store.setClosed(lift: used, false)
+        }
+        _ = gondola
+    }
+
+    @Test func planTextListsEveryStop() throws {
+        let store = try Fixtures.makeStore()
+        let ids = Array(store.catalog.trails.filter { $0.rating.total < 40 }.prefix(3).map(\.id))
+        store.addToPlan(ids)
+        let text = store.planText()
+        for id in ids { #expect(text.contains(store.trail(id)!.name)) }
+        #expect(text.contains("Back at"))
+    }
+}

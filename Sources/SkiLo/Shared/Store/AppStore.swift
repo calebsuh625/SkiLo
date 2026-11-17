@@ -8,13 +8,13 @@ import Observation
 import SwiftUI
 
 enum SidebarSection: String, CaseIterable, Codable, Sendable {
-    case map, trails, bucket, progress, log
+    case map, today, trails, bucket, progress, log
     var title: String {
-        switch self { case .map: "Map"; case .trails: "Trails"; case .bucket: "Bucket List"; case .progress: "Progress"; case .log: "Log" }
+        switch self { case .map: "Map"; case .today: "Today"; case .trails: "Trails"; case .bucket: "Bucket List"; case .progress: "Progress"; case .log: "Log" }
     }
     var symbol: String {
         switch self {
-        case .map: "map.fill"; case .trails: "list.bullet.rectangle"; case .bucket: "star.fill"
+        case .map: "map.fill"; case .today: "sun.snow.fill"; case .trails: "list.bullet.rectangle"; case .bucket: "star.fill"
         case .progress: "chart.line.uptrend.xyaxis"; case .log: "book.closed.fill"
         }
     }
