@@ -166,7 +166,7 @@ private struct ConditionsCard: View {
                         ForEach(SnowConditions.Kind.allCases) { k in
                             Button(k.title) { store.planner.conditionsOverride = k }
                         }
-                    } label: { Text(store.planner.conditionsOverride == nil ? "From forecast" : "Set by you") }
+                    } label: { Text(store.planner.conditionsOverride != nil ? "Set by you" : store.forecast.forecast == nil ? "Set conditions" : "From forecast") }
                         .menuStyle(.borderlessButton).fixedSize()
                         .help("Override the conditions if you know better")
                 }
