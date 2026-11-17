@@ -51,6 +51,8 @@ struct AppCommands: Commands {
         CommandMenu("Trail") {
             Button(selectedDone ? "Mark Not Done" : "Mark Done") { if let id = store.selection { store.toggleDone(id) } }
                 .keyboardShortcut("d", modifiers: .command).disabled(selected == nil)
+            Button("Ran It Again") { if let id = store.selection { store.recordAnotherRun(id) } }
+                .keyboardShortcut("r", modifiers: .command).disabled(selected == nil || !selectedDone)
             Button(selectedBucketed ? "Remove from Bucket List" : "Add to Bucket List") { if let id = store.selection { store.toggleBucket(id) } }
                 .keyboardShortcut("b", modifiers: .command).disabled(selected == nil)
             Button("Log Run…") { store.requestLogRun(trailID: store.selection) }

@@ -170,6 +170,9 @@ struct TrailContextMenu: View {
             Button(allDone ? "Mark Not Done" : "Mark Done") {
                 if allDone { ids.forEach { store.markNotDone($0) } } else { store.markDone(ids.filter { !store.state(for: $0).isDone }.sorted(), backfilled: false) }
             }
+            if allDone && ids.count == 1 {
+                Button("Ran It Again") { store.recordAnotherRun(first) }
+            }
             Button(allBucket ? "Remove from Bucket List" : "Add to Bucket List") {
                 if allBucket { ids.forEach { store.removeFromBucket($0) } } else { store.addToBucket(ids.sorted()) }
             }

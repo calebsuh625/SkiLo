@@ -249,6 +249,25 @@ final class AppStore {
     }
     func toggleDone(_ id: Trail.ID) { state(for: id).isDone ? markNotDone(id) : markDone(id) }
 
+    /// "Ran it again": one more run of a trail, counted for Elo every time (even the same day).
+    /// On a trail that isn't done yet this is the same as `markDone`.
+    func recordAnotherRun(_ id: Trail.ID, on date: Date = .now) {
+        guard state(for: id).isDone else { markDone(id, on: date); return }
+        let eloBefore = elo
+        let achieved = mutate("Ran It Again") { d in
+            var s = d.state(for: id)
+            s.timesSkied += 1
+            s.lastDoneDate = max(s.lastDoneDate ?? date, date)
+            d.trailStates[id] = s
+            d.eloEvents.append(EloEvent(trailID: id, date: date, score: 1, source: .markDone))
+        }
+        NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+        lastStatusChange = StatusChange(trailID: id, badge: .done, revision: revision)
+        showToast(Toast(kind: .done, text: "↻ \(name(of: id)) again" + eloSuffix(since: eloBefore), symbol: "arrow.clockwise.circle.fill",
+                        actions: [Toast.Action("Undo") { [weak self] in self?.undoManager?.undo() }]))
+        showMilestoneToasts(achieved)
+    }
+
     func addToBucket(_ ids: [Trail.ID]) {
         let before = revision
         let now = Date()

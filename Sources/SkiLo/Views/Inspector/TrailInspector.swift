@@ -116,6 +116,10 @@ struct TrailInspector: View {
             }
             .pickerStyle(.segmented).labelsHidden()
             HStack {
+                if store.state(for: t.id).isDone {
+                    Button { store.recordAnotherRun(t.id) } label: { Label("Ran It Again", systemImage: "arrow.clockwise") }
+                        .help("Count another run of this trail (\(store.eloPreview(for: t.id) >= 0 ? "+" : "")\(store.eloPreview(for: t.id)) Elo) — ⌘R")
+                }
                 Button { store.requestLogRun(trailID: t.id) } label: { Label("Log Run…", systemImage: "plus.circle") }
                 Button { store.showOnMap(t.id) } label: { Label("Show on Map", systemImage: "map") }
             }

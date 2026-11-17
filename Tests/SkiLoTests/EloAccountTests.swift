@@ -105,6 +105,43 @@ struct EloStoreTests {
         s.updateRun(entry)
         #expect(s.elo > rough)
     }
+    /// Every UI path that completes a run must add exactly one Elo game and move the Elo.
+    @Test func everyCompletionPathUpdatesElo() throws {
+        let s = try store()
+        let trails = s.catalog.trails.sorted { $0.rating.total > $1.rating.total }.map(\.id)   // hardest first: always a gain
+        func check(_ label: String, games: Int = 1, _ action: () -> Void) {
+            let (eloBefore, before) = (s.elo, s.userData.eloEvents.count)
+            action()
+            #expect(s.userData.eloEvents.count == before + games, "\(label): games")
+            #expect(s.elo > eloBefore, "\(label): Elo should rise")
+        }
+        check("inspector / ⌘D / bucket Done button") { s.markDone(trails[0]) }
+        check("toggleDone (⌘D menu)") { s.toggleDone(trails[1]) }
+        check("Trails list bulk Mark Done", games: 2) { s.markDone([trails[2], trails[3]], backfilled: false) }
+        s.addToBucket([trails[4]])
+        check("bucket list cross-off") { s.markDone(trails[4]) }
+        check("Log Run… + mark done") { s.logRun(RunLogEntry(trailID: trails[5], date: .now, confidence: 4), alsoMarkDone: true) }
+        check("Log Run… on a done trail") { s.logRun(RunLogEntry(trailID: trails[0], date: .now, confidence: 4), alsoMarkDone: false) }
+        check("Ran It Again") { s.recordAnotherRun(trails[1]) }
+        check("Ran It Again, same day again") { s.recordAnotherRun(trails[1]) }
+        check("Ran It Again on a not-done trail") { s.recordAnotherRun(trails[6]) }
+    }
+    @Test func ranItAgainCountsRunsAndUndoes() throws {
+        let s = try store()
+        let um = UndoManager(); um.groupsByEvent = false; s.undoManager = um
+        let id = hardTrail(s)
+        s.markDone(id)
+        let afterFirst = s.elo
+        s.recordAnotherRun(id); s.recordAnotherRun(id)
+        #expect(s.state(for: id).timesSkied == 3)
+        #expect(s.userData.eloEvents.count == 3)
+        let afterThird = s.elo
+        #expect(afterThird > afterFirst)
+        um.undo()
+        #expect(s.userData.eloEvents.count == 2); #expect(s.elo < afterThird)
+        s.markNotDone(id)                                  // un-doing the trail removes its marked runs
+        #expect(s.userData.eloEvents.isEmpty)
+    }
     @Test func eloEventsSurviveEncodeDecode() throws {
         let s = try store()
         s.markDone(hardTrail(s))
