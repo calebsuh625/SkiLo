@@ -1,0 +1,1229 @@
+{
+ "generated": "2026-11-17T07:13:58+00:00",
+ "source": "OpenStreetMap via Overpass API (data/raw/heavenly_osm.json); elevation from AWS Terrain Tiles (Mapzen terrarium encoding)",
+ "license": "OpenStreetMap data: ODbL 1.0 (c) OpenStreetMap contributors. Elevation: AWS Terrain Tiles (public domain / see dem_meta.json attribution)",
+ "osm_timestamp": "2026-11-17T07:03:07Z",
+ "lift_count": 13,
+ "lifts": [
+  {
+   "id": "bunny-125433277",
+   "osm_way_id": 125433277,
+   "name": "Bunny",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.074721,
+     38.688798,
+     2378.8
+    ],
+    [
+     -120.075056,
+     38.68874,
+     2383.2
+    ],
+    [
+     -120.075673,
+     38.688632,
+     2393.2
+    ],
+    [
+     -120.076509,
+     38.688487,
+     2402.3
+    ],
+    [
+     -120.077434,
+     38.688325,
+     2410.1
+    ],
+    [
+     -120.078232,
+     38.688186,
+     2416.6
+    ],
+    [
+     -120.078994,
+     38.688053,
+     2428.2
+    ],
+    [
+     -120.079439,
+     38.687976,
+     2438.1
+    ]
+   ],
+   "bottom": [
+    -120.074721,
+    38.688798,
+    2378.8
+   ],
+   "top": [
+    -120.079439,
+    38.687976,
+    2438.1
+   ],
+   "bottom_elev_m": 2378.8,
+   "top_elev_m": 2438.1,
+   "vertical_m": 59.3,
+   "length_m": 419.6,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "Bunny",
+    "ref": "9"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "caples-crest-10281940",
+   "osm_way_id": 10281940,
+   "name": "Caples Crest",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.059091,
+     38.676841,
+     2464.3
+    ],
+    [
+     -120.058703,
+     38.676828,
+     2463.2
+    ],
+    [
+     -120.058575,
+     38.676823,
+     2463.0
+    ],
+    [
+     -120.058201,
+     38.67681,
+     2465.8
+    ],
+    [
+     -120.057764,
+     38.676795,
+     2471.5
+    ],
+    [
+     -120.05702,
+     38.676769,
+     2483.1
+    ],
+    [
+     -120.056188,
+     38.676739,
+     2497.3
+    ],
+    [
+     -120.055354,
+     38.67671,
+     2513.0
+    ],
+    [
+     -120.054323,
+     38.676674,
+     2534.5
+    ],
+    [
+     -120.053481,
+     38.676644,
+     2549.7
+    ],
+    [
+     -120.052326,
+     38.676604,
+     2578.4
+    ],
+    [
+     -120.051681,
+     38.676581,
+     2591.7
+    ],
+    [
+     -120.050985,
+     38.676556,
+     2606.0
+    ],
+    [
+     -120.050388,
+     38.676536,
+     2622.3
+    ],
+    [
+     -120.04985,
+     38.676517,
+     2634.3
+    ]
+   ],
+   "bottom": [
+    -120.059091,
+    38.676841,
+    2464.3
+   ],
+   "top": [
+    -120.04985,
+    38.676517,
+    2634.3
+   ],
+   "bottom_elev_m": 2464.3,
+   "top_elev_m": 2634.3,
+   "vertical_m": 170.0,
+   "length_m": 803.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "Caples Crest",
+    "tiger:cfcc": "C31",
+    "tiger:county": "Alpine, CA",
+    "tiger:reviewed": "no"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "cornice-express-10281878",
+   "osm_way_id": 10281878,
+   "name": "Cornice Express",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.06797,
+     38.683334,
+     2384.0
+    ],
+    [
+     -120.068517,
+     38.682874,
+     2389.4
+    ],
+    [
+     -120.068988,
+     38.682478,
+     2400.2
+    ],
+    [
+     -120.069554,
+     38.682002,
+     2416.8
+    ],
+    [
+     -120.07041,
+     38.681282,
+     2440.1
+    ],
+    [
+     -120.071154,
+     38.680656,
+     2466.8
+    ],
+    [
+     -120.071882,
+     38.680044,
+     2486.8
+    ],
+    [
+     -120.0727,
+     38.679356,
+     2519.9
+    ],
+    [
+     -120.073773,
+     38.678453,
+     2572.8
+    ],
+    [
+     -120.074572,
+     38.677781,
+     2631.2
+    ],
+    [
+     -120.075131,
+     38.677311,
+     2664.8
+    ],
+    [
+     -120.076034,
+     38.676551,
+     2714.1
+    ],
+    [
+     -120.077032,
+     38.675712,
+     2773.0
+    ],
+    [
+     -120.077079,
+     38.675672,
+     2777.0
+    ],
+    [
+     -120.077133,
+     38.675627,
+     2781.2
+    ],
+    [
+     -120.077273,
+     38.675509,
+     2791.7
+    ]
+   ],
+   "bottom": [
+    -120.06797,
+    38.683334,
+    2384.0
+   ],
+   "top": [
+    -120.077273,
+    38.675509,
+    2791.7
+   ],
+   "bottom_elev_m": 2384.0,
+   "top_elev_m": 2791.7,
+   "vertical_m": 407.7,
+   "length_m": 1187.1,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "4",
+    "name": "Cornice Express",
+    "ref": "6",
+    "tiger:cfcc": "C31",
+    "tiger:county": "Alpine, CA:Amador, CA",
+    "tiger:name_base": "Ski Lift",
+    "tiger:reviewed": "no"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "iron-horse-10281941",
+   "osm_way_id": 10281941,
+   "name": "Iron Horse",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.043006,
+     38.672174,
+     2510.4
+    ],
+    [
+     -120.043706,
+     38.672548,
+     2517.8
+    ],
+    [
+     -120.044189,
+     38.672806,
+     2522.6
+    ],
+    [
+     -120.04472,
+     38.673089,
+     2528.5
+    ],
+    [
+     -120.045475,
+     38.673492,
+     2536.3
+    ],
+    [
+     -120.046242,
+     38.673901,
+     2557.3
+    ],
+    [
+     -120.046866,
+     38.674235,
+     2581.3
+    ],
+    [
+     -120.047509,
+     38.674578,
+     2597.0
+    ],
+    [
+     -120.048122,
+     38.674905,
+     2609.8
+    ],
+    [
+     -120.048567,
+     38.675143,
+     2623.8
+    ],
+    [
+     -120.048754,
+     38.675242,
+     2626.7
+    ],
+    [
+     -120.04935,
+     38.675561,
+     2635.4
+    ]
+   ],
+   "bottom": [
+    -120.043006,
+    38.672174,
+    2510.4
+   ],
+   "top": [
+    -120.04935,
+    38.675561,
+    2635.4
+   ],
+   "bottom_elev_m": 2510.4,
+   "top_elev_m": 2635.4,
+   "vertical_m": 125.0,
+   "length_m": 667.1,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 2,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "2",
+    "name": "Iron Horse",
+    "ref": "3",
+    "tiger:cfcc": "C31",
+    "tiger:county": "Alpine, CA",
+    "tiger:reviewed": "no"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "snowkirk-10282087",
+   "osm_way_id": 10282087,
+   "name": "Snowkirk",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.065216,
+     38.683149,
+     2385.4
+    ],
+    [
+     -120.06496,
+     38.682742,
+     2387.1
+    ],
+    [
+     -120.064665,
+     38.682272,
+     2389.6
+    ],
+    [
+     -120.064315,
+     38.681716,
+     2397.8
+    ],
+    [
+     -120.063976,
+     38.681177,
+     2404.9
+    ],
+    [
+     -120.063471,
+     38.680373,
+     2409.4
+    ],
+    [
+     -120.06313,
+     38.67983,
+     2425.7
+    ],
+    [
+     -120.062724,
+     38.679184,
+     2430.1
+    ],
+    [
+     -120.062331,
+     38.678559,
+     2441.2
+    ],
+    [
+     -120.061925,
+     38.677914,
+     2449.7
+    ],
+    [
+     -120.061532,
+     38.677289,
+     2460.8
+    ],
+    [
+     -120.061132,
+     38.676651,
+     2473.8
+    ],
+    [
+     -120.06077,
+     38.676077,
+     2483.3
+    ],
+    [
+     -120.060483,
+     38.67562,
+     2492.9
+    ],
+    [
+     -120.060319,
+     38.675358,
+     2498.0
+    ]
+   ],
+   "bottom": [
+    -120.065216,
+    38.683149,
+    2385.4
+   ],
+   "top": [
+    -120.060319,
+    38.675358,
+    2498.0
+   ],
+   "bottom_elev_m": 2385.4,
+   "top_elev_m": 2498.0,
+   "vertical_m": 112.7,
+   "length_m": 964.9,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "Snowkirk",
+    "ref": "1"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "solitude-10281875",
+   "osm_way_id": 10281875,
+   "name": "Solitude",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.067597,
+     38.683169,
+     2385.7
+    ],
+    [
+     -120.067853,
+     38.682875,
+     2388.1
+    ],
+    [
+     -120.068396,
+     38.682253,
+     2405.2
+    ],
+    [
+     -120.068761,
+     38.681834,
+     2420.8
+    ],
+    [
+     -120.069577,
+     38.680899,
+     2453.8
+    ],
+    [
+     -120.070074,
+     38.680329,
+     2467.8
+    ],
+    [
+     -120.070699,
+     38.679613,
+     2484.0
+    ],
+    [
+     -120.071258,
+     38.67904,
+     2506.6
+    ],
+    [
+     -120.071821,
+     38.678395,
+     2532.9
+    ],
+    [
+     -120.07252,
+     38.677586,
+     2569.3
+    ],
+    [
+     -120.072871,
+     38.67721,
+     2590.0
+    ],
+    [
+     -120.073062,
+     38.676981,
+     2601.4
+    ]
+   ],
+   "bottom": [
+    -120.067597,
+    38.683169,
+    2385.7
+   ],
+   "top": [
+    -120.073062,
+    38.676981,
+    2601.4
+   ],
+   "bottom_elev_m": 2385.7,
+   "top_elev_m": 2601.4,
+   "vertical_m": 215.7,
+   "length_m": 835.9,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "Solitude",
+    "ref": "5",
+    "tiger:cfcc": "C31",
+    "tiger:county": "Alpine, CA:Amador, CA",
+    "tiger:name_base": "Ski Lift",
+    "tiger:reviewed": "no"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "sunrise-4-10282120",
+   "osm_way_id": 10282120,
+   "name": "Sunrise (4)",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.044924,
+     38.670405,
+     2523.4
+    ],
+    [
+     -120.045365,
+     38.67009,
+     2525.9
+    ],
+    [
+     -120.045905,
+     38.669705,
+     2536.6
+    ],
+    [
+     -120.046664,
+     38.669163,
+     2547.6
+    ],
+    [
+     -120.047397,
+     38.668641,
+     2564.8
+    ],
+    [
+     -120.047702,
+     38.668423,
+     2570.8
+    ],
+    [
+     -120.048019,
+     38.668197,
+     2577.6
+    ],
+    [
+     -120.04871,
+     38.667704,
+     2597.0
+    ],
+    [
+     -120.049335,
+     38.667254,
+     2610.4
+    ],
+    [
+     -120.049965,
+     38.666802,
+     2621.8
+    ],
+    [
+     -120.050429,
+     38.666469,
+     2634.7
+    ],
+    [
+     -120.050631,
+     38.666325,
+     2636.8
+    ],
+    [
+     -120.051215,
+     38.665905,
+     2642.5
+    ],
+    [
+     -120.052092,
+     38.665276,
+     2655.0
+    ],
+    [
+     -120.052699,
+     38.664841,
+     2668.6
+    ],
+    [
+     -120.05295,
+     38.664661,
+     2674.7
+    ],
+    [
+     -120.054038,
+     38.663881,
+     2725.2
+    ],
+    [
+     -120.054726,
+     38.663387,
+     2760.3
+    ],
+    [
+     -120.05546,
+     38.66286,
+     2790.3
+    ],
+    [
+     -120.056187,
+     38.662339,
+     2819.8
+    ],
+    [
+     -120.056892,
+     38.661833,
+     2853.0
+    ],
+    [
+     -120.05739,
+     38.661476,
+     2872.4
+    ],
+    [
+     -120.05754,
+     38.661369,
+     2877.5
+    ],
+    [
+     -120.057681,
+     38.661267,
+     2882.0
+    ]
+   ],
+   "bottom": [
+    -120.044924,
+    38.670405,
+    2523.4
+   ],
+   "top": [
+    -120.057681,
+    38.661267,
+    2882.0
+   ],
+   "bottom_elev_m": 2523.4,
+   "top_elev_m": 2882.0,
+   "vertical_m": 358.5,
+   "length_m": 1503.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "4",
+    "name": "Sunrise (4)",
+    "tiger:cfcc": "C31",
+    "tiger:county": "Alpine, CA",
+    "tiger:reviewed": "no"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "tc-express-32437279",
+   "osm_way_id": 32437279,
+   "name": "TC Express",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.074354,
+     38.688389,
+     2380.0
+    ],
+    [
+     -120.074506,
+     38.687083,
+     2399.3
+    ],
+    [
+     -120.074624,
+     38.686057,
+     2418.1
+    ],
+    [
+     -120.074734,
+     38.685111,
+     2436.4
+    ],
+    [
+     -120.07485,
+     38.684108,
+     2453.7
+    ],
+    [
+     -120.07495,
+     38.683248,
+     2468.5
+    ],
+    [
+     -120.075073,
+     38.682192,
+     2486.0
+    ],
+    [
+     -120.075193,
+     38.681159,
+     2508.4
+    ],
+    [
+     -120.075246,
+     38.680699,
+     2524.5
+    ]
+   ],
+   "bottom": [
+    -120.074354,
+    38.688389,
+    2380.0
+   ],
+   "top": [
+    -120.075246,
+    38.680699,
+    2524.5
+   ],
+   "bottom_elev_m": 2380.0,
+   "top_elev_m": 2524.5,
+   "vertical_m": 144.5,
+   "length_m": 858.6,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "4",
+    "name": "TC Express",
+    "ref": "7"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "the-reut-32437286",
+   "osm_way_id": 32437286,
+   "name": "The Reut",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.065848,
+     38.682811,
+     2386.9
+    ],
+    [
+     -120.065799,
+     38.682329,
+     2390.2
+    ],
+    [
+     -120.065723,
+     38.681593,
+     2399.4
+    ],
+    [
+     -120.065646,
+     38.680844,
+     2408.8
+    ],
+    [
+     -120.065563,
+     38.680029,
+     2418.8
+    ],
+    [
+     -120.065491,
+     38.679323,
+     2427.8
+    ],
+    [
+     -120.065412,
+     38.678551,
+     2445.4
+    ],
+    [
+     -120.065318,
+     38.677641,
+     2469.7
+    ],
+    [
+     -120.065237,
+     38.676848,
+     2497.1
+    ],
+    [
+     -120.065153,
+     38.676032,
+     2533.6
+    ],
+    [
+     -120.065063,
+     38.675148,
+     2567.5
+    ],
+    [
+     -120.064963,
+     38.674176,
+     2590.2
+    ],
+    [
+     -120.064857,
+     38.67314,
+     2618.4
+    ],
+    [
+     -120.0648,
+     38.672581,
+     2639.5
+    ]
+   ],
+   "bottom": [
+    -120.065848,
+    38.682811,
+    2386.9
+   ],
+   "top": [
+    -120.0648,
+    38.672581,
+    2639.5
+   ],
+   "bottom_elev_m": 2386.9,
+   "top_elev_m": 2639.5,
+   "vertical_m": 252.6,
+   "length_m": 1141.2,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "The Reut",
+    "ref": "11"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "the-wall-130100679",
+   "osm_way_id": 130100679,
+   "name": "The Wall",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.066252,
+     38.68271,
+     2388.7
+    ],
+    [
+     -120.066211,
+     38.682248,
+     2391.3
+    ],
+    [
+     -120.066161,
+     38.681684,
+     2399.7
+    ],
+    [
+     -120.0661,
+     38.680985,
+     2408.6
+    ],
+    [
+     -120.066033,
+     38.680231,
+     2418.3
+    ],
+    [
+     -120.065971,
+     38.679523,
+     2428.4
+    ],
+    [
+     -120.065905,
+     38.678778,
+     2442.3
+    ],
+    [
+     -120.065841,
+     38.67805,
+     2458.4
+    ],
+    [
+     -120.065773,
+     38.677285,
+     2480.7
+    ],
+    [
+     -120.065703,
+     38.676495,
+     2513.4
+    ],
+    [
+     -120.065634,
+     38.675708,
+     2539.6
+    ],
+    [
+     -120.065546,
+     38.674715,
+     2563.9
+    ],
+    [
+     -120.065462,
+     38.67376,
+     2592.9
+    ],
+    [
+     -120.065362,
+     38.672627,
+     2623.4
+    ],
+    [
+     -120.065273,
+     38.671616,
+     2661.0
+    ],
+    [
+     -120.065179,
+     38.670547,
+     2719.9
+    ],
+    [
+     -120.065061,
+     38.669213,
+     2779.0
+    ],
+    [
+     -120.064926,
+     38.667685,
+     2879.5
+    ]
+   ],
+   "bottom": [
+    -120.066252,
+    38.68271,
+    2388.7
+   ],
+   "top": [
+    -120.064926,
+    38.667685,
+    2879.5
+   ],
+   "bottom_elev_m": 2388.7,
+   "top_elev_m": 2879.5,
+   "vertical_m": 490.8,
+   "length_m": 1674.7,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "3",
+    "name": "The Wall",
+    "ref": "10"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "vista-32437282",
+   "osm_way_id": 32437282,
+   "name": "Vista",
+   "named": true,
+   "type": "t-bar",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.049885,
+     38.676103,
+     2637.7
+    ],
+    [
+     -120.050301,
+     38.674237,
+     2668.4
+    ],
+    [
+     -120.050142,
+     38.672882,
+     2724.6
+    ]
+   ],
+   "bottom": [
+    -120.049885,
+    38.676103,
+    2637.7
+   ],
+   "top": [
+    -120.050142,
+    38.672882,
+    2724.6
+   ],
+   "bottom_elev_m": 2637.7,
+   "top_elev_m": 2724.6,
+   "vertical_m": 86.9,
+   "length_m": 362.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "t-bar",
+    "name": "Vista",
+    "ref": "14"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "wonder-carpet-12-130101297",
+   "osm_way_id": 130101297,
+   "name": "Wonder Carpet 12",
+   "named": true,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.075137,
+     38.689098,
+     2381.3
+    ],
+    [
+     -120.075403,
+     38.689043,
+     2387.1
+    ]
+   ],
+   "bottom": [
+    -120.075137,
+    38.689098,
+    2381.3
+   ],
+   "top": [
+    -120.075403,
+    38.689043,
+    2387.1
+   ],
+   "bottom_elev_m": 2381.3,
+   "top_elev_m": 2387.1,
+   "vertical_m": 5.8,
+   "length_m": 24.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet",
+    "name": "Wonder Carpet 12"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "wonder-carpet-13-258132361",
+   "osm_way_id": 258132361,
+   "name": "Wonder Carpet 13",
+   "named": true,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -120.075497,
+     38.689265,
+     2387.0
+    ],
+    [
+     -120.076004,
+     38.689265,
+     2394.3
+    ]
+   ],
+   "bottom": [
+    -120.075497,
+    38.689265,
+    2387.0
+   ],
+   "top": [
+    -120.076004,
+    38.689265,
+    2394.3
+   ],
+   "bottom_elev_m": 2387.0,
+   "top_elev_m": 2394.3,
+   "vertical_m": 7.3,
+   "length_m": 44.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet",
+    "name": "Wonder Carpet 13"
+   },
+   "side_source": "LIFT_SIDE table"
+  }
+ ],
+ "stations": [],
+ "methods": {
+  "polyline": "[lon, lat, elev_m] ordered bottom->top (by DEM elevation)",
+  "side": "California/Nevada from LIFT_SIDE table (Heavenly trail map)"
+ }
+}

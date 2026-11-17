@@ -5,7 +5,7 @@ import MapKit
 /// yellow casing); tap a trail to open it in a sheet. Uses the shared `Picking` math.
 struct PhoneMapView: View {
     @Environment(AppStore.self) private var store
-    @State private var position: MapCameraPosition = .camera(Self.camera(Self.phoneOverview))
+    @State private var position: MapCameraPosition = .camera(Self.camera(Self.phoneOverview(.heavenly)))
     @State private var sheetTrail: SheetTrail?
     @State private var mapSize: CGSize = .zero
 
@@ -59,8 +59,10 @@ struct PhoneMapView: View {
             store.cameraRequest = nil
         }
         .onAppear {
+            if store.resortID != "heavenly" { position = .camera(Self.camera(Self.phoneOverview(store.resort))) }
             if let req = store.cameraRequest { fly(to: req); store.cameraRequest = nil }
         }
+        .onChange(of: store.resortID) { _, _ in sheetTrail = nil; fly(to: .overview); store.cameraRequest = nil }
     }
 
     private var topBar: some View {
@@ -69,10 +71,19 @@ struct PhoneMapView: View {
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(.regularMaterial, in: Capsule())
             Menu {
+                Section("Resort") {
+                    ForEach(store.catalogs, id: \.id) { c in
+                        Button { store.switchResort(to: c.id) } label: {
+                            if c.id == store.resortID { Label(ResortInfo.info(for: c.id).name, systemImage: "checkmark") }
+                            else { Text(ResortInfo.info(for: c.id).name) }
+                        }
+                    }
+                }
+                Divider()
                 Button("Overview") { fly(to: .overview) }
-                Button("California side") { fly(to: .california) }
-                Button("Nevada side") { fly(to: .nevada) }
-                Button("Mott & Killebrew") { fly(to: .mottKillebrew) }
+                ForEach(Array(store.resort.views.enumerated()), id: \.offset) { _, v in
+                    Button(v.title) { fly(to: .camera(v.camera)) }
+                }
             } label: {
                 Image(systemName: "camera.viewfinder").font(.body)
                     .padding(7).background(.regularMaterial, in: Circle())
@@ -109,10 +120,11 @@ struct PhoneMapView: View {
     private func fly(to preset: CameraPreset) {
         let state: CameraState
         switch preset {
-        case .overview: state = Self.phoneOverview
+        case .overview: state = Self.phoneOverview(store.resort)
         case .california: state = CameraPresets.california
         case .nevada: state = CameraPresets.nevada
         case .mottKillebrew: state = CameraPresets.mottKillebrew
+        case .camera(let s): state = s
         case .bounds(let b):
             let d = min(max(b.diagonalM * 2.5, 1_200), 12_000)
             state = CameraState(center: b.center, distanceM: d, headingDeg: 180, pitchDeg: 50)
@@ -126,8 +138,8 @@ struct PhoneMapView: View {
     }
 
     /// The Mac's overview, pulled back so the whole resort fits a portrait phone screen.
-    static var phoneOverview: CameraState {
-        var s = CameraPresets.overview
+    static func phoneOverview(_ resort: ResortInfo) -> CameraState {
+        var s = resort.overview
         s.distanceM *= 1.9
         s.pitchDeg = 45
         return s

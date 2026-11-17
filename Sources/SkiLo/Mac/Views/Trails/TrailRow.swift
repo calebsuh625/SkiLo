@@ -15,7 +15,7 @@ struct TrailRow: Identifiable, Hashable {
     // Sortable scalar fields (KeyPathComparator targets).
     var name: String { trail.name }
     var statusOrder: Int { status == .done ? 0 : status == .bucket ? 1 : 2 }
-    var areaSort: String { trail.area.rawValue + trail.subArea.title }
+    var areaSort: String { trail.areaShort + trail.subArea.title }
     var bandOrder: Int { band.rawValue }
     var osmOrder: Int { trail.osmDifficulty.band?.rawValue ?? -1 }
     var length: Double { trail.stats.lengthM }

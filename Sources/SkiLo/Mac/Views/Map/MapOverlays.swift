@@ -97,12 +97,10 @@ private struct CameraChips: View {
     var body: some View {
         HStack(spacing: 0) {
             chip("Overview", .overview, help: "Whole resort (⌘0)")
-            divider
-            chip("CA", .california, help: "California side (⌥⌘1)")
-            divider
-            chip("NV", .nevada, help: "Nevada side (⌥⌘2)")
-            divider
-            chip("Mott/Killebrew", .mottKillebrew, help: "Mott & Killebrew canyons (⌥⌘3)")
+            ForEach(Array(store.resort.views.enumerated()), id: \.offset) { i, v in
+                divider
+                chip(v.short, .camera(v.camera), help: "\(v.title) (⌥⌘\(i + 1))")
+            }
         }
         .background(.regularMaterial, in: Capsule())
         .overlay(Capsule().strokeBorder(.white.opacity(0.15)))

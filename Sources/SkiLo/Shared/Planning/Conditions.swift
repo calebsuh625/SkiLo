@@ -87,14 +87,16 @@ enum TodaysPick {
             return score(t, input: input, highTop: highTop)
         }.sorted { $0.score != $1.score ? $0.score > $1.score : $0.trailID < $1.trailID }
 
-        // Spread the picks around the mountain: at most 3 per sub-area.
-        var perArea: [SubArea: Int] = [:]
+        // Spread the picks around the mountain: at most 3 per sub-area (or per lift where
+        // a resort has no sub-areas).
+        var perArea: [String: Int] = [:]
         var out: [TrailPick] = []
         let byID = Dictionary(input.trails.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         for p in scored {
             guard let t = byID[p.trailID] else { continue }
-            if perArea[t.subArea, default: 0] >= 3 { continue }
-            perArea[t.subArea, default: 0] += 1
+            let key = t.subArea == .other ? "lift:" + (t.liftName ?? "") : t.subArea.rawValue
+            if perArea[key, default: 0] >= 3 { continue }
+            perArea[key, default: 0] += 1
             out.append(p)
             if out.count == count { break }
         }

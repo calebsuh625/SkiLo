@@ -1,0 +1,72 @@
+{
+ "generated": "2026-11-17T07:13:59+00:00",
+ "source": {
+  "name": "AWS Terrain Tiles (Mapzen terrarium encoding)",
+  "url_template": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+  "attribution": "Terrain Tiles: data from USGS 3DEP/NED, SRTM, ETOPO1 and others via Mapzen/AWS Open Data; see https://registry.opendata.aws/terrain-tiles/",
+  "zoom": 14,
+  "decode": "elev_m = (R*256 + G + B/256) - 32768"
+ },
+ "license": "OpenStreetMap data: ODbL 1.0 (c) OpenStreetMap contributors. Elevation: AWS Terrain Tiles (public domain / see dem_meta.json attribution)",
+ "osm_timestamp": "2026-11-17T07:03:07Z",
+ "crs": "EPSG:3857 (WGS84 Web Mercator); pixel grid is the XYZ/slippy tile grid at the given zoom with 256 px tiles",
+ "zoom": 14,
+ "tile_x_range": [
+  2733,
+  2737
+ ],
+ "tile_y_range": [
+  6241,
+  6244
+ ],
+ "width": 1280,
+ "height": 1024,
+ "origin": "pixel (col=0,row=0) is the NW corner of tile (tile_x_range[0], tile_y_range[0]); col increases east, row increases south",
+ "pixel_size_mercator_m": 9.554628535747527,
+ "pixel_size_ground_m_at_center_lat": 7.39192897850744,
+ "pixel_size_ground_note": "ground metres per pixel = pixel_size_mercator_m * cos(lat)",
+ "pixel_center_offset": 0.5,
+ "lonlat_to_pixel": {
+  "col": "(lon + 180) / 360 * 2^14 * 256 - 699648",
+  "row": "(1 - ln(tan(lat) + sec(lat)) / pi) / 2 * 2^14 * 256 - 1597696",
+  "note": "lat in radians inside tan/sec; the value stored at integer (col,row) is centred at (col+0.5,row+0.5)"
+ },
+ "bbox_lonlat": {
+  "min_lon": -119.94873046875,
+  "min_lat": 39.28329386893849,
+  "max_lon": -119.8388671875,
+  "max_lat": 39.35129035526704
+ },
+ "bbox_3857": {
+  "min_x": -13352631.597221313,
+  "min_y": 4762332.610329713,
+  "max_x": -13340401.672695555,
+  "max_y": 4772116.5499503175
+ },
+ "requested_bbox_lonlat": {
+  "min_lat": 39.29,
+  "max_lat": 39.35,
+  "min_lon": -119.93,
+  "max_lon": -119.85
+ },
+ "min_elev_m": 1548.1953125,
+ "max_elev_m": 3284.49609375,
+ "nodata": null,
+ "encoding": {
+  "png": {
+   "file": "mtrose_dem.png",
+   "format": "16-bit grayscale PNG (uint16, single channel)",
+   "formula": "elev_m = value * 0.1",
+   "scale": 0.1,
+   "offset": 0.0
+  },
+  "f32": {
+   "file": "mtrose_dem.f32",
+   "format": "raw float32 little-endian, row-major (height rows x width cols), no header",
+   "formula": "elev_m = value"
+  }
+ },
+ "verification": {
+  "skipped": true
+ }
+}

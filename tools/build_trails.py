@@ -5,8 +5,8 @@ build_trails.py -- Heavenly Mountain Resort data pipeline.
 Turns the raw Overpass dump (data/raw/heavenly_osm.json, OpenStreetMap, ODbL)
 into app-ready, elevation-enriched data:
 
-  data/dem/heavenly_dem.png   16-bit grayscale PNG DEM  (elev_m = value * 0.1)
-  data/dem/heavenly_dem.f32   same DEM as raw float32 little-endian, row-major
+  data/dem/<resort>_dem.png   16-bit grayscale PNG DEM  (elev_m = value * 0.1)
+  data/dem/<resort>_dem.f32   same DEM as raw float32 little-endian, row-major
   data/dem/dem_meta.json      grid definition (EPSG:3857 / XYZ tile grid), encoding, verification
   data/dem/tiles/             cached terrarium tiles (re-runs are offline)
   data/trails.json            trails (ways merged by name) with per-segment + aggregate stats
@@ -46,8 +46,18 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW_PATH = ROOT / "data" / "raw" / "heavenly_osm.json"
-DATA_DIR = ROOT / "data"
+# --resort picks the input dump, output folder and DEM bbox. Heavenly keeps its original paths.
+RESORTS = {
+    "heavenly": {"raw": ROOT / "data" / "raw" / "heavenly_osm.json", "data": ROOT / "data",
+                 "bbox": {"min_lat": 38.88, "max_lat": 38.99, "min_lon": -119.99, "max_lon": -119.85}},
+    "kirkwood": {"raw": ROOT / "data" / "kirkwood" / "raw" / "osm.json", "data": ROOT / "data" / "kirkwood",
+                 "bbox": {"min_lat": 38.65, "max_lat": 38.72, "min_lon": -120.12, "max_lon": -120.03}},
+    "mtrose": {"raw": ROOT / "data" / "mtrose" / "raw" / "osm.json", "data": ROOT / "data" / "mtrose",
+               "bbox": {"min_lat": 39.29, "max_lat": 39.35, "min_lon": -119.93, "max_lon": -119.85}},
+}
+RESORT = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--resort=")), "heavenly")
+RAW_PATH = RESORTS[RESORT]["raw"]
+DATA_DIR = RESORTS[RESORT]["data"]
 DEM_DIR = DATA_DIR / "dem"
 TILE_DIR = DEM_DIR / "tiles"
 
@@ -58,7 +68,7 @@ EPQS_URL = "https://epqs.nationalmap.gov/v1/json?x={lon}&y={lat}&units=Meters&wk
 
 # Requested coverage (lat 38.88..38.99, lon -119.99..-119.85). The DEM is tile-aligned
 # so the actual raster bbox is slightly larger; it is written to dem_meta.json.
-REQ_BBOX = {"min_lat": 38.88, "max_lat": 38.99, "min_lon": -119.99, "max_lon": -119.85}
+REQ_BBOX = RESORTS[RESORT]["bbox"]
 
 R_EARTH_M = 6371008.8            # mean Earth radius (IUGG)
 WEB_MERC_CIRC_M = 40075016.686   # 2*pi*6378137
@@ -83,6 +93,8 @@ LIFT_SIDE = {
     "Galaxy": "Nevada", "Mott Canyon": "Nevada", "North Bowl Express": "Nevada",
     "Stagecoach Express": "Nevada", "Boulder": "Nevada",
 }
+if RESORT != "heavenly":
+    LIFT_SIDE = {}      # one-sided resorts: every lift and trail gets side "Main"
 
 DIFF_ORDER = {"easy": 0, "intermediate": 1, "advanced": 2, "expert": 3, "freeride": 4, "extreme": 5}
 
@@ -316,13 +328,13 @@ def save_dem(dem):
     if q.min() < 0 or q.max() > 65535:
         raise RuntimeError("elevation out of uint16 range for 0.1 m quantisation")
     u16 = q.astype(np.uint16)
-    png_path = DEM_DIR / "heavenly_dem.png"
+    png_path = DEM_DIR / f"{RESORT}_dem.png"
     Image.fromarray(u16).save(png_path)  # uint16 -> 16-bit grayscale PNG
     # read-back check
     back = np.asarray(Image.open(png_path))
     if back.dtype != np.uint16 or not np.array_equal(back, u16):
         raise RuntimeError("PNG16 round-trip failed")
-    f32_path = DEM_DIR / "heavenly_dem.f32"
+    f32_path = DEM_DIR / f"{RESORT}_dem.f32"
     dem.elev.astype("<f4").tofile(f32_path)
     bbox = dem.bbox_lonlat()
     minx, miny = lonlat_to_3857(bbox["min_lon"], bbox["min_lat"])
@@ -353,9 +365,9 @@ def save_dem(dem):
         "max_elev_m": float(dem.elev.max()),
         "nodata": None,
         "encoding": {
-            "png": {"file": "heavenly_dem.png", "format": "16-bit grayscale PNG (uint16, single channel)",
+            "png": {"file": f"{RESORT}_dem.png", "format": "16-bit grayscale PNG (uint16, single channel)",
                     "formula": "elev_m = value * 0.1", "scale": scale, "offset": 0.0},
-            "f32": {"file": "heavenly_dem.f32",
+            "f32": {"file": f"{RESORT}_dem.f32",
                     "format": "raw float32 little-endian, row-major (height rows x width cols), no header",
                     "formula": "elev_m = value"},
         },
@@ -649,7 +661,7 @@ def build_lifts(dem, aerial_ways):
             "name": name,
             "named": "name" in t,
             "type": kind,
-            "side": LIFT_SIDE.get(name, "Unknown"),
+            "side": LIFT_SIDE.get(name, "Unknown") if LIFT_SIDE else "Main",
             "polyline": [[round(float(x), 6), round(float(y), 6), round(float(z), 1)] for x, y, z in zip(lons, lats, e)],
             "bottom": [round(float(lons[0]), 6), round(float(lats[0]), 6), round(float(e[0]), 1)],
             "top": [round(float(lons[-1]), 6), round(float(lats[-1]), 6), round(float(e[-1]), 1)],
@@ -750,6 +762,7 @@ def build_boundary(relation):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--zoom", type=int, default=14)
+    ap.add_argument("--resort", default="heavenly", choices=sorted(RESORTS))
     ap.add_argument("--skip-verify", action="store_true", help="skip the open-meteo / USGS DEM check")
     ap.add_argument("--offline", action="store_true", help="never hit the network (needs cached tiles)")
     args = ap.parse_args()
@@ -864,7 +877,7 @@ def main():
     # ---- lifts
     lifts, stations = build_lifts(dem, aerial_ways)
     for l in lifts:
-        if l["side_source"] != "LIFT_SIDE table":
+        if LIFT_SIDE and l["side_source"] != "LIFT_SIDE table":
             issues.append(f"lift '{l['name']}' (way {l['osm_way_id']}) not in LIFT_SIDE table; side taken from {l['side_source']}")
         if l["osm_order_was_top_to_bottom"]:
             issues.append(f"lift '{l['name']}' (way {l['osm_way_id']}) is drawn top->bottom in OSM (convention is bottom->top); reversed")
@@ -990,7 +1003,7 @@ def main():
         "area": "resort side (California/Nevada) by majority vote of three lift-proximity signals: side of nearest_lift (lift TOP nearest the trail top), side of lift_at_bottom (lift LINE nearest the trail bottom point) and side of lift_at_centroid (lift LINE nearest the trail centroid). Lifts get their side from Heavenly's trail map (LIFT_SIDE in build_trails.py). area_votes holds the three sides and area_confidence is 'low' when they disagree (ridge/connector runs). This is the resort's marketing side, not the surveyed CA/NV state line",
         "osm_difficulty": "piste:difficulty (easy/intermediate/advanced/expert); hardest kept when segments disagree",
     }
-    trails_out = dict(common, dem={"meta": "data/dem/dem_meta.json", "png": "data/dem/heavenly_dem.png", "f32": "data/dem/heavenly_dem.f32"},
+    trails_out = dict(common, dem={"meta": "data/dem/dem_meta.json", "png": f"data/dem/{RESORT}_dem.png", "f32": f"data/dem/{RESORT}_dem.f32"},
                       methods=methods, trail_count=len(trails), lift_count=len(lifts),
                       data_quality_issues=issues, trails=trails)
     (DATA_DIR / "trails.json").write_text(json.dumps(trails_out, indent=1))

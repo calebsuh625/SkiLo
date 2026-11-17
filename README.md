@@ -3,8 +3,9 @@ Double-click `SkiLo.app` in your Applications folder (Home > Applications). If m
 
 # SkiLo
 
-A native macOS ski progression tracker for Heavenly Mountain Resort (South Lake Tahoe).
-Fine-grained 1–100 trail difficulty ratings, a 3D trail map, and a bucket list you can cross off.
+A native macOS ski progression tracker for Lake Tahoe: Heavenly, Kirkwood and Mt. Rose.
+Fine-grained 1–100 trail difficulty ratings, a 3D trail map, a bucket list you can cross off,
+A-to-B directions on the mountain, a day planner tuned to the forecast, and 3D fly-throughs.
 
 Trail geometry is derived from OpenStreetMap (© OpenStreetMap contributors, ODbL) — see
 `data/raw/PROVENANCE.json`.
@@ -30,6 +31,29 @@ Elo (`Progression/Elo.swift`).
 Data lives in `~/Library/Application Support/SkiLo/`: `accounts.json` (usernames + salted
 PBKDF2 password hashes) and `accounts/<id>/userdata.json` per account (atomic writes, undo in memory).
 
+## Directions, Today and fly-throughs
+
+- **Directions (⌘G, or "Directions Here" on any trail):** pick a start and destination (lodges,
+  tops/bottoms of lifts, trails, or click the map) and a limit: *Comfortable* (≤ your Elo),
+  *Push it a bit* (≤ Elo + 15) or *Anything*. Routes ride lifts up, ski trails down and use cat
+  tracks between them; times scale with your Elo. If nothing fits the limit you get the gentlest
+  route that does, with the harder trails named. Mark lifts closed for the day and routes avoid them.
+  Code: `Shared/Routing/` (graph + Dijkstra, tested in `RoutingTests`).
+- **Today:** a 5-day mountain forecast (Open-Meteo, no account; cached an hour in
+  `Application Support/SkiLo/cache`), a read of the snow (powder, fresh, storm, firm, spring,
+  packed; override it if you know better) and **Today's Pick**: trails that suit the conditions
+  and your level. Add picks, bucket-list trails or any trail to the **Day Plan**: SkiLo orders them,
+  routes every leg from your lodge, times it against lift closing, and can show it on the map,
+  fly through it, or **Send to Phone** (AirDrop/Messages image, text, or saved PNG).
+- **Fly Through (⌥⌘P):** a chase camera down any trail, or along a whole route or planned day.
+
+## Resorts
+
+The sidebar's resort menu (⌃⌘1–3) switches between Heavenly, Kirkwood and Mt. Rose. Your Elo,
+run log and bucket list span all of them; the map, trail list, picks, routes and progress show the
+resort you're on. Heavenly has hand-tuned ratings (29 calibration anchors, curated modifiers);
+Kirkwood and Mt. Rose are rated from OSM + terrain alone for now.
+
 ## iPhone app
 
 `SkiLoiOS.xcodeproj` builds the iPhone app (iOS 18+). It compiles `Sources/SkiLo/Shared/` (models,
@@ -51,6 +75,11 @@ and iPhone apps share one codebase. Mac-only code lives in `Sources/SkiLo/Mac/`.
   `Sources/SkiLo/Resources/trails.json` (126 trails, 34 connectors, 23 lifts).
   Regenerate with `tools/build_app.sh sync-data`; output is idempotent apart from `generatedAt`.
 - The Swift rating code (`Rating/DifficultyRating.swift`) is tested to match the Python output.
+- Other resorts: `tools/build_trails.py --resort=kirkwood` (or `mtrose`) reads
+  `data/<resort>/raw/osm.json` (Overpass export) and writes `data/<resort>/`; then
+  `tools/build_resort_catalog.py <resort>` writes `Sources/SkiLo/Resources/trails-<resort>.json`
+  (ids prefixed `t-kw-` / `t-mr-` so they never collide). Lodges, camera views and forecast
+  points live in `Shared/Models/Resort.swift`.
 
 ## Attribution
 
@@ -79,6 +108,10 @@ set `HT_USERDATA_DIR` in scripted runs so real data is not touched.
 | `HT_BASE_STYLE=satellite\|terrain\|outline` | base map style |
 | `HT_MARK_DONE=id,id` / `HT_BUCKET=id,id` | mark done / add to bucket |
 | `HT_CLICK=<trail id>` (`HT_CLICK_DELAY`) | synthetic click on the map, logs PASS/FAIL |
+| `HT_RESORT=heavenly\|kirkwood\|mtrose` | resort to show |
+| `HT_DIRECTIONS="<lodge or lift>><trail id>"`, `HT_DIFFICULTY`, `HT_FIT_ROUTE=1` | open directions |
+| `HT_FLY=<trail id>\|route` (`HT_FLY_DELAY`) | start a fly-through |
+| `HT_PLAN=top5\|id,id`, `HT_PLAN_SHOW=1`, `HT_FORECAST_FILE=/abs.json` | build a day plan / use a saved forecast |
 | `HT_PROJ_DEBUG=1`, `HT_SAT_CONFIG=imagery\|hybrid`, `HT_MAP_LOG=1` | map engine debugging |
 
 See `docs/ACCEPTANCE.md` for the verified V1 walk-through.

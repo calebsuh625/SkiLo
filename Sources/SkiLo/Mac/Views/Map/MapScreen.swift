@@ -115,6 +115,14 @@ struct MapScreen: View {
             .animation(.easeOut(duration: 0.2), value: model.flying)
         }
         .onChange(of: store.mapRoute) { _, r in engine.setRoute(r) }
+        .onChange(of: store.resortID) { _, _ in
+            engine.stopFlyThrough()
+            engine.load(scene: MapSceneBuilder.scene(from: store.catalog))
+            applyStyles()
+            engine.setRoute(store.mapRoute)
+            engine.setCamera(store.overviewPreset, animated: false)
+            store.cameraRequest = nil
+        }
         .onChange(of: store.flyRequest) { _, req in startFly(req) }
         .onChange(of: store.stopFlyRequested) { _, stop in
             if stop { engine.stopFlyThrough(); store.stopFlyRequested = false }
@@ -145,8 +153,12 @@ struct MapScreen: View {
         engine.setRoute(store.mapRoute)
         // Defer the camera until the view has a size (overview distance depends on the width).
         DispatchQueue.main.async {
-            if let saved = MapScreenModel.savedCamera() { engine.setCamera(saved, animated: false) }
-            else { engine.setCamera(.overview, animated: false) }
+            // A saved camera from another resort's session would open over the wrong mountain.
+            let bounds = store.catalog.bounds.padded(byMetres: 3_000)
+            if let saved = MapScreenModel.savedCamera(),
+               (bounds.minLat...bounds.maxLat).contains(saved.center.lat), (bounds.minLon...bounds.maxLon).contains(saved.center.lon) {
+                engine.setCamera(saved, animated: false)
+            } else { engine.setCamera(store.overviewPreset, animated: false) }
             if let req = store.cameraRequest { engine.setCamera(req, animated: true); store.cameraRequest = nil }
             if store.flyRequest != nil { DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { startFly(store.flyRequest) } }
         }
@@ -187,9 +199,9 @@ private struct MapToolbar: ToolbarContent {
         ToolbarItemGroup {
             Menu {
                 Button("Overview") { store.requestCamera(.overview) }
-                Button("California") { store.requestCamera(.california) }
-                Button("Nevada") { store.requestCamera(.nevada) }
-                Button("Mott & Killebrew") { store.requestCamera(.mottKillebrew) }
+                ForEach(Array(store.resort.views.enumerated()), id: \.offset) { _, v in
+                    Button(v.title) { store.requestCamera(.camera(v.camera)) }
+                }
             } label: { Label("Camera", systemImage: "camera.viewfinder") }
             .help("Camera presets")
 

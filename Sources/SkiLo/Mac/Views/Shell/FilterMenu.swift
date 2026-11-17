@@ -33,8 +33,10 @@ struct FilterMenuContent: View {
     }
 
     var body: some View {
-        Section("Area") {
-            ForEach(Area.allCases, id: \.self) { Toggle($0.title, isOn: toggle(\.areas, $0)) }
+        if store.resortID == "heavenly" {
+            Section("Area") {
+                ForEach([Area.california, .nevada], id: \.self) { Toggle($0.title, isOn: toggle(\.areas, $0)) }
+            }
         }
         Section("Status") {
             Toggle("Not done", isOn: toggle(\.statuses, .notDone))

@@ -113,7 +113,7 @@ struct RouteGraph: Sendable {
         var reached = reach(from: [seed])
         while true {
             let unreachedTops = Set(ways.map { $0[0] }.filter { !reached.contains($0) })
-            guard !unreachedTops.isEmpty else { return }
+            guard !unreachedTops.isEmpty else { break }
             var best: (top: Int, from: Int, d: Double)?
             for top in unreachedTops {
                 for n in reached {
@@ -121,10 +121,43 @@ struct RouteGraph: Sendable {
                     if d < (best?.d ?? .infinity) { best = (top, n, d) }
                 }
             }
-            guard let b = best, b.d <= maxHikeM else { return }
+            guard let b = best, b.d <= maxHikeM else { break }
             addEdge(b.from, b.top, .walk)
             reached.formUnion(reach(from: [b.top]))
         }
+
+        // And the reverse: areas you can ski into but (per OSM) never out of — a back bowl whose
+        // only way home is a ridge traverse, a run-out that stops short of the lift. Link the
+        // closest pair of way ends / lift stations (stranded → leads home) until none are left.
+        let anchors = Set(ways.flatMap { [$0[0], $0[$0.count - 1]] } + liftEnds.values.flatMap { [$0.bottom, $0.top] })
+        var leadsHome = reachBackward(to: [seed])
+        while true {
+            let stranded = anchors.filter { reached.contains($0) && !leadsHome.contains($0) }
+            guard !stranded.isEmpty else { return }
+            let home = anchors.filter { leadsHome.contains($0) }
+            var best: (from: Int, to: Int, d: Double)?
+            for a in stranded {
+                for h in home {
+                    let d = coords[a].distance(to: coords[h])
+                    if d < (best?.d ?? .infinity) { best = (a, h, d) }
+                }
+            }
+            guard let b = best, b.d <= maxHikeM else { return }
+            addEdge(b.from, b.to, .walk)
+            leadsHome = reachBackward(to: leadsHome)
+        }
+    }
+
+    /// Nodes from which some node in `targets` can be reached.
+    private func reachBackward(to targets: Set<Int>) -> Set<Int> {
+        var incoming = [[Int]](repeating: [], count: coords.count)
+        for (n, edges) in adjacency.enumerated() { for e in edges { incoming[e.to].append(n) } }
+        var seen = targets
+        var stack = Array(targets)
+        while let n = stack.popLast() {
+            for p in incoming[n] where seen.insert(p).inserted { stack.append(p) }
+        }
+        return seen
     }
 
     /// Nodes reachable along edges, ignoring costs.

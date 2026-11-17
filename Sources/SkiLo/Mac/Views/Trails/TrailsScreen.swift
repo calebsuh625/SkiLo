@@ -139,7 +139,7 @@ struct TrailCell: View {
         switch column {
         case .status: StatusGlyph(status: row.status)
         case .name: Text(t.name).lineLimit(1)
-        case .area: Text(t.area.rawValue).help(t.subArea.title)
+        case .area: Text(t.areaShort).help(t.placeLine)
         case .rating: RatingPill(rating: row.rating, isOverride: row.isOverride, size: .caption)
         case .band: BandSymbol(band: row.band)
         case .osm:

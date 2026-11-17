@@ -15,6 +15,19 @@ enum CatalogLoader {
         guard let url = resourceURL() else { throw LoadError.missingResource }
         return try load(from: url)
     }
+
+    /// Heavenly (trails.json) plus every other resort's trails-<id>.json that ships in the bundle.
+    static func loadAllBundled() throws -> [TrailCatalog] {
+        var out = [try loadBundled()]
+        guard DevHooks.catalogURL == nil else { return out }
+        for r in ResortInfo.all where r.id != "heavenly" {
+            let name = "trails-\(r.id)"
+            guard let url = Bundle.appResources.url(forResource: name, withExtension: "json", subdirectory: "Resources")
+                ?? Bundle.appResources.url(forResource: name, withExtension: "json") else { continue }
+            do { out.append(try load(from: url)) } catch { NSLog("CatalogLoader: %@ failed: %@", name, "\(error)") }
+        }
+        return out
+    }
     static func load(from url: URL) throws -> TrailCatalog { try load(data: Data(contentsOf: url)) }
     static func load(data: Data) throws -> TrailCatalog {
         var catalog = try JSONDecoder().decode(TrailCatalog.self, from: data)

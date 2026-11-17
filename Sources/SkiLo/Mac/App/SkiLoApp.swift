@@ -7,7 +7,7 @@ struct SkiLoApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var accounts = AccountManager.bootstrap()
     /// Menus need a store even while signed out; this one is empty and never saved.
-    @State private var signedOutStore = AppStore(catalog: (try? CatalogLoader.loadBundled()) ?? .empty, userData: .fresh(), persistence: nil)
+    @State private var signedOutStore = AppStore(catalogs: (try? CatalogLoader.loadAllBundled()) ?? [.empty], userData: .fresh(), persistence: nil)
 
     var body: some Scene {
         WindowGroup("SkiLo") {

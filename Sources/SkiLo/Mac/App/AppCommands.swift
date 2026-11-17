@@ -33,12 +33,19 @@ struct AppCommands: Commands {
             Divider()
             Menu("Camera") {
                 Button("Overview") { store.requestCamera(.overview) }.keyboardShortcut("0", modifiers: .command)
-                Button("California") { store.requestCamera(.california) }.keyboardShortcut("1", modifiers: [.command, .option])
-                Button("Nevada") { store.requestCamera(.nevada) }.keyboardShortcut("2", modifiers: [.command, .option])
-                Button("Mott & Killebrew") { store.requestCamera(.mottKillebrew) }.keyboardShortcut("3", modifiers: [.command, .option])
+                ForEach(Array(store.resort.views.enumerated()), id: \.offset) { i, v in
+                    Button(v.title) { store.requestCamera(.camera(v.camera)) }
+                        .keyboardShortcut(KeyEquivalent(Character("\(i + 1)")), modifiers: [.command, .option])
+                }
                 Divider()
                 Button("Fit to Selected Trail") { if let id = store.selection { store.requestCamera(.fit(id)) } }
                     .keyboardShortcut("f", modifiers: [.command, .shift]).disabled(store.selection == nil)
+            }
+            Menu("Resort") {
+                ForEach(Array(store.catalogs.enumerated()), id: \.element.id) { i, c in
+                    Toggle(ResortInfo.info(for: c.id).name, isOn: Binding(get: { store.resortID == c.id }, set: { if $0 { store.switchResort(to: c.id) } }))
+                        .keyboardShortcut(KeyEquivalent(Character("\(i + 1)")), modifiers: [.command, .control])
+                }
             }
             Menu("Base Style") {
                 ForEach(MapBaseStyle.allCases, id: \.self) { style in

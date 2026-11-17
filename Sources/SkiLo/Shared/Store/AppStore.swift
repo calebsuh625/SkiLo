@@ -44,8 +44,15 @@ struct StatusChange: Equatable {
 @Observable @MainActor
 final class AppStore {
     // MARK: static data
-    let catalog: TrailCatalog
+    /// Every resort's catalog (Heavenly first).
+    let catalogs: [TrailCatalog]
+    /// The resort being shown: map, trail list, picks, routes and progress use this.
+    private(set) var catalog: TrailCatalog
+    /// Trails of every resort, so Elo, the bucket list and the log work across resorts.
     let trailsByID: [Trail.ID: Trail]
+    private let allTrails: [Trail]
+    private(set) var resortID: String
+    var resort: ResortInfo { ResortInfo.info(for: resortID) }
 
     // MARK: persisted
     private(set) var userData: UserData
@@ -91,19 +98,26 @@ final class AppStore {
     @ObservationIgnored private var terminateObserver: NSObjectProtocol?
     @ObservationIgnored private var ratingsCache: (revision: Int, ratings: [Trail.ID: Int])?
     @ObservationIgnored private var eloCache: (revision: Int, history: [EloPoint])?
-    @ObservationIgnored private var routerCache: Router?
-    let resort: ResortInfo = .heavenly
-    /// Built on first use (~50 ms).
+    @ObservationIgnored private var routerCache: (resort: String, router: Router)?
+    /// The current resort's route graph, built on first use (~50 ms).
     var router: Router {
-        if let r = routerCache { return r }
+        if let c = routerCache, c.resort == resortID { return c.router }
         let r = Router(catalog: catalog)
-        routerCache = r
+        routerCache = (resortID, r)
         return r
     }
 
-    init(catalog: TrailCatalog, userData: UserData, persistence: UserDataStore?, progression: any ProgressionEngine = DefaultProgressionEngine()) {
-        self.catalog = catalog
-        self.trailsByID = Dictionary(catalog.trails.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+    convenience init(catalog: TrailCatalog, userData: UserData, persistence: UserDataStore?, progression: any ProgressionEngine = DefaultProgressionEngine()) {
+        self.init(catalogs: [catalog], userData: userData, persistence: persistence, progression: progression)
+    }
+
+    init(catalogs: [TrailCatalog], userData: UserData, persistence: UserDataStore?, progression: any ProgressionEngine = DefaultProgressionEngine()) {
+        let catalogs = catalogs.isEmpty ? [.empty] : catalogs
+        self.catalogs = catalogs
+        self.catalog = catalogs[0]
+        self.resortID = catalogs[0].id
+        self.allTrails = catalogs.flatMap(\.trails)
+        self.trailsByID = Dictionary(allTrails.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         self.userData = userData
         self.persistence = persistence
         self.progression = progression
@@ -117,15 +131,16 @@ final class AppStore {
             if d.object(forKey: "ui.legendShown") != nil { legendShown = d.bool(forKey: "ui.legendShown") }
             if let s = d.string(forKey: "map.baseStyle"), let v = MapBaseStyle(rawValue: s) { mapBaseStyle = v }
             if let data = d.data(forKey: "plan.closures"), let c = try? JSONDecoder().decode(Closures.self, from: data) { closures = c }
+            if let r = d.string(forKey: "ui.resort"), let c = catalogs.first(where: { $0.id == r }) { catalog = c; resortID = r }
         }
     }
 
     /// Loads the bundled catalog and the user document, handling every `LoadResult`.
     static func bootstrap(directory: URL? = nil) -> AppStore {
-        let catalog: TrailCatalog
-        do { catalog = try CatalogLoader.loadBundled() } catch {
+        let catalogs: [TrailCatalog]
+        do { catalogs = try CatalogLoader.loadAllBundled() } catch {
             NSLog("FATAL: \(error)")
-            catalog = .empty
+            catalogs = [.empty]
         }
         let dir = directory ?? UserDataStore.defaultDirectory()
         let disk = UserDataStore(directory: dir)
@@ -150,7 +165,7 @@ final class AppStore {
                                message: "Your data file uses format v\(n), which this version (v\(UserData.currentSchemaVersion)) cannot read. It will not be modified. Changes made in this session will not be saved.",
                                revealURL: dir)
         }
-        let store = AppStore(catalog: catalog, userData: data, persistence: persistence)
+        let store = AppStore(catalogs: catalogs, userData: data, persistence: persistence)
         store.isReadOnlySession = persistence == nil
         store.pendingAlert = alert
         // Skill history is a cache of the Elo games: recompute on load (DESIGN §10).
@@ -185,7 +200,7 @@ final class AppStore {
         return r
     }
     private func ratings(for d: UserData) -> [Trail.ID: Int] {
-        Dictionary(catalog.trails.map { ($0.id, d.state(for: $0.id).ratingOverride ?? $0.rating.total) }, uniquingKeysWith: { a, _ in a })
+        Dictionary(allTrails.map { ($0.id, d.state(for: $0.id).ratingOverride ?? $0.rating.total) }, uniquingKeysWith: { a, _ in a })
     }
     // MARK: Elo
     var eloStart: Double { Elo.startElo(selfAssessed: userData.profile.selfAssessedStart) }
@@ -427,10 +442,40 @@ final class AppStore {
     }
     func flush() { persistence?.flush() }
 
+    // MARK: resorts
+
+    /// Switch the resort being shown. Your Elo, log and bucket list span every resort.
+    func switchResort(to id: String) {
+        guard id != resortID, let c = catalogs.first(where: { $0.id == id }) else { return }
+        catalog = c
+        resortID = id
+        uiDefaults?.set(id, forKey: "ui.resort")
+        selection = nil
+        hover = nil
+        filter = TrailFilter()
+        directions = DirectionsState(difficulty: directions.difficulty)
+        shownPlan = nil
+        planner = PlannerState(difficulty: planner.difficulty)
+        forecast = .idle
+        cameraRequest = overviewPreset
+    }
+
+    /// The overview camera for the current resort.
+    var overviewPreset: CameraPreset { resortID == "heavenly" ? .overview : .camera(resort.overview) }
+
+    /// Which resort a trail belongs to.
+    func resortID(of trailID: Trail.ID) -> String {
+        catalogs.first { c in c.trails.contains { $0.id == trailID } }?.id ?? resortID
+    }
+
     // MARK: UI helpers
     func select(_ id: Trail.ID?, showInspector: Bool) { selection = id; if id != nil && showInspector { inspectorShown = true } }
-    func showOnMap(_ id: Trail.ID) { section = .map; select(id, showInspector: true); cameraRequest = .fit(id) }
-    func requestCamera(_ p: CameraPreset) { cameraRequest = p }
+    func showOnMap(_ id: Trail.ID) {
+        let r = resortID(of: id)
+        if r != resortID { switchResort(to: r) }
+        section = .map; select(id, showInspector: true); cameraRequest = .fit(id)
+    }
+    func requestCamera(_ p: CameraPreset) { cameraRequest = p == .overview ? overviewPreset : p }
     func requestLogRun(trailID: Trail.ID?) { logRunRequest = LogRunRequest(trailID: trailID ?? selection) }
     func showToast(_ t: Toast) { toast = t }
 

@@ -1,0 +1,72 @@
+{
+ "generated": "2026-11-17T07:13:58+00:00",
+ "source": {
+  "name": "AWS Terrain Tiles (Mapzen terrarium encoding)",
+  "url_template": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+  "attribution": "Terrain Tiles: data from USGS 3DEP/NED, SRTM, ETOPO1 and others via Mapzen/AWS Open Data; see https://registry.opendata.aws/terrain-tiles/",
+  "zoom": 14,
+  "decode": "elev_m = (R*256 + G + B/256) - 32768"
+ },
+ "license": "OpenStreetMap data: ODbL 1.0 (c) OpenStreetMap contributors. Elevation: AWS Terrain Tiles (public domain / see dem_meta.json attribution)",
+ "osm_timestamp": "2026-11-17T07:03:07Z",
+ "crs": "EPSG:3857 (WGS84 Web Mercator); pixel grid is the XYZ/slippy tile grid at the given zoom with 256 px tiles",
+ "zoom": 14,
+ "tile_x_range": [
+  2725,
+  2729
+ ],
+ "tile_y_range": [
+  6277,
+  6282
+ ],
+ "width": 1280,
+ "height": 1536,
+ "origin": "pixel (col=0,row=0) is the NW corner of tile (tile_x_range[0], tile_y_range[0]); col increases east, row increases south",
+ "pixel_size_mercator_m": 9.554628535747527,
+ "pixel_size_ground_m_at_center_lat": 7.458235159152333,
+ "pixel_size_ground_note": "ground metres per pixel = pixel_size_mercator_m * cos(lat)",
+ "pixel_center_offset": 0.5,
+ "lonlat_to_pixel": {
+  "col": "(lon + 180) / 360 * 2^14 * 256 - 697600",
+  "row": "(1 - ln(tan(lat) + sec(lat)) / pi) / 2 * 2^14 * 256 - 1606912",
+  "note": "lat in radians inside tan/sec; the value stored at integer (col,row) is centred at (col+0.5,row+0.5)"
+ },
+ "bbox_lonlat": {
+  "min_lon": -120.12451171875,
+  "min_lat": 38.63403645291921,
+  "max_lon": -120.0146484375,
+  "max_lat": 38.736946065676
+ },
+ "bbox_3857": {
+  "min_x": -13372199.476462523,
+  "min_y": 4669385.183933957,
+  "max_x": -13359969.551936766,
+  "max_y": 4684061.093364868
+ },
+ "requested_bbox_lonlat": {
+  "min_lat": 38.65,
+  "max_lat": 38.72,
+  "min_lon": -120.12,
+  "max_lon": -120.03
+ },
+ "min_elev_m": 2019.7421875,
+ "max_elev_m": 2991.109375,
+ "nodata": null,
+ "encoding": {
+  "png": {
+   "file": "kirkwood_dem.png",
+   "format": "16-bit grayscale PNG (uint16, single channel)",
+   "formula": "elev_m = value * 0.1",
+   "scale": 0.1,
+   "offset": 0.0
+  },
+  "f32": {
+   "file": "kirkwood_dem.f32",
+   "format": "raw float32 little-endian, row-major (height rows x width cols), no header",
+   "formula": "elev_m = value"
+  }
+ },
+ "verification": {
+  "skipped": true
+ }
+}

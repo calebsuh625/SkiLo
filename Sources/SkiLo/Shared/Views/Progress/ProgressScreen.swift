@@ -97,7 +97,11 @@ struct ProgressScreen: View {
                     Text("\(done) / \(total)").font(.system(size: 26, weight: .bold)).monospacedDigit()
                     Text("\(total == 0 ? 0 : Int((Double(done) / Double(total) * 100).rounded()))%").foregroundStyle(.secondary)
                 }
-                Text("\(areaDone(.california))  \(areaDone(.nevada))").font(.callout).foregroundStyle(.secondary).monospacedDigit()
+                if store.resortID == "heavenly" {
+                    Text("\(areaDone(.california))  \(areaDone(.nevada))").font(.callout).foregroundStyle(.secondary).monospacedDigit()
+                } else {
+                    Text("at \(store.resort.shortName)").font(.callout).foregroundStyle(.secondary)
+                }
             }
             tile("Days on snow") {
                 Text("\(days.count)").font(.system(size: 34, weight: .bold)).monospacedDigit()
@@ -150,7 +154,7 @@ struct ProgressScreen: View {
                         BandSymbol(band: Band.of(store.effectiveRating(t)))
                         Text(t.name).fontWeight(.medium)
                         RatingPill(rating: store.effectiveRating(t), size: .caption)
-                        Text(t.grooming == .moguls ? "\(t.area.rawValue) · moguls" : t.area.rawValue).font(.callout).foregroundStyle(.secondary)
+                        Text(t.grooming == .moguls ? "\(t.areaShort) · moguls" : t.areaShort).font(.callout).foregroundStyle(.secondary)
                         Spacer()
                         Button("Map ▸") { store.showOnMap(id) }.linkButtonStyle()
                     }

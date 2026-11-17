@@ -11,6 +11,8 @@ struct DirectionsState: Equatable {
     var picking: End?
     var route: Route?
     var error: String?
+    /// Set when the route had to go above the difficulty limit.
+    var warning: String?
     /// Leg the user is hovering or clicked in the steps list.
     var focusedLeg: Int?
 }
@@ -127,7 +129,25 @@ extension AppStore {
         directions.focusedLeg = nil
         guard let from = directions.from, let to = directions.to else { directions.route = nil; directions.error = nil; return }
         do {
-            let r = try route(from: from, to: to, difficulty: directions.difficulty)
+            var r: Route
+            directions.warning = nil
+            do {
+                r = try route(from: from, to: to, difficulty: directions.difficulty)
+            } catch RouteError.unreachable where directions.difficulty != .any {
+                // Nothing within the limit: raise it step by step so the route found is the
+                // gentlest one that gets there, and flag it.
+                let cap = directions.difficulty.maxRating(elo: elo) ?? 100
+                var found: Route?
+                for extra in [10, 20, 30, 45, 100] {
+                    var c = routeCost(directions.difficulty)
+                    c.maxRating = cap + extra
+                    if let ok = try? router.route(from: from, to: to, cost: c) { found = ok; break }
+                }
+                guard let gentlest = found else { throw RouteError.unreachable }
+                r = gentlest
+                let harder = r.trailIDs.filter { effectiveRating($0) > cap }.compactMap { trail($0)?.name }
+                directions.warning = "No way there within \(cap). This route uses " + (harder.isEmpty ? "harder terrain." : harder.joined(separator: ", ") + ".")
+            }
             let changed = r != directions.route
             directions.route = r
             directions.error = nil

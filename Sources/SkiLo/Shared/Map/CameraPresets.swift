@@ -23,6 +23,7 @@ enum CameraPresets {
         case .california: return california
         case .nevada: return nevada
         case .mottKillebrew: return mottKillebrew
+        case .camera(let s): return s
         case .bounds(let b):
             let d = max(minDistanceM, b.diagonalM * 2.2)
             return CameraState(center: b.center, distanceM: d, headingDeg: current?.headingDeg ?? 180, pitchDeg: d <= closePitchLimitM ? 60 : 35)

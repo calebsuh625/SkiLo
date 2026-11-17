@@ -82,7 +82,7 @@ struct PhoneTrailRow: View {
                 Text(trail.name).font(.body.weight(.medium)).lineLimit(1)
                 HStack(spacing: 6) {
                     BandSymbol(band: Band.of(store.effectiveRating(trail)))
-                    Text("\(trail.area.rawValue) · \(trail.subArea.title)").lineLimit(1)
+                    Text(trail.placeLine).lineLimit(1)
                 }
                 .font(.caption).foregroundStyle(.secondary)
             }

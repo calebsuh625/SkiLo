@@ -7,6 +7,7 @@ extension DevHooks {
         let e = env
         guard e.keys.contains(where: { $0.hasPrefix("HT_") }) else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let r = e["HT_RESORT"] { store.switchResort(to: r) }
             if let s = e["HT_SECTION"], let section = SidebarSection(rawValue: s) { store.section = section }
             if let s = e["HT_BASE_STYLE"], let style = MapBaseStyle(rawValue: s) { store.mapBaseStyle = style }
             if let ids = e["HT_BUCKET"] { store.addToBucket(ids.split(separator: ",").map(String.init)) }

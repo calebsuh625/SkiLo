@@ -1,0 +1,75 @@
+name,id,area,osm_difficulty,grooming,gladed,length_m,vertical_drop_m,avg_grade_pct,max_grade_pct,sustained_grade_pct,p90_grade_pct,terrain_slope_pct_mean,terrain_slope_pct_p90,aspect_deg,top_elev_m,bottom_elev_m,nearest_lift_top,lift_at_bottom,area_confidence,segments,segments_relation,max_segment_length_m,unnamed
+Button Bowl,button-bowl-130099933,Main,advanced,,False,482.4,163.2,33.83,97.22,70.31,69.72,47.85,72.99,81.7,2687.8,2524.6,Vista,Iron Horse,high,1,single,482.4,False
+Saddle Chute,saddle-chute-249138286,Main,expert,,False,352.0,189.7,53.89,94.98,72.23,90.64,55.2,90.57,76.3,2753.2,2563.5,Cornice Express,Solitude,high,1,single,352.0,False
+Chamoix,chamoix-249135817,Main,expert,,False,497.5,253.1,50.87,92.24,68.13,67.84,56.16,88.34,11.7,2781.9,2528.8,Cornice Express,TC Express,high,1,single,497.5,False
+Sisters' Chute,sisters-chute-249138287,Main,expert,,False,578.4,269.7,46.63,79.97,59.57,62.21,47.42,65.08,18.5,2808.8,2539.1,The Wall,The Wall,high,1,single,578.4,False
+Corner Chute,corner-chute-1566295169,Main,expert,,False,192.7,128.2,66.54,76.55,68.83,72.38,69.08,83.18,274.2,2708.5,2580.2,Vista,Vista,high,1,single,192.7,False
+Boylermaker,boylermaker-1566295170,Main,expert,,False,215.6,140.9,65.36,76.44,67.96,76.08,64.79,81.3,296.4,2710.1,2569.2,Vista,Vista,high,1,single,215.6,False
+Bogie's Slide,bogie-s-slide-1566295168,Main,expert,,False,182.6,108.5,59.43,76.07,61.77,73.32,61.53,86.0,298.8,2682.4,2573.9,Vista,Vista,high,1,single,182.6,False
+The Wall,the-wall-130100784,Main,expert,,False,614.0,255.4,41.6,75.82,61.79,63.33,43.78,68.15,351.7,2877.4,2622.0,The Wall,The Wall,high,1,single,614.0,False
+Shot 5,shot-5-1096121816,Main,expert,backcountry,False,274.4,157.2,57.28,73.21,64.34,68.66,58.94,82.98,286.0,2725.9,2568.7,Vista,Vista,high,1,single,274.4,False
+Fireball,fireball-1566295172,Main,advanced,,False,314.0,170.5,54.3,73.13,60.09,64.39,56.58,63.28,5.9,2764.5,2594.0,Cornice Express,TC Express,high,1,single,314.0,False
+Notch chute,notch-chute-249136280,Main,expert,,False,503.2,263.0,52.26,72.49,60.59,59.3,56.23,66.24,1.5,2828.7,2565.7,The Wall,The Wall,high,1,single,503.2,False
+Coyote,coyote-130099927,Main,advanced,,False,443.8,184.5,41.57,70.48,60.72,65.14,42.31,66.9,122.7,2711.3,2526.8,Vista,Sunrise (4),high,1,single,443.8,False
+Two Man Chute,two-man-chute-1566295166,Main,expert,,False,227.4,144.8,63.67,69.95,65.44,67.87,66.36,72.26,331.7,2710.1,2565.3,Sunrise (4),Sunrise (4),high,1,single,227.4,False
+all the way,all-the-way-249136278,Main,expert,,False,727.3,295.7,40.66,69.54,59.61,59.24,44.21,64.36,349.8,2817.0,2521.4,The Wall,The Wall,high,1,single,727.3,False
+False Peak Chute,false-peak-chute-1566295171,Main,expert,,False,553.1,246.5,44.56,69.17,59.54,58.01,45.06,61.99,32.2,2782.5,2536.0,The Wall,The Wall,high,1,single,553.1,False
+One Man Chute,one-man-chute-1566295167,Main,expert,,False,187.2,116.4,62.17,68.72,63.19,68.37,64.12,72.57,311.4,2676.9,2560.5,Vista,Vista,high,1,single,187.2,False
+Cliff Chute,cliff-chute-249136279,Main,expert,,False,589.6,244.1,41.4,67.68,62.74,62.73,45.38,74.88,77.7,2746.5,2502.4,Cornice Express,The Wall,high,1,single,589.6,False
+Dick's Drop,dick-s-drop-130100780,Main,expert,,False,347.5,127.0,36.55,67.55,51.48,61.76,41.17,59.63,318.3,2648.4,2521.4,The Reut,The Wall,high,1,single,347.5,False
+Rabbit Runs,rabbit-runs-249135975,Main,advanced,,False,739.8,258.4,34.93,67.06,53.96,50.33,36.67,51.11,31.5,2735.3,2476.9,Cornice Express,TC Express,high,1,single,739.8,False
+Stump Run,stump-run-249135815,Main,advanced,,False,942.5,259.7,27.55,67.06,53.94,48.77,36.25,51.31,33.2,2735.3,2475.6,Cornice Express,Cornice Express,high,1,single,942.5,False
+Shaffers Chute,shaffers-chute-249138285,Main,expert,,False,652.0,253.2,38.83,66.97,62.18,61.69,41.56,64.56,46.9,2770.4,2517.2,Cornice Express,The Wall,high,1,single,652.0,False
+Larry's Lip,larry-s-lip-1564588683,Main,advanced,,False,772.2,147.9,19.15,66.86,46.0,34.32,32.73,66.42,25.2,2846.2,2698.3,Sunrise (4),Sunrise (4),high,1,single,772.2,False
+Lost Cabin,lost-cabin-130100777,Main,advanced,,False,914.4,298.4,32.63,66.14,60.82,58.86,43.79,68.75,78.7,2794.4,2496.0,Cornice Express,Solitude,high,1,single,914.4,False
+Headwaters,headwaters-130100778,Main,advanced,,False,631.4,259.6,41.12,64.36,55.11,63.83,49.87,70.86,328.9,2877.4,2617.9,The Wall,The Wall,high,1,single,631.4,False
+Jim's,jim-s-1566295173,Main,advanced,,False,182.3,98.0,53.77,63.67,55.73,58.31,56.83,69.72,3.1,2759.0,2661.0,Cornice Express,Cornice Express,high,1,single,182.3,False
+Look Out Janek,look-out-janek-130100785,Main,advanced,,False,929.0,337.8,36.36,62.69,55.6,52.24,38.26,56.26,42.2,2790.7,2452.9,Cornice Express,Cornice Express,high,1,single,929.0,False
+KGF,kgf-470460942,Main,advanced,,False,778.1,240.3,30.88,62.29,48.72,49.77,31.71,51.16,64.1,2655.1,2414.8,Bunny,Bunny,high,1,single,778.1,False
+Sentinel,sentinel-1566295174,Main,advanced,,False,345.8,167.1,48.32,61.92,53.33,58.45,52.19,65.23,15.2,2760.0,2592.9,Cornice Express,TC Express,high,1,single,345.8,False
+Monte Wolfe,monte-wolfe-130100781,Main,advanced,,False,435.1,192.5,44.24,61.67,54.23,56.12,49.03,64.44,73.5,2794.8,2602.3,Cornice Express,Solitude,high,1,single,435.1,False
+Olympic,olympic-130101294,Main,advanced,,False,1278.7,405.5,31.71,60.92,54.69,53.63,35.13,56.63,38.7,2789.2,2383.6,Cornice Express,Cornice Express,high,1,single,1278.7,False
+Zachary,zachary-130100787,Main,advanced,,False,564.2,253.2,44.88,60.42,52.82,56.48,47.44,60.28,55.2,2793.2,2540.0,Cornice Express,Solitude,high,1,single,564.2,False
+Hell's Delight,hell-s-delight-470456688,Main,expert,,False,269.6,133.2,49.41,59.44,56.25,58.57,56.04,71.16,4.8,2769.7,2636.5,Sunrise (4),The Wall,high,1,single,269.6,False
+Lightning,lightning-249135816,Main,advanced,,False,756.7,279.3,36.91,59.22,51.53,51.78,42.65,61.2,69.6,2746.5,2467.1,TC Express,TC Express,high,1,single,756.7,False
+Jeff's Line,jeff-s-line-470460941,Main,advanced,,False,631.6,237.2,37.56,58.43,49.78,52.85,38.07,56.79,70.8,2665.2,2428.0,Bunny,Bunny,high,1,single,631.6,False
+Eagle Bowl,eagle-bowl-249135814,Main,advanced,,False,512.1,195.9,38.26,58.39,50.46,51.44,41.54,55.09,79.2,2709.0,2513.1,The Reut,Snowkirk,high,1,single,512.1,False
+Shotgun,shotgun-130100677,Main,advanced,,False,749.1,216.3,28.87,56.27,53.84,54.25,39.05,55.66,1.8,2657.3,2441.0,The Reut,Snowkirk,high,1,single,749.1,False
+The Wave,the-wave-249127128,Main,advanced,,False,288.0,104.5,36.29,50.06,45.47,49.6,37.6,49.46,21.6,2824.0,2719.6,Sunrise (4),Sunrise (4),high,1,single,288.0,False
+Thunder Saddle,thunder-saddle-249120429,Main,advanced,,False,1141.5,250.0,21.9,49.86,45.93,45.16,29.56,55.83,11.7,2729.5,2479.6,Sunrise (4),Caples Crest,high,1,single,1141.5,False
+Devil's Draw,devil-s-draw-249120428,Main,intermediate,,False,1573.9,320.4,20.36,48.79,45.31,40.24,24.98,42.1,38.6,2843.9,2523.5,Sunrise (4),Sunrise (4),high,1,single,1573.9,False
+Sunnyside,sunnyside-130099930,Main,advanced,,False,250.4,75.8,30.27,48.53,36.73,45.63,33.2,55.11,134.3,2715.9,2640.1,Vista,Sunrise (4),high,1,single,250.4,False
+Conestoga,conestoga-130100674,Main,advanced,,False,648.3,197.5,30.46,47.19,44.96,45.38,38.14,46.3,356.3,2646.5,2448.9,The Reut,Snowkirk,high,1,single,648.3,False
+Elevator Shaft,elevator-shaft-249127126,Main,intermediate,,False,1793.3,366.0,20.41,46.2,43.05,39.35,25.52,40.87,72.0,2880.8,2514.8,Sunrise (4),Iron Horse,high,1,single,1793.3,False
+Hully Gully,hully-gully-130099929,Main,advanced,,False,542.0,206.3,38.07,45.06,42.06,42.69,39.57,49.74,71.0,2876.9,2670.6,Sunrise (4),Sunrise (4),high,1,single,542.0,False
+Wagon Trail,wagon-trail-130100681,Main,advanced,,False,466.7,135.1,28.95,44.97,37.81,37.28,37.74,46.83,325.2,2641.3,2506.3,The Reut,The Reut,high,1,single,466.7,False
+Happiness is,happiness-is-249127129,Main,intermediate,,False,834.3,242.5,29.07,44.62,39.83,37.85,31.22,40.73,64.7,2878.9,2636.5,Sunrise (4),Sunrise (4),high,1,single,834.3,False
+Covered Wagon,covered-wagon-249127131,Main,advanced,,False,1354.7,314.1,23.19,44.27,38.05,36.79,28.31,42.11,8.0,2881.0,2566.9,Sunrise (4),Sunrise (4),high,1,single,1354.7,False
+Deadwood Spur,deadwood-spur-130099931,Main,advanced,,False,451.1,79.0,17.51,43.14,37.56,37.14,45.0,55.77,75.3,2649.2,2570.3,Iron Horse,Iron Horse,high,1,single,451.1,False
+Cold Shoulder,cold-shoulder-130099928,Main,advanced,,False,557.0,203.1,36.47,42.65,39.59,40.57,36.78,43.58,65.6,2866.3,2663.2,Sunrise (4),Sunrise (4),high,1,single,557.0,False
+Short Spoke,short-spoke-130100680,Main,advanced,,False,355.7,86.0,24.18,40.81,30.9,28.64,24.53,31.08,5.1,2506.3,2420.3,Snowkirk,The Reut,high,1,single,355.7,False
+Mokelumne,mokelumne-130100783,Main,intermediate,,False,544.7,136.8,25.11,39.79,30.93,32.79,27.73,38.25,52.8,2582.5,2445.7,Solitude,Solitude,high,1,single,544.7,False
+Race Course,race-course-130100782,Main,intermediate,,False,617.7,159.0,25.74,39.73,34.39,36.85,26.34,34.41,42.6,2582.5,2423.5,Solitude,Solitude,high,1,single,617.7,False
+Easy Rider,easy-rider-130099958,Main,intermediate,,False,601.5,102.7,17.07,38.31,25.08,26.9,22.04,32.76,93.3,2633.5,2530.8,Caples Crest,Iron Horse,high,1,single,601.5,False
+Bark Shanty,bark-shanty-1564588681,Main,intermediate,,False,772.7,148.8,19.26,37.05,30.79,29.66,26.31,42.05,279.6,2627.7,2478.8,Caples Crest,Caples Crest,high,1,single,772.7,False
+Buckboard,buckboard-130100779,Main,intermediate,,False,1117.7,232.8,20.83,36.39,33.68,33.73,21.66,34.6,2.8,2622.0,2389.2,The Reut,The Wall,high,1,single,1117.7,False
+Herringbone Straight,herringbone-straight-130099957,Main,intermediate,,False,733.8,117.6,16.03,35.23,29.03,28.94,21.07,34.68,92.9,2633.5,2515.9,Caples Crest,Iron Horse,high,1,single,733.8,False
+Flying Carpet,flying-carpet-130100678,Main,intermediate,,False,896.5,169.1,18.86,34.1,30.86,31.65,21.92,33.11,266.6,2633.1,2464.0,Caples Crest,Caples Crest,high,1,single,896.5,False
+Lower Monte Wolfe,lower-monte-wolfe-130100788,Main,intermediate,,False,1002.2,215.6,21.51,33.88,33.05,32.45,25.71,34.38,61.5,2602.3,2386.7,Solitude,Solitude,high,1,single,1002.2,False
+Lower Zachary,lower-zachary-130100776,Main,intermediate,,False,643.6,148.5,23.07,32.96,30.04,31.59,25.12,34.98,15.8,2535.2,2386.7,Solitude,Solitude,high,1,single,643.6,False
+Snowsnake Gully,snowsnake-gully-1371889564,Main,advanced,,False,684.0,171.6,25.09,31.36,29.51,30.48,28.44,38.12,329.1,2613.9,2442.3,The Reut,The Wall,high,1,single,684.0,False
+Hole 'N' Wall,hole-n-wall-130101293,Main,intermediate,,False,911.3,144.9,15.9,31.0,23.05,20.09,19.97,25.35,36.6,2524.5,2379.6,TC Express,TC Express,high,1,single,911.3,False
+Whiskey Slide,whiskey-slide-1564588682,Main,intermediate,,False,1751.7,243.6,13.91,30.45,27.15,24.01,18.39,29.36,258.3,2630.4,2386.8,Caples Crest,Snowkirk,high,1,single,1751.7,False
+Up'n'over,up-n-over-249135976,Main,intermediate,,False,282.0,58.1,20.6,28.23,25.16,27.3,25.1,34.5,38.1,2524.4,2466.3,TC Express,Cornice Express,high,1,single,282.0,False
+Free 'N' Easy,free-n-easy-130101296,Main,intermediate,,False,949.7,145.3,15.3,26.75,20.15,20.69,18.68,32.22,16.8,2524.9,2379.6,TC Express,TC Express,high,1,single,949.7,False
+The Drain,the-drain-130100786,Main,advanced,,False,511.3,75.6,14.78,22.8,17.9,19.31,19.92,31.79,359.3,2521.4,2445.8,The Reut,The Wall,high,1,single,511.3,False
+Home Run,home-run-249135974,Main,intermediate,,False,982.8,93.3,9.49,22.01,16.26,17.01,23.59,30.24,44.3,2523.4,2430.2,Solitude,TC Express,high,1,single,982.8,False
+Funny Bunny,funny-bunny-130101299,Main,easy,,False,433.8,60.2,13.88,21.91,16.85,19.05,14.42,22.85,69.2,2438.8,2378.5,Bunny,Bunny,high,1,single,433.8,False
+Bud's Alley,bud-s-alley-130099934,Main,intermediate,,False,490.6,58.9,12.01,21.48,18.71,18.99,24.05,38.45,101.0,2582.8,2523.9,Iron Horse,Sunrise (4),high,1,single,490.6,False
+Snowkirk,snowkirk-130100676,Main,easy,,False,1036.5,115.8,11.17,20.29,16.37,17.14,17.4,27.18,19.9,2500.8,2385.0,Snowkirk,Snowkirk,high,1,single,1036.5,False
+Squirrel Ridge,squirrel-ridge-130101298,Main,easy,,False,791.9,112.8,14.24,20.12,17.76,17.97,15.38,20.5,23.0,2492.4,2379.6,TC Express,TC Express,high,1,single,791.9,False
+Hide and Seek,hide-and-seek-1566295175,Main,easy,,False,308.9,35.9,11.62,18.74,13.39,16.69,12.7,17.44,75.6,2431.3,2395.4,Bunny,Wonder Carpet 13,high,1,single,308.9,False
+Hay Flat,hay-flat-130100675,Main,easy,,False,1152.0,107.0,9.29,18.65,16.5,14.79,15.67,19.83,11.6,2499.0,2392.0,Snowkirk,The Wall,high,1,single,1152.0,False
+Gold Rush Kids Adventure Zone,gold-rush-kids-adventure-zone-1566295176,Main,easy,,False,415.7,53.1,12.77,17.49,13.9,15.81,14.23,19.71,56.9,2434.7,2381.6,Bunny,Bunny,high,1,single,415.7,False
+Graduation,graduation-130101292,Main,easy,,False,576.8,61.0,10.58,17.39,14.93,15.81,15.06,22.97,53.7,2439.4,2378.3,Bunny,Bunny,high,1,single,576.8,False
+School Run,school-run-130101295,Main,easy,,False,597.4,61.9,10.36,16.99,11.91,15.23,15.67,24.84,75.7,2440.4,2378.5,Bunny,Bunny,high,1,single,597.4,False

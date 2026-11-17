@@ -1,7 +1,7 @@
 import Foundation
 
 /// Camera and base-style types shared by the Mac and iPhone maps.
-enum CameraPreset: Equatable { case overview, california, nevada, mottKillebrew, fit(Trail.ID), bounds(GeoBounds) }
+enum CameraPreset: Equatable { case overview, california, nevada, mottKillebrew, fit(Trail.ID), bounds(GeoBounds), camera(CameraState) }
 struct CameraState: Codable, Equatable {
     var center: GeoCoordinate
     var distanceM: Double

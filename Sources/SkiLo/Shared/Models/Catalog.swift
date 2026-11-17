@@ -3,6 +3,9 @@ import Foundation
 struct TrailCatalog: Codable, Sendable {
     var schemaVersion: Int
     var resort: String
+    /// "heavenly" when absent (the original catalog predates multiple resorts).
+    var resortID: String?
+    var id: String { resortID ?? "heavenly" }
     var generatedAt: String
     var source: Provenance
     var ratingEngineVersion: String
@@ -26,7 +29,11 @@ struct Provenance: Codable, Hashable, Sendable {
 
 enum Area: String, Codable, CaseIterable, Hashable, Sendable {
     case california = "CA", nevada = "NV"
-    var title: String { self == .california ? "California" : "Nevada" }
+    /// Resorts without sides (everything but Heavenly).
+    case main = "MAIN"
+    var title: String {
+        switch self { case .california: "California"; case .nevada: "Nevada"; case .main: "Mountain" }
+    }
 }
 
 enum SubArea: String, Codable, CaseIterable, Hashable, Sendable {
@@ -201,4 +208,13 @@ struct Lift: Codable, Identifiable, Hashable, Sendable {
     let topElevM: Double
     let verticalM: Double
     let lengthM: Double
+}
+
+extension Trail {
+    /// "California · Gunbarrel / Face" at Heavenly; "Off Cornice Express" where a resort has no sides.
+    var placeLine: String {
+        area == .main ? (liftName.map { "Off \($0)" } ?? "") : "\(area.title) · \(subArea.title)"
+    }
+    /// Short area tag for tables: "CA" / "NV", or the lift name.
+    var areaShort: String { area == .main ? (liftName ?? "—") : area.rawValue }
 }

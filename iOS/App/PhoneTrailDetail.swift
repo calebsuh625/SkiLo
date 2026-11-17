@@ -23,7 +23,7 @@ struct PhoneTrailDetail: View {
                     RatingPill(rating: rating, isOverride: s.ratingOverride != nil, size: .largeTitle)
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 6) { BandSymbol(band: Band.of(rating)); Text(Band.of(rating).title) }.font(.headline)
-                        Text("\(t.area.title) · \(t.subArea.title)").font(.subheadline).foregroundStyle(.secondary)
+                        Text(t.placeLine).font(.subheadline).foregroundStyle(.secondary)
                         HStack(spacing: 8) {
                             ReadinessChip(readiness: store.readiness(for: t.id))
                             Label("\(Elo.formatDelta(store.eloPreview(for: t.id)) ?? "+0.0") Elo", systemImage: "trophy.fill")

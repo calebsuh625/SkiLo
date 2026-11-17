@@ -40,6 +40,10 @@ struct DirectionsPanel: View {
                     .font(.callout).foregroundStyle(.tint)
             }
 
+            if let w = d.warning {
+                Label(w, systemImage: "exclamationmark.triangle.fill").font(.callout).foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             if let err = d.error {
                 Label(err, systemImage: "exclamationmark.triangle.fill").font(.callout).foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)

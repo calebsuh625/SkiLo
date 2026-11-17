@@ -1,0 +1,987 @@
+{
+ "generated": "2026-11-17T07:13:59+00:00",
+ "source": "OpenStreetMap via Overpass API (data/raw/heavenly_osm.json); elevation from AWS Terrain Tiles (Mapzen terrarium encoding)",
+ "license": "OpenStreetMap data: ODbL 1.0 (c) OpenStreetMap contributors. Elevation: AWS Terrain Tiles (public domain / see dem_meta.json attribution)",
+ "osm_timestamp": "2026-11-17T07:03:07Z",
+ "lift_count": 12,
+ "lifts": [
+  {
+   "id": "america-38795552",
+   "osm_way_id": 38795552,
+   "name": "America",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.873104,
+     39.336049,
+     2310.5
+    ],
+    [
+     -119.87334,
+     39.335676,
+     2316.9
+    ],
+    [
+     -119.873606,
+     39.335258,
+     2340.6
+    ],
+    [
+     -119.873878,
+     39.334829,
+     2361.5
+    ],
+    [
+     -119.874235,
+     39.334267,
+     2388.3
+    ],
+    [
+     -119.874548,
+     39.333773,
+     2418.9
+    ],
+    [
+     -119.874789,
+     39.333395,
+     2442.1
+    ],
+    [
+     -119.874871,
+     39.333266,
+     2449.4
+    ],
+    [
+     -119.874966,
+     39.333115,
+     2453.1
+    ]
+   ],
+   "bottom": [
+    -119.873104,
+    39.336049,
+    2310.5
+   ],
+   "top": [
+    -119.874966,
+    39.333115,
+    2453.1
+   ],
+   "bottom_elev_m": 2310.5,
+   "top_elev_m": 2453.1,
+   "vertical_m": 142.5,
+   "length_m": 363.5,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "chair_lift",
+    "name": "America",
+    "source": "USGS Topo"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "chuter-175341323",
+   "osm_way_id": 175341323,
+   "name": "Chuter",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.876445,
+     39.325816,
+     2417.3
+    ],
+    [
+     -119.876219,
+     39.325505,
+     2420.0
+    ],
+    [
+     -119.875903,
+     39.32507,
+     2425.7
+    ],
+    [
+     -119.875426,
+     39.324412,
+     2434.0
+    ],
+    [
+     -119.874933,
+     39.323732,
+     2466.7
+    ],
+    [
+     -119.874422,
+     39.323027,
+     2494.6
+    ],
+    [
+     -119.873874,
+     39.32227,
+     2548.5
+    ],
+    [
+     -119.873653,
+     39.321966,
+     2570.5
+    ],
+    [
+     -119.873593,
+     39.321883,
+     2574.5
+    ],
+    [
+     -119.873474,
+     39.321719,
+     2578.3
+    ],
+    [
+     -119.873363,
+     39.321566,
+     2577.6
+    ],
+    [
+     -119.873165,
+     39.321293,
+     2570.1
+    ],
+    [
+     -119.872864,
+     39.320877,
+     2558.1
+    ],
+    [
+     -119.872675,
+     39.320616,
+     2553.1
+    ],
+    [
+     -119.872593,
+     39.320502,
+     2551.1
+    ]
+   ],
+   "bottom": [
+    -119.876445,
+    39.325816,
+    2417.3
+   ],
+   "top": [
+    -119.872593,
+    39.320502,
+    2551.1
+   ],
+   "bottom_elev_m": 2417.3,
+   "top_elev_m": 2551.1,
+   "vertical_m": 133.8,
+   "length_m": 677.5,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:occupancy": "4",
+    "name": "Chuter"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "galena-175353185",
+   "osm_way_id": 175353185,
+   "name": "Galena",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.890264,
+     39.323459,
+     2567.7
+    ],
+    [
+     -119.890509,
+     39.323094,
+     2572.1
+    ],
+    [
+     -119.890873,
+     39.322556,
+     2577.9
+    ],
+    [
+     -119.891216,
+     39.322048,
+     2588.6
+    ],
+    [
+     -119.891744,
+     39.321266,
+     2603.4
+    ],
+    [
+     -119.892518,
+     39.32012,
+     2627.5
+    ],
+    [
+     -119.893074,
+     39.319297,
+     2648.0
+    ],
+    [
+     -119.893417,
+     39.318789,
+     2658.3
+    ],
+    [
+     -119.893939,
+     39.318016,
+     2660.6
+    ],
+    [
+     -119.89449,
+     39.317199,
+     2672.2
+    ],
+    [
+     -119.894834,
+     39.31669,
+     2675.6
+    ]
+   ],
+   "bottom": [
+    -119.890264,
+    39.323459,
+    2567.7
+   ],
+   "top": [
+    -119.894834,
+    39.31669,
+    2675.6
+   ],
+   "bottom_elev_m": 2567.7,
+   "top_elev_m": 2675.6,
+   "vertical_m": 107.9,
+   "length_m": 849.1,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": 1800,
+   "duration_min": null,
+   "occupancy": 3,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:capacity": "1800",
+    "aerialway:occupancy": "3",
+    "name": "Galena"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "lakeview-express-38795516",
+   "osm_way_id": 38795516,
+   "name": "Lakeview Express",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.885445,
+     39.326254,
+     2511.8
+    ],
+    [
+     -119.885534,
+     39.325784,
+     2520.7
+    ],
+    [
+     -119.88566,
+     39.325117,
+     2534.8
+    ],
+    [
+     -119.885771,
+     39.324529,
+     2552.3
+    ],
+    [
+     -119.885901,
+     39.32384,
+     2574.2
+    ],
+    [
+     -119.886128,
+     39.322639,
+     2618.7
+    ],
+    [
+     -119.886232,
+     39.322085,
+     2638.5
+    ],
+    [
+     -119.88637,
+     39.321354,
+     2663.3
+    ],
+    [
+     -119.886456,
+     39.320899,
+     2685.0
+    ],
+    [
+     -119.886557,
+     39.320362,
+     2713.9
+    ],
+    [
+     -119.886786,
+     39.319151,
+     2755.3
+    ],
+    [
+     -119.887036,
+     39.317829,
+     2788.6
+    ],
+    [
+     -119.887133,
+     39.317315,
+     2805.6
+    ],
+    [
+     -119.88724,
+     39.316749,
+     2823.4
+    ],
+    [
+     -119.88735,
+     39.316165,
+     2834.6
+    ]
+   ],
+   "bottom": [
+    -119.885445,
+    39.326254,
+    2511.8
+   ],
+   "top": [
+    -119.88735,
+    39.316165,
+    2834.6
+   ],
+   "bottom_elev_m": 2511.8,
+   "top_elev_m": 2834.6,
+   "vertical_m": 322.8,
+   "length_m": 1133.7,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": 1800,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:capacity": "1800",
+    "aerialway:occupancy": "4",
+    "name": "Lakeview Express",
+    "source": "USGS Topo"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "little-mule-257192523",
+   "osm_way_id": 257192523,
+   "name": "Little Mule",
+   "named": true,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.884783,
+     39.328356,
+     2503.7
+    ],
+    [
+     -119.884693,
+     39.32862,
+     2504.9
+    ]
+   ],
+   "bottom": [
+    -119.884783,
+    39.328356,
+    2503.7
+   ],
+   "top": [
+    -119.884693,
+    39.32862,
+    2504.9
+   ],
+   "bottom_elev_m": 2503.7,
+   "top_elev_m": 2504.9,
+   "vertical_m": 1.2,
+   "length_m": 30.4,
+   "osm_order_was_top_to_bottom": true,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet",
+    "name": "Little Mule"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "magic-257192524",
+   "osm_way_id": 257192524,
+   "name": "Magic",
+   "named": true,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.884639,
+     39.327957,
+     2500.4
+    ],
+    [
+     -119.88363,
+     39.326875,
+     2511.0
+    ]
+   ],
+   "bottom": [
+    -119.884639,
+    39.327957,
+    2500.4
+   ],
+   "top": [
+    -119.88363,
+    39.326875,
+    2511.0
+   ],
+   "bottom_elev_m": 2500.4,
+   "top_elev_m": 2511.0,
+   "vertical_m": 10.6,
+   "length_m": 148.3,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet",
+    "name": "Magic"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "northwest-express-38790355",
+   "osm_way_id": 38790355,
+   "name": "Northwest Express",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.885077,
+     39.326676,
+     2508.3
+    ],
+    [
+     -119.885019,
+     39.326143,
+     2515.4
+    ],
+    [
+     -119.88496,
+     39.325595,
+     2531.6
+    ],
+    [
+     -119.884881,
+     39.324861,
+     2558.7
+    ],
+    [
+     -119.884766,
+     39.323803,
+     2601.6
+    ],
+    [
+     -119.884676,
+     39.322966,
+     2632.9
+    ],
+    [
+     -119.884551,
+     39.321807,
+     2671.8
+    ],
+    [
+     -119.884473,
+     39.321086,
+     2711.5
+    ],
+    [
+     -119.88438,
+     39.32023,
+     2763.1
+    ],
+    [
+     -119.884309,
+     39.319565,
+     2793.8
+    ],
+    [
+     -119.884282,
+     39.319325,
+     2807.6
+    ],
+    [
+     -119.884218,
+     39.318731,
+     2833.7
+    ],
+    [
+     -119.884149,
+     39.31809,
+     2859.4
+    ],
+    [
+     -119.884097,
+     39.317659,
+     2875.6
+    ],
+    [
+     -119.884015,
+     39.316978,
+     2899.6
+    ],
+    [
+     -119.884006,
+     39.316903,
+     2902.1
+    ],
+    [
+     -119.883968,
+     39.316575,
+     2906.1
+    ]
+   ],
+   "bottom": [
+    -119.885077,
+    39.326676,
+    2508.3
+   ],
+   "top": [
+    -119.883968,
+    39.316575,
+    2906.1
+   ],
+   "bottom_elev_m": 2508.3,
+   "top_elev_m": 2906.1,
+   "vertical_m": 397.8,
+   "length_m": 1127.2,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": 3000,
+   "duration_min": null,
+   "occupancy": 6,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "3000",
+    "aerialway:heating": "no",
+    "aerialway:occupancy": "6",
+    "name": "Northwest Express",
+    "source": "USGS Topo;local knowledge"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "rocco-1211522973",
+   "osm_way_id": 1211522973,
+   "name": "Rocco",
+   "named": true,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.875834,
+     39.336625,
+     2320.3
+    ],
+    [
+     -119.877215,
+     39.336614,
+     2334.1
+    ]
+   ],
+   "bottom": [
+    -119.875834,
+    39.336625,
+    2320.3
+   ],
+   "top": [
+    -119.877215,
+    39.336614,
+    2334.1
+   ],
+   "bottom_elev_m": 2320.3,
+   "top_elev_m": 2334.1,
+   "vertical_m": 13.8,
+   "length_m": 118.7,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet",
+    "name": "Rocco"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "skyridge-chair-38795553",
+   "osm_way_id": 38795553,
+   "name": "Skyridge Chair",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.874254,
+     39.336547,
+     2314.6
+    ],
+    [
+     -119.874821,
+     39.336003,
+     2327.5
+    ],
+    [
+     -119.875456,
+     39.335393,
+     2351.6
+    ],
+    [
+     -119.875719,
+     39.335141,
+     2361.2
+    ],
+    [
+     -119.876433,
+     39.334457,
+     2376.2
+    ],
+    [
+     -119.877144,
+     39.333774,
+     2406.3
+    ],
+    [
+     -119.877436,
+     39.333494,
+     2422.8
+    ],
+    [
+     -119.878009,
+     39.332944,
+     2453.6
+    ],
+    [
+     -119.878508,
+     39.332466,
+     2487.5
+    ],
+    [
+     -119.878897,
+     39.332093,
+     2513.7
+    ]
+   ],
+   "bottom": [
+    -119.874254,
+    39.336547,
+    2314.6
+   ],
+   "top": [
+    -119.878897,
+    39.332093,
+    2513.7
+   ],
+   "bottom_elev_m": 2314.6,
+   "top_elev_m": 2513.7,
+   "vertical_m": 199.1,
+   "length_m": 636.3,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "chair_lift",
+    "name": "Skyridge Chair",
+    "source": "USGS Topo"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "unnamed-magic-carpet-1211522974",
+   "osm_way_id": 1211522974,
+   "name": "Unnamed magic carpet",
+   "named": false,
+   "type": "magic_carpet",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.874567,
+     39.336784,
+     2315.3
+    ],
+    [
+     -119.875565,
+     39.336658,
+     2318.5
+    ]
+   ],
+   "bottom": [
+    -119.874567,
+    39.336784,
+    2315.3
+   ],
+   "top": [
+    -119.875565,
+    39.336658,
+    2318.5
+   ],
+   "bottom_elev_m": 2315.3,
+   "top_elev_m": 2318.5,
+   "vertical_m": 3.2,
+   "length_m": 87.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": null,
+   "tags": {
+    "aerialway": "magic_carpet"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "wizard-469593010",
+   "osm_way_id": 469593010,
+   "name": "Wizard",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.886049,
+     39.326922,
+     2512.8
+    ],
+    [
+     -119.886321,
+     39.32683,
+     2515.7
+    ],
+    [
+     -119.886499,
+     39.32677,
+     2517.8
+    ],
+    [
+     -119.887804,
+     39.326331,
+     2536.4
+    ],
+    [
+     -119.888631,
+     39.326053,
+     2551.2
+    ],
+    [
+     -119.889147,
+     39.32588,
+     2561.5
+    ],
+    [
+     -119.890187,
+     39.32553,
+     2566.8
+    ],
+    [
+     -119.890709,
+     39.325355,
+     2567.9
+    ]
+   ],
+   "bottom": [
+    -119.886049,
+    39.326922,
+    2512.8
+   ],
+   "top": [
+    -119.890709,
+    39.325355,
+    2567.9
+   ],
+   "bottom_elev_m": 2512.8,
+   "top_elev_m": 2567.9,
+   "vertical_m": 55.0,
+   "length_m": 437.0,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": null,
+   "duration_min": null,
+   "occupancy": 4,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:heating": "no",
+    "aerialway:occupancy": "4",
+    "name": "Wizard"
+   },
+   "side_source": "LIFT_SIDE table"
+  },
+  {
+   "id": "zephyr-express-38790253",
+   "osm_way_id": 38790253,
+   "name": "Zephyr Express",
+   "named": true,
+   "type": "chair_lift",
+   "side": "Main",
+   "polyline": [
+    [
+     -119.871236,
+     39.318439,
+     2521.5
+    ],
+    [
+     -119.871409,
+     39.318373,
+     2522.3
+    ],
+    [
+     -119.871792,
+     39.318227,
+     2525.9
+    ],
+    [
+     -119.872546,
+     39.317941,
+     2541.4
+    ],
+    [
+     -119.873337,
+     39.31764,
+     2559.9
+    ],
+    [
+     -119.874052,
+     39.317369,
+     2577.5
+    ],
+    [
+     -119.875246,
+     39.316915,
+     2597.7
+    ],
+    [
+     -119.876547,
+     39.31642,
+     2628.8
+    ],
+    [
+     -119.876939,
+     39.316271,
+     2641.3
+    ],
+    [
+     -119.877402,
+     39.316096,
+     2657.3
+    ],
+    [
+     -119.877508,
+     39.316055,
+     2661.2
+    ],
+    [
+     -119.878483,
+     39.315684,
+     2703.8
+    ],
+    [
+     -119.879414,
+     39.315331,
+     2748.0
+    ],
+    [
+     -119.880362,
+     39.31497,
+     2802.7
+    ],
+    [
+     -119.881254,
+     39.314631,
+     2860.5
+    ],
+    [
+     -119.881668,
+     39.314474,
+     2880.2
+    ],
+    [
+     -119.882432,
+     39.314183,
+     2907.0
+    ],
+    [
+     -119.882521,
+     39.31415,
+     2911.1
+    ],
+    [
+     -119.883029,
+     39.313957,
+     2912.7
+    ]
+   ],
+   "bottom": [
+    -119.871236,
+    39.318439,
+    2521.5
+   ],
+   "top": [
+    -119.883029,
+    39.313957,
+    2912.7
+   ],
+   "bottom_elev_m": 2521.5,
+   "top_elev_m": 2912.7,
+   "vertical_m": 391.2,
+   "length_m": 1130.3,
+   "osm_order_was_top_to_bottom": false,
+   "capacity_per_hour": 3600,
+   "duration_min": null,
+   "occupancy": 6,
+   "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:capacity": "3600",
+    "aerialway:occupancy": "6",
+    "name": "Zephyr Express"
+   },
+   "side_source": "LIFT_SIDE table"
+  }
+ ],
+ "stations": [],
+ "methods": {
+  "polyline": "[lon, lat, elev_m] ordered bottom->top (by DEM elevation)",
+  "side": "California/Nevada from LIFT_SIDE table (Heavenly trail map)"
+ }
+}

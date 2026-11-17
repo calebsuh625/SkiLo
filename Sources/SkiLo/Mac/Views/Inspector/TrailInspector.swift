@@ -54,7 +54,7 @@ struct TrailInspector: View {
                 Spacer(minLength: 8)
                 BandSymbol(band: Band.of(rating)).font(.title3)
             }
-            Text("\(t.area.title) · \(t.subArea.title)").font(.callout).foregroundStyle(.secondary)
+            Text(t.placeLine).font(.callout).foregroundStyle(.secondary)
         }
     }
 
