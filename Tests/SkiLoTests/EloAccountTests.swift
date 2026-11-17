@@ -4,37 +4,65 @@ import Foundation
 
 @Suite("Elo math")
 struct EloMathTests {
-    @Test func trailEloSpansRatingScale() {
-        #expect(Elo.trailElo(rating: 1) == 800)
-        #expect(Elo.trailElo(rating: 100) == 1988)
-        #expect(Elo.trailElo(rating: 500) == 1988)     // clamped
+    @Test func eloIsOnTheSkillScale() {
+        #expect(Elo.trailElo(rating: 1) == 1)
+        #expect(Elo.trailElo(rating: 100) == 100)
+        #expect(Elo.trailElo(rating: 500) == 100)      // clamped
+        #expect(Elo.startElo(selfAssessed: 30) == 30)  // "est. 30" from onboarding is the starting Elo
     }
     @Test func evenMatchWinIsHalfK() {
-        let d = Elo.delta(player: Elo.trailElo(rating: 50), trailRating: 50, score: 1, priorRunsOnTrail: 0)
-        #expect(abs(d - 16) < 1e-9)
+        let d = Elo.delta(player: 50, trailRating: 50, score: 1, priorRunsOnTrail: 0)
+        #expect(abs(d - Elo.k / 2) < 1e-9)
     }
     @Test func harderTrailsPayMoreAndEasyOnesAlmostNothing() {
-        let me = Elo.trailElo(rating: 50)
-        let hard = Elo.delta(player: me, trailRating: 80, score: 1, priorRunsOnTrail: 0)
-        let easy = Elo.delta(player: me, trailRating: 10, score: 1, priorRunsOnTrail: 0)
-        #expect(hard > 25); #expect(easy < 2); #expect(easy > 0)
+        let hard = Elo.delta(player: 50, trailRating: 80, score: 1, priorRunsOnTrail: 0)
+        let easy = Elo.delta(player: 50, trailRating: 10, score: 1, priorRunsOnTrail: 0)
+        #expect(hard > 3); #expect(easy < 0.2); #expect(easy > 0)
+    }
+    @Test func eloStaysWithinOneToHundred() {
+        let up = (0..<500).map { EloEvent(trailID: "t\($0)", date: Date(timeIntervalSince1970: Double($0)), score: 1, source: .markDone) }
+        #expect(Elo.current(start: 99, events: up, ratings: Dictionary(uniqueKeysWithValues: up.map { ($0.trailID, 100) })) <= 100)
+        let down = up.map { var e = $0; e.score = 0; return e }
+        #expect(Elo.current(start: 2, events: down, ratings: Dictionary(uniqueKeysWithValues: down.map { ($0.trailID, 1) })) >= 1)
+    }
+    @Test func formatting() {
+        #expect(Elo.format(30) == "30.0")
+        #expect(Elo.formatDelta(0.84) == "+0.8")
+        #expect(Elo.formatDelta(-1.25) == "−1.3" || Elo.formatDelta(-1.25) == "−1.2")
+        #expect(Elo.formatDelta(0.02) == nil)
+    }
+    @Test func skillHistoryIsEloPerDay() {
+        var profile = UserProfile(); profile.selfAssessedStart = 30
+        profile.startDate = Date(timeIntervalSince1970: 1_699_000_000)
+        let d1 = Date(timeIntervalSince1970: 1_700_000_000), d2 = d1.addingTimeInterval(2 * 86400)
+        let events = [EloEvent(trailID: "a", date: d1, score: 1, source: .markDone),
+                      EloEvent(trailID: "b", date: d1.addingTimeInterval(600), score: 1, source: .markDone),
+                      EloEvent(trailID: "a", date: d2, score: 1, source: .logRun)]
+        let ratings = ["a": 45, "b": 50]
+        let h = Elo.skillHistory(profile: profile, events: events, ratings: ratings)
+        #expect(h.count == 3)                               // start + two ski days
+        #expect(h[0].value == 30); #expect(h[0].runCount == 0)
+        #expect(h[1].runCount == 2); #expect(h[2].runCount == 3)
+        #expect(h.map(\.date) == h.map(\.date).sorted())     // plots left to right
+        #expect(h[1].date == d1.addingTimeInterval(600))     // that day's last run
+        #expect(abs(h[2].value - Elo.current(start: 30, events: events, ratings: ratings)) < 1e-9)
     }
     @Test func repeatsCountForLess() {
-        let me = Elo.trailElo(rating: 50)
+        let me = 50.0
         let first = Elo.delta(player: me, trailRating: 60, score: 1, priorRunsOnTrail: 0)
         let fourth = Elo.delta(player: me, trailRating: 60, score: 1, priorRunsOnTrail: 3)
         #expect(abs(fourth - first / 2) < 1e-9)
     }
     @Test func strugglingLosesPoints() {
         #expect(Elo.score(confidence: 1) == 0); #expect(Elo.score(confidence: 2) == 0.5); #expect(Elo.score(confidence: 4) == 1)
-        #expect(Elo.delta(player: 1200, trailRating: 30, score: 0, priorRunsOnTrail: 0) < 0)
+        #expect(Elo.delta(player: 50, trailRating: 30, score: 0, priorRunsOnTrail: 0) < 0)
     }
     @Test func historyReplaysInDateOrder() {
         let t0 = Date(timeIntervalSince1970: 1_700_000_000)
         let events = [EloEvent(trailID: "b", date: t0.addingTimeInterval(60), score: 1, source: .markDone),
                       EloEvent(trailID: "a", date: t0, score: 1, source: .markDone),
                       EloEvent(trailID: "missing", date: t0, score: 1, source: .markDone)]
-        let h = Elo.history(start: 1000, events: events, ratings: ["a": 40, "b": 40])
+        let h = Elo.history(start: 30, events: events, ratings: ["a": 40, "b": 40])
         #expect(h.map(\.trailID) == ["a", "b"])
         #expect(h[1].elo > h[0].elo)
     }
@@ -50,6 +78,25 @@ struct EloStoreTests {
     private func hardTrail(_ s: AppStore) -> Trail.ID { s.catalog.trails.max { $0.rating.total < $1.rating.total }!.id }
     private func easyTrail(_ s: AppStore) -> Trail.ID { s.catalog.trails.min { $0.rating.total < $1.rating.total }!.id }
 
+    @Test func startsAtSelfAssessedSkillAsEstimate() throws {
+        let s = try store()                               // selfAssessedStart = 40
+        #expect(s.elo == 40); #expect(s.eloIsProvisional); #expect(s.skill.value == 40)
+        s.markDone(hardTrail(s))
+        #expect(s.skill.value == s.elo)                   // the skill estimate *is* the Elo
+        #expect(s.userData.profile.skillHistory.last?.value == s.elo)
+        s.markDone(s.catalog.trails[0].id); s.markDone(s.catalog.trails[1].id)
+        #expect(!s.eloIsProvisional)                      // "est." drops after 3 runs
+    }
+    @Test func loggingAnyRunUpdatesElo() throws {
+        let s = try store()
+        let id = hardTrail(s)
+        for confidence in 1...5 {
+            let before = s.elo
+            s.logRun(RunLogEntry(trailID: id, date: .now, confidence: confidence), alsoMarkDone: false)
+            #expect(s.elo != before, "confidence \(confidence)")
+            #expect(s.skill.value == s.elo)
+        }
+    }
     @Test func markDoneRaisesEloOncePerDay() throws {
         let s = try store()
         let start = s.elo
@@ -57,8 +104,8 @@ struct EloStoreTests {
         let preview = s.eloPreview(for: id)
         s.markDone(id)
         #expect(s.userData.eloEvents.count == 1)
-        #expect(s.elo == start + preview)
-        #expect(s.lastEloDelta == preview)
+        #expect(abs(s.elo - (start + preview)) < 1e-9)
+        #expect(abs((s.lastEloDelta ?? 0) - preview) < 1e-9)
         s.markDone(id)                                    // same day: no second game
         #expect(s.userData.eloEvents.count == 1)
     }

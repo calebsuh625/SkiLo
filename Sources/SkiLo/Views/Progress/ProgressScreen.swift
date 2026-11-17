@@ -23,14 +23,14 @@ struct ProgressScreen: View {
 
     var body: some View {
         let ratings = store.effectiveRatings
-        let fullHistory = store.progression.skillHistory(profile: store.userData.profile, log: store.userData.runLog, ratings: ratings)
+        let fullHistory = store.userData.profile.skillHistory      // Elo per ski day
         let history = fullHistory.filter { $0.runCount == 0 || inRange($0.date) }
         let log = store.userData.runLog.filter { inRange($0.date) }
         let days = SkiDay.group(log, meta: store.userData.skiDays)
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 tiles(fullHistory: fullHistory, days: days)
-                card("Skill estimate over time") {
+                card("Elo over time") {
                     SkillChart(points: history, log: log).frame(height: 230)
                 }
                 HStack(alignment: .top, spacing: 16) {
@@ -62,13 +62,13 @@ struct ProgressScreen: View {
     // MARK: tiles
 
     private func tiles(fullHistory: [SkillPoint], days: [SkiDay]) -> some View {
-        let skill = store.progression.currentSkill(history: fullHistory, profile: store.userData.profile)
+        let skill = store.skill
         let startVal: Double = {
             guard let last = fullHistory.last else { return skill.value }
             let from = fullHistory.last(where: { !inRange($0.date) && $0.date < (days.map(\.date).min() ?? last.date) }) ?? fullHistory.first!
             return from.value
         }()
-        let delta = Int((skill.value - startVal).rounded())
+        let delta = Elo.formatDelta(skill.value - startVal)
         let done = store.doneCount, total = store.catalog.trails.count
         func areaDone(_ a: Area) -> String {
             let ts = store.catalog.trails.filter { $0.area == a }
@@ -76,13 +76,13 @@ struct ProgressScreen: View {
         }
         let streaks = ProgressStats.newTrailStreaks(days: SkiDay.group(store.userData.runLog, meta: [:]), states: store.userData.trailStates)
         return HStack(alignment: .top, spacing: 12) {
-            tile("Skill") {
+            tile("Elo") {
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Text("\(skill.rounded)").font(.system(size: 34, weight: .bold)).monospacedDigit()
-                    if delta != 0 { Text("\(delta > 0 ? "▲ +" : "▼ ")\(delta)").font(.callout).foregroundStyle(delta > 0 ? Ramp.doneGreen.color : .red) }
+                    Text(Elo.format(skill.value)).font(.system(size: 34, weight: .bold)).monospacedDigit()
+                    if let delta { Text(delta.hasPrefix("+") ? "▲ \(delta)" : "▼ \(delta)").font(.callout).foregroundStyle(delta.hasPrefix("+") ? Ramp.doneGreen.color : .red) }
                 }
                 HStack(spacing: 4) { BandSymbol(band: Band.of(skill.rounded)); Text(Band.of(skill.rounded).title) }.font(.callout)
-                Text(skill.isProvisional ? "provisional · ±\(Int(((skill.high - skill.low) / 2).rounded()))" : "±\(Int(((skill.high - skill.low) / 2).rounded()))")
+                Text(skill.isProvisional ? "est. · ±\(Int(((skill.high - skill.low) / 2).rounded()))" : "±\(Int(((skill.high - skill.low) / 2).rounded()))")
                     .font(.caption).foregroundStyle(.secondary)
             }
             tile("Done") {

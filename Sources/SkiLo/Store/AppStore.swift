@@ -126,8 +126,8 @@ final class AppStore {
         let store = AppStore(catalog: catalog, userData: data, persistence: persistence)
         store.isReadOnlySession = persistence == nil
         store.pendingAlert = alert
-        // Skill history is a cache of the log: recompute on load (DESIGN §10).
-        let history = store.progression.skillHistory(profile: data.profile, log: data.runLog, ratings: store.ratings(for: data))
+        // Skill history is a cache of the Elo games: recompute on load (DESIGN §10).
+        let history = store.skillHistory(for: data)
         if history != store.userData.profile.skillHistory { store.userData.profile.skillHistory = history }
         store.startObservingTermination()
         return store
@@ -164,20 +164,32 @@ final class AppStore {
         eloCache = (revision, h)
         return h
     }
-    var elo: Int { Int((eloHistory.last?.elo ?? eloStart).rounded()) }
+    /// Your Elo = your skill rating, 1–100.
+    var elo: Double { eloHistory.last?.elo ?? eloStart }
+    /// Runs that have counted toward Elo so far.
+    var eloGames: Int { eloHistory.count }
+    /// Shown as "est." until a few runs have counted.
+    var eloIsProvisional: Bool { eloGames < Elo.provisionalGames }
     /// Change from the most recent counted run (nil before the first one).
-    var lastEloDelta: Int? { eloHistory.last.map { Int($0.delta.rounded()) } }
-    /// What a clean first run of `id` would be worth right now.
-    func eloPreview(for id: Trail.ID) -> Int {
+    var lastEloDelta: Double? { eloHistory.last?.delta }
+    /// What a clean run of `id` would be worth right now.
+    func eloPreview(for id: Trail.ID) -> Double {
         let prior = userData.eloEvents.filter { $0.trailID == id }.count
-        return Int(Elo.delta(player: eloHistory.last?.elo ?? eloStart, trailRating: effectiveRating(id), score: 1, priorRunsOnTrail: prior).rounded())
+        return Elo.delta(player: elo, trailRating: effectiveRating(id), score: 1, priorRunsOnTrail: prior)
     }
-    private func eloSuffix(since before: Int) -> String {
-        let d = elo - before
-        return d == 0 ? "" : " · \(d > 0 ? "+" : "")\(d) Elo"
+    private func eloSuffix(since before: Double) -> String {
+        Elo.formatDelta(elo - before).map { " · \($0) Elo" } ?? ""
+    }
+    /// The skill chart / readiness series, derived from the Elo games.
+    private func skillHistory(for d: UserData) -> [SkillPoint] {
+        Elo.skillHistory(profile: d.profile, events: d.eloEvents, ratings: ratings(for: d))
     }
 
-    var skill: SkillEstimate { progression.currentSkill(history: userData.profile.skillHistory, profile: userData.profile) }
+    /// The skill estimate *is* the Elo (readiness, suggestions and the Progress chart use it).
+    var skill: SkillEstimate {
+        let half = Elo.uncertainty(games: eloGames)
+        return SkillEstimate(value: elo, low: max(1, elo - half), high: min(100, elo + half), basisRuns: eloGames)
+    }
     func readiness(for id: Trail.ID) -> Readiness {
         progression.readiness(rating: effectiveRating(id), modifiers: trailsByID[id]?.modifiers ?? .none, skill: skill)
     }
@@ -451,10 +463,10 @@ final class AppStore {
         body(&d)
         d.updatedAt = .now
         normalize(&d)
-        let skillInputsChanged = d.runLog != before.runLog || d.trailStates != before.trailStates
+        let skillInputsChanged = d.runLog != before.runLog || d.trailStates != before.trailStates || d.eloEvents != before.eloEvents
             || d.profile.selfAssessedStart != before.profile.selfAssessedStart || d.profile.startDate != before.profile.startDate
         if skillInputsChanged {
-            d.profile.skillHistory = progression.skillHistory(profile: d.profile, log: d.runLog, ratings: ratings(for: d))
+            d.profile.skillHistory = skillHistory(for: d)
         }
         var achieved: [Milestone] = []
         if skillInputsChanged || d.profile.onboardingDone != before.profile.onboardingDone {

@@ -11,9 +11,9 @@ struct MiniProgressCard: View {
         Button { store.section = .progress } label: {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text("Skill").font(.caption).foregroundStyle(.secondary)
+                    Text("Elo").font(.caption).foregroundStyle(.secondary)
                     Spacer()
-                    Text("\(skill.rounded)").font(.title3.weight(.bold)).monospacedDigit()
+                    Text(Elo.format(skill.value)).font(.title3.weight(.bold)).monospacedDigit()
                     if skill.isProvisional { Text("est.").font(.caption2).foregroundStyle(.secondary) }
                 }
                 ProgressView(value: Double(done), total: Double(total)).tint(Ramp.doneGreen.color)
@@ -25,6 +25,6 @@ struct MiniProgressCard: View {
         }
         .buttonStyle(.plain)
         .help("Open Progress")
-        .accessibilityLabel("Skill \(skill.rounded), \(done) of \(total) trails done")
+        .accessibilityLabel("Elo \(Elo.format(skill.value)), \(done) of \(total) trails done")
     }
 }

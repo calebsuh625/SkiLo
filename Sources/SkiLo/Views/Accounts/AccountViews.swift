@@ -215,20 +215,21 @@ private struct ChangePasswordSheet: View {
     }
 }
 
-/// "Elo 1,240 ▲12" — the latest change is shown next to the number.
+/// "Elo 31.4 ▲0.8" — the latest change is shown next to the number.
 struct EloBadge: View {
     @Environment(AppStore.self) private var store
     var body: some View {
         HStack(spacing: 4) {
-            Text("Elo \(store.elo)").monospacedDigit()
-            if let d = store.lastEloDelta, d != 0 {
-                Text("\(d > 0 ? "▲" : "▼")\(abs(d))")
+            Text("Elo \(Elo.format(store.elo))").monospacedDigit()
+            if store.eloIsProvisional { Text("est.") }
+            if let d = store.lastEloDelta, let text = Elo.formatDelta(d) {
+                Text((d > 0 ? "▲" : "▼") + text.dropFirst())
                     .foregroundStyle(d > 0 ? Color.green : Color.red)
                     .monospacedDigit()
             }
         }
         .font(.caption)
         .foregroundStyle(.secondary)
-        .accessibilityLabel("Elo \(store.elo)")
+        .accessibilityLabel("Elo \(Elo.format(store.elo))\(store.eloIsProvisional ? ", estimated" : "")")
     }
 }

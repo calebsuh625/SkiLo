@@ -79,7 +79,7 @@ struct DefaultProgressionEngine: ProgressionEngine {
         var reason: String
         switch kind {
         case .belowYou: reason = "below your level"
-        case .ready: reason = "right at your level (skill \(s))"
+        case .ready: reason = "right at your level (Elo \(s))"
         case .stretch: reason = "a \(d)-point stretch — try it on a soft day"
         case .bigStretch: reason = "big stretch (+\(d))"
         }

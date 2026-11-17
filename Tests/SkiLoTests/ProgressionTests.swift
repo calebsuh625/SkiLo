@@ -97,7 +97,7 @@ import Testing
         #expect(kind(57) == .ready);    #expect(kind(58) == .stretch)
         #expect(kind(65) == .stretch);  #expect(kind(66) == .bigStretch)
         let r = engine.readiness(rating: 58, modifiers: .none, skill: skill(58))
-        #expect(r.reason == "right at your level (skill 58)" && r.delta == 0)
+        #expect(r.reason == "right at your level (Elo 58)" && r.delta == 0)
     }
 
     @Test func gateAndHikeRules() {

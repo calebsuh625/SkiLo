@@ -21,28 +21,29 @@ struct EloEvent: Codable, Equatable, Hashable, Sendable, Identifiable {
 struct EloPoint: Equatable, Sendable {
     var date: Date
     var elo: Double
-    var delta: Double
+    var delta: Double          // actual change after clamping to 1…100
     var trailID: Trail.ID
 }
 
-/// Elo for a skier, where every completed run is a "game" against the trail.
+/// Elo for a skier, on the same 1–100 scale as trail difficulty. This *is* the skill rating:
+/// it starts at the self-assessed level from onboarding and every completed or logged run moves it.
 ///
-/// - A trail's Elo comes from its 1–100 difficulty: 800 (rating 1) … 1988 (rating 100).
-/// - The starting Elo is the self-assessed skill on the same scale.
-/// - Expected score E = 1 / (1 + 10^((trail − you) / 400)); change = K × (score − E).
-///   Clean runs on trails above your level give big gains; easy trails give almost nothing.
+/// - Each run is a "game" against the trail, whose Elo is its difficulty rating (1–100).
+/// - Expected score E = 1 / (1 + 10^((trail − you) / spread)); change = K × (score − E).
+///   Clean runs on trails above your level give the biggest gains; easy trails give almost nothing.
 /// - Repeats of the same trail count for less (K / √(1 + previous runs of it)), so lapping one
 ///   run can't farm points.
+/// - Shown as "est." until `provisionalGames` runs have counted.
 enum Elo {
-    static let base = 800.0
-    static let perRatingPoint = 12.0
-    static let k = 32.0
-    static let floor = 100.0
+    static let spread = 30.0
+    static let k = 4.0
+    static let range = 1.0...100.0
+    static let provisionalGames = 3
 
-    static func trailElo(rating: Int) -> Double { base + perRatingPoint * Double(min(max(rating, 1), 100) - 1) }
+    static func trailElo(rating: Int) -> Double { Double(min(max(rating, 1), 100)) }
     static func startElo(selfAssessed: Int) -> Double { trailElo(rating: selfAssessed) }
 
-    static func expected(player: Double, trail: Double) -> Double { 1 / (1 + pow(10, (trail - player) / 400)) }
+    static func expected(player: Double, trail: Double) -> Double { 1 / (1 + pow(10, (trail - player) / spread)) }
 
     /// Result of a logged run from its 1–5 confidence (3+ = clean).
     static func score(confidence: Int) -> Double {
@@ -65,15 +66,49 @@ enum Elo {
         var out: [EloPoint] = []
         for e in events.sorted(by: { ($0.date, $0.id.uuidString) < ($1.date, $1.id.uuidString) }) {
             guard let r = ratings[e.trailID] else { continue }
-            let d = delta(player: elo, trailRating: r, score: e.score, priorRunsOnTrail: runs[e.trailID, default: 0])
-            elo = max(floor, elo + d)
+            let before = elo
+            elo = min(range.upperBound, max(range.lowerBound, elo + delta(player: elo, trailRating: r, score: e.score, priorRunsOnTrail: runs[e.trailID, default: 0])))
             runs[e.trailID, default: 0] += 1
-            out.append(EloPoint(date: e.date, elo: elo, delta: d, trailID: e.trailID))
+            out.append(EloPoint(date: e.date, elo: elo, delta: elo - before, trailID: e.trailID))
         }
         return out
     }
 
     static func current(start: Double, events: [EloEvent], ratings: [Trail.ID: Int]) -> Double {
         history(start: start, events: events, ratings: ratings).last?.elo ?? start
+    }
+
+    /// ± band: 10 with no runs, narrowing to 3 after 7+ runs.
+    static func uncertainty(games: Int) -> Double { Double(10 - min(games, 7)) }
+
+    /// The skill chart's series: the starting point, then one point per ski day (that day's
+    /// closing Elo). `runCount` is the number of runs counted so far, which drives "est.".
+    static func skillHistory(profile: UserProfile, events: [EloEvent], ratings: [Trail.ID: Int]) -> [SkillPoint] {
+        let start = startElo(selfAssessed: profile.selfAssessedStart)
+        func point(_ date: Date, _ v: Double, _ games: Int) -> SkillPoint {
+            let half = uncertainty(games: games)
+            return SkillPoint(date: date, value: v, low: max(range.lowerBound, v - half), high: min(range.upperBound, v + half), runCount: games)
+        }
+        var out = [point(profile.startDate, start, 0)]
+        let cal = Calendar.current
+        var games = 0
+        var lastDay: Date?
+        for p in history(start: start, events: events, ratings: ratings) {
+            games += 1
+            // Dated at the day's latest run (not midnight) so it plots after the starting point.
+            let day = cal.startOfDay(for: p.date)
+            if day == lastDay { out[out.count - 1] = point(p.date, p.elo, games) } else { out.append(point(p.date, p.elo, games)) }
+            lastDay = day
+        }
+        return out
+    }
+
+    /// "31.4" — one decimal so every run visibly moves it.
+    static func format(_ v: Double) -> String { String(format: "%.1f", v) }
+    /// "+0.8" / "−1.2"; nil when the change rounds to zero.
+    static func formatDelta(_ d: Double) -> String? {
+        let r = (d * 10).rounded() / 10
+        guard r != 0 else { return nil }
+        return (r > 0 ? "+" : "−") + String(format: "%.1f", abs(r))
     }
 }

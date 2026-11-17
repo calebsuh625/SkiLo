@@ -75,9 +75,9 @@ struct TrailInspector: View {
                 HStack(spacing: 8) {
                     ReadinessChip(readiness: store.readiness(for: t.id))
                     let worth = store.eloPreview(for: t.id)
-                    Label("\(worth >= 0 ? "+" : "")\(worth) Elo", systemImage: "trophy.fill")
+                    Label("\(Elo.formatDelta(worth) ?? "+0.0") Elo", systemImage: "trophy.fill")
                         .font(.callout.monospacedDigit()).foregroundStyle(.secondary)
-                        .help("Elo you'd gain for a clean run of this trail right now (trail Elo \(Int(Elo.trailElo(rating: rating))))")
+                        .help("Elo you'd gain for a clean run of this trail right now (your Elo \(Elo.format(store.elo)) vs. trail \(rating))")
                 }
             }
         }
@@ -118,7 +118,7 @@ struct TrailInspector: View {
             HStack {
                 if store.state(for: t.id).isDone {
                     Button { store.recordAnotherRun(t.id) } label: { Label("Ran It Again", systemImage: "arrow.clockwise") }
-                        .help("Count another run of this trail (\(store.eloPreview(for: t.id) >= 0 ? "+" : "")\(store.eloPreview(for: t.id)) Elo) — ⌘R")
+                        .help("Count another run of this trail (\(Elo.formatDelta(store.eloPreview(for: t.id)) ?? "+0.0") Elo) — ⌘R")
                 }
                 Button { store.requestLogRun(trailID: t.id) } label: { Label("Log Run…", systemImage: "plus.circle") }
                 Button { store.showOnMap(t.id) } label: { Label("Show on Map", systemImage: "map") }

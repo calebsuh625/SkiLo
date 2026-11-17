@@ -22,9 +22,9 @@ struct SkillChart: View {
             ForEach(points, id: \.date) { p in
                 AreaMark(x: .value("Date", p.date), yStart: .value("Low", p.low), yEnd: .value("High", p.high))
                     .foregroundStyle(Color.accentColor.opacity(0.18))
-                LineMark(x: .value("Date", p.date), y: .value("Skill", p.value)).foregroundStyle(Color.accentColor)
+                LineMark(x: .value("Date", p.date), y: .value("Elo", p.value)).foregroundStyle(Color.accentColor)
                     .interpolationMethod(.monotone)
-                PointMark(x: .value("Date", p.date), y: .value("Skill", p.value)).foregroundStyle(Color.accentColor).symbolSize(p.runCount == 0 ? 30 : 50)
+                PointMark(x: .value("Date", p.date), y: .value("Elo", p.value)).foregroundStyle(Color.accentColor).symbolSize(p.runCount == 0 ? 30 : 50)
             }
             if let n = nearest {
                 RuleMark(x: .value("Date", n.date)).foregroundStyle(.secondary.opacity(0.5))
@@ -34,7 +34,7 @@ struct SkillChart: View {
         .chartYScale(domain: 0...100)
         .chartYAxis { AxisMarks(values: [0, 25, 50, 75, 100]) }
         .chartXSelection(value: $hovered)
-        .accessibilityLabel("Skill estimate over time")
+        .accessibilityLabel("Elo over time")
     }
 
     private func callout(_ p: SkillPoint) -> some View {
