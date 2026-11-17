@@ -1,0 +1,23 @@
+[swift +  0.00s] loadFileURL /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web/index.html allowingReadAccessTo /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web
+[swift +  0.07s] window appeared; capture scheduled at +12.0s
+[swift +  0.63s] bridge <- {"hasData":true,"hasMapLibre":true,"type":"scriptReady"}
+[swift +  0.64s] bridge <- {"terrain":{"exaggeration":1,"source":"terrainDEM"},"type":"terrainEvent"}
+[swift +  0.65s] nav didFinish: file:///Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web/index.html
+[swift +  4.35s] bridge <- {"features":189,"terrain":true,"type":"mapLoad"}
+[swift +  4.37s] bridge <- {"diag":{"camera":{"bearing":135,"center":[-119.91800000000001,38.936],"pitch":62,"zoom":12.6},"canvasPx":[2560,1600],"done":[],"dpr":2,"elev_CA_base_m":2025,"elev_center_m":2734,"elev_lake_m":2015,"elev_upper_mtn_m":2776,"firstErrors":[],"fps":null,"loaded":true,"mapErrors":0,"renderedPisteNames":127,"renderedPisteSegments":195,"selectedId":null,"terrain":{"exaggeration":1,"source":"terrainDEM"},"terrainEnabled":true,"tilesLoaded":true,"totalFeatures":189,"webglRenderer":"Apple GPU"},"msSinceLoad":0,"type":"firstIdle"}
+[swift +  8.45s] *** TRAIL CLICK via bridge: Round-a-Bout (osm way 313466694) ***
+[swift +  8.45s] bridge <- {"difficulty":"intermediate","grooming":"classic","hits":2,"id":313466694,"lngLat":[-119.93740099999999,38.932907999999998],"name":"Round-a-Bout","point":[793,498],"synthetic":true,"type":"trailClick"}
+[swift +  8.45s] bridge <- {"elev_m":2194,"id":313466575,"lngLat":[-119.93741420000001,38.932884999999999],"name":"Gunbarrel","ok":true,"point":[794,499],"queryHitsAtPoint":["Round-a-Bout","Gunbarrel"],"requested":"Gunbarrel","type":"simulateClick"}
+[swift +  8.45s] eval(simulateClick) -> 1
+[swift +  9.50s] bridge <- {"doneCount":1,"id":313466694,"type":"markDone"}
+[swift +  9.50s] eval(markDone(313466694)) -> 1
+[swift + 10.55s] eval(diag) -> {"webglRenderer":"Apple GPU","terrainEnabled":true,"terrain":{"source":"terrainDEM","exaggeration":1},"elev_center_m":2734,"elev_CA_base_m":2025,"elev_upper_mtn_m":2776,"elev_lake_m":2015,"renderedPisteSegments":171,"renderedPisteNames":127,"totalFeatures":189,"selectedId":313466694,"done":[313466694],"fps":null,"mapErrors":0,"firstErrors":[],"loaded":false,"tilesLoaded":true,"camera":{"center":[-...(485 chars)
+[swift + 10.87s] bridge <- {"canvas":[2560,1600],"dpr":2,"fps":59,"frames":119,"ms":2014,"type":"bench"}
+[swift + 12.90s] screencapture exit=0 windowNumber=2373 frame=(116.0, 86.0, 1280.0, 832.0) screen=(0.0, 0.0, 1512.0, 982.0) -> /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/screenshot.png (6777382 bytes)
+[swift + 13.04s] wrote /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/snapshot_webview.png (7358520 bytes, 2560x1600px)
+[swift + 13.05s] eval(canvasPNG length) -> 9945566
+[swift + 13.28s] eval(canvasPNG) -> data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACgAAAAZACAYAAAC1rBvAAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAKAKADAAQAAAABAAAGQAAAAADfywHWAABAAElEQVR4AWTd+ZJkWZImdPPY3GOPyMyq6o1umPcAhidhEHiDYf5AeFEEGJHuruquyj0zdl8inO/36TlmnsV1v3a3c3RXPZvatbP/8p/+x9t7Z/cO9+/fOzzIfv/+/R6d3zuc5S/b7ZfD4cvnHHLM9uXL7eH2du957GZg5CP/rXFIkZb5olzqfU79z59v1v7lVF/dbPfuBV9wo+...(9945566 chars)
+[swift + 13.29s] wrote /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/canvas.png (7459158 bytes)
+[swift + 15.80s] bridge message counts: ["bench": 1, "firstIdle": 1, "mapLoad": 1, "scriptReady": 1, "terrainEvent": 1, "simulateClick": 1, "markDone": 1, "trailClick": 1]
+[swift + 15.80s] last trail click: Round-a-Bout id=313466694
+[swift + 15.80s] exiting

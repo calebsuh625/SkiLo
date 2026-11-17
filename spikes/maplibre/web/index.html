@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heavenly 3D map spike - MapLibre GL JS</title>
+<!--
+  Feasibility spike: MapLibre GL JS 5.6.0 (pinned, unpkg) inside a WKWebView loaded via loadFileURL.
+  - Basemap: Esri World Imagery raster tiles (no key; attribution required).
+  - 3D terrain + hillshade: AWS Terrain Tiles, terrarium encoding (no key).
+  - Trails/lifts: window.HEAVENLY_GEOJSON from heavenly_data.js (generated from OSM, ODbL),
+    loaded with a plain <script src> so no fetch() of file:// URLs is needed.
+  - JS -> Swift: window.webkit.messageHandlers.bridge.postMessage({type: ...}).
+  - Swift -> JS: window.spike.* (simulateClick, markDone, diag, canvasPNG, bench).
+-->
+<script>
+// Forward console output and uncaught errors to Swift. Installed before anything else loads.
+(function () {
+  function post(msg) { try { window.webkit.messageHandlers.bridge.postMessage(msg); } catch (e) {} }
+  window.__bridgePost = post;
+  var fmt = function (a) {
+    return Array.prototype.map.call(a, function (x) {
+      if (typeof x === 'string') return x;
+      try { return JSON.stringify(x); } catch (e) { return String(x); }
+    }).join(' ');
+  };
+  ['log', 'warn', 'error'].forEach(function (level) {
+    var orig = console[level].bind(console);
+    console[level] = function () { orig.apply(null, arguments); post({ type: 'console', level: level, text: fmt(arguments).slice(0, 600) }); };
+  });
+  window.addEventListener('error', function (e) {
+    post({ type: 'jserror', message: String(e.message), file: String(e.filename || ''), line: e.lineno || 0 });
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    post({ type: 'jserror', message: 'unhandledrejection: ' + String((e.reason && e.reason.message) || e.reason) });
+  });
+})();
+</script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<script src="heavenly_data.js"></script>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b1020; font: 13px/1.4 -apple-system, "SF Pro Text", Helvetica, sans-serif; color: #e6edf3; }
+  #map { position: absolute; inset: 0; }
+  #hud { position: absolute; left: 12px; bottom: 36px; max-width: 420px; background: rgba(10, 14, 26, 0.78); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px; backdrop-filter: blur(6px); pointer-events: none; }
+  #hud .t { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  #hud .s { color: #9fb3c8; font-variant-numeric: tabular-nums; white-space: pre-wrap; }
+  #sel { margin-top: 6px; font-size: 14px; }
+  #legend { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; }
+  #legend span::before { content: ""; display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 5px; vertical-align: middle; background: var(--c); }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="hud">
+  <div class="t">Heavenly 3D spike &middot; MapLibre GL JS <span id="ver"></span></div>
+  <div class="s" id="status">starting...</div>
+  <div id="sel">click a trail to select it</div>
+  <div id="legend">
+    <span style="--c:#2ecc71">easy</span><span style="--c:#2f80ff">intermediate</span>
+    <span style="--c:#111">advanced</span><span style="--c:#ff3b30">expert</span>
+    <span style="--c:#d7d7dc">lift</span><span style="--c:#ffe600">selected</span><span style="--c:#39ff14">done</span>
+  </div>
+</div>
+<script>
+'use strict';
+const post = window.__bridgePost;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const DATA = window.HEAVENLY_GEOJSON;
+if (!DATA) post({ type: 'jserror', message: 'heavenly_data.js did not load (file:// subresource blocked?)' });
+if (!window.maplibregl) post({ type: 'jserror', message: 'maplibre-gl.js did not load from CDN' });
+$('ver').textContent = window.maplibregl ? 'v' + (maplibregl.getVersion ? maplibregl.getVersion() : maplibregl.version) : '(not loaded)';
+
+const TERRARIUM = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
+const DIFF_COLOR = ['match', ['get', 'difficulty'],
+  'easy', '#2ecc71', 'intermediate', '#2f80ff', 'advanced', '#111111', 'expert', '#ff3b30', '#9aa0a6'];
+// Camera: resort centre, pitched, bearing ~135 so the camera sits NW over the lake/CA base looking SE up the mountain.
+const CAMERA = { center: [-119.912, 38.941], zoom: 13.4, pitch: 60, bearing: 160 };
+
+const style = {
+  version: 8,
+  sources: {
+    satellite: {
+      type: 'raster', tileSize: 256, maxzoom: 19,
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+      attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+    },
+    terrainDEM: { type: 'raster-dem', tiles: [TERRARIUM], tileSize: 256, encoding: 'terrarium', maxzoom: 15,
+      attribution: 'Terrain: AWS Terrain Tiles (Mapzen / USGS 3DEP)' },
+    hillshadeDEM: { type: 'raster-dem', tiles: [TERRARIUM], tileSize: 256, encoding: 'terrarium', maxzoom: 15 },
+    heavenly: { type: 'geojson', data: DATA || { type: 'FeatureCollection', features: [] },
+      attribution: 'Trails &copy; OpenStreetMap contributors (ODbL)' }
+  },
+  terrain: { source: 'terrainDEM', exaggeration: 1.0 },
+  sky: { 'sky-color': '#8fc5ff', 'horizon-color': '#e8f1ff', 'fog-color': '#dfe8f5',
+         'sky-horizon-blend': 0.6, 'horizon-fog-blend': 0.6, 'fog-ground-blend': 0.85 },
+  layers: [
+    { id: 'satellite', type: 'raster', source: 'satellite' },
+    { id: 'hillshade', type: 'hillshade', source: 'hillshadeDEM',
+      paint: { 'hillshade-exaggeration': 0.25, 'hillshade-illumination-direction': 315,
+               'hillshade-shadow-color': '#000000', 'hillshade-highlight-color': '#ffffff', 'hillshade-accent-color': '#000000' } },
+    { id: 'boundary', type: 'line', source: 'heavenly', filter: ['==', ['get', 'kind'], 'boundary'],
+      paint: { 'line-color': '#ffd166', 'line-width': 1.5, 'line-dasharray': [3, 2], 'line-opacity': 0.9 } },
+    { id: 'lifts', type: 'line', source: 'heavenly', filter: ['==', ['get', 'kind'], 'lift'],
+      layout: { 'line-cap': 'round' }, paint: { 'line-color': '#d7d7dc', 'line-width': 2.5, 'line-opacity': 0.95 } },
+    { id: 'pistes-casing', type: 'line', source: 'heavenly', filter: ['==', ['get', 'kind'], 'piste'],
+      layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': 5.5, 'line-opacity': 0.55 } },
+    { id: 'pistes', type: 'line', source: 'heavenly', filter: ['==', ['get', 'kind'], 'piste'],
+      layout: { 'line-join': 'round', 'line-cap': 'round' },
+      paint: { 'line-color': DIFF_COLOR, 'line-width': 3,
+               'line-opacity': ['case', ['boolean', ['feature-state', 'done'], false], 0.35, 1] } },
+    { id: 'pistes-done', type: 'line', source: 'heavenly', filter: ['in', ['get', 'id'], ['literal', []]],
+      layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#39ff14', 'line-width': 4, 'line-dasharray': [1.5, 1.5] } },
+    { id: 'pistes-selected', type: 'line', source: 'heavenly', filter: ['==', ['get', 'id'], -1],
+      layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#ffe600', 'line-width': 8, 'line-opacity': 0.9, 'line-blur': 1 } }
+  ]
+};
+
+const map = new maplibregl.Map({
+  container: 'map', style, ...CAMERA, maxPitch: 80, attributionControl: { compact: false },
+  canvasContextAttributes: { preserveDrawingBuffer: true, antialias: true }
+});
+map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+map.addControl(new maplibregl.TerrainControl({ source: 'terrainDEM', exaggeration: 1.0 }), 'top-right');
+
+const state = { selectedId: null, done: new Set(), fps: null, errors: [], loadedAt: null };
+
+function setStatus(s) { $('status').textContent = s; }
+function statusLine() {
+  const c = map.getCenter();
+  const e = elev(c);
+  return 'terrain ' + (map.getTerrain() ? 'ON' : 'off') + ' | elev@center ' + (e == null ? '?' : e + ' m') +
+    ' | zoom ' + map.getZoom().toFixed(2) + ' pitch ' + map.getPitch().toFixed(0) + ' bearing ' + map.getBearing().toFixed(0) +
+    ' | fps ' + (state.fps == null ? '?' : state.fps) + ' | tilesLoaded ' + map.areTilesLoaded() + ' | errors ' + state.errors.length +
+    '\n' + DATA.features.filter(f => f.properties.kind === 'piste').length + ' piste segments, ' +
+    DATA.features.filter(f => f.properties.kind === 'lift').length + ' lifts | done ' + state.done.size;
+}
+function elev(ll) { try { const v = map.queryTerrainElevation(ll); return v == null ? null : Math.round(v); } catch (e) { return null; } }
+
+document.addEventListener('visibilitychange', () => post({ type: 'visibility', state: document.visibilityState }));
+map.on('load', () => {
+  state.loadedAt = performance.now();
+  post({ type: 'mapLoad', version: (maplibregl.getVersion ? maplibregl.getVersion() : maplibregl.version), features: DATA ? DATA.features.length : 0, terrain: !!map.getTerrain() });
+  setStatus('map loaded; waiting for tiles...');
+  setTimeout(() => bench(1500), 2500);
+});
+map.once('idle', () => { post({ type: 'firstIdle', msSinceLoad: Math.round(performance.now() - state.loadedAt), diag: diag() }); });
+map.on('error', (e) => {
+  const msg = (e && e.error && e.error.message) || String(e && e.error) || 'unknown';
+  state.errors.push(msg);
+  if (state.errors.length <= 8) post({ type: 'mapError', message: msg, sourceId: e.sourceId || null,
+    tile: e.tile && e.tile.tileID ? String(e.tile.tileID.canonical.z + '/' + e.tile.tileID.canonical.x + '/' + e.tile.tileID.canonical.y) : null });
+});
+map.on('terrain', () => post({ type: 'terrainEvent', terrain: map.getTerrain() }));
+setInterval(() => { if (map.loaded() || map.getTerrain()) setStatus(statusLine()); }, 1000);
+
+// --- picking ---------------------------------------------------------------
+map.on('click', 'pistes', (e) => {
+  const f = e.features[0];
+  select(f.properties.id, f.properties.name, f.properties.difficulty);
+  post({ type: 'trailClick', id: f.properties.id, name: f.properties.name, difficulty: f.properties.difficulty,
+    grooming: f.properties.grooming || null, hits: e.features.length,
+    lngLat: [+e.lngLat.lng.toFixed(6), +e.lngLat.lat.toFixed(6)], point: [Math.round(e.point.x), Math.round(e.point.y)],
+    synthetic: !!(e.originalEvent && e.originalEvent.__synthetic) });
+});
+map.on('click', 'lifts', (e) => { const f = e.features[0]; post({ type: 'liftClick', id: f.properties.id, name: f.properties.name }); });
+map.on('mouseenter', 'pistes', () => { map.getCanvas().style.cursor = 'pointer'; });
+map.on('mouseleave', 'pistes', () => { map.getCanvas().style.cursor = ''; });
+
+function select(id, name, difficulty) {
+  state.selectedId = id;
+  map.setFilter('pistes-selected', ['==', ['get', 'id'], id]);
+  $('sel').innerHTML = 'selected: <b>' + esc(name) + '</b> &middot; ' + esc(difficulty) + ' &middot; osm way ' + id +
+    (state.done.has(id) ? ' &middot; &#10004; done' : '');
+}
+function markDone(id) {
+  state.done.add(id);
+  map.setFeatureState({ source: 'heavenly', id }, { done: true });
+  map.setFilter('pistes-done', ['in', ['get', 'id'], ['literal', Array.from(state.done)]]);
+  if (state.selectedId === id) { const f = DATA.features.find(x => x.properties.id === id); if (f) select(id, f.properties.name, f.properties.difficulty); }
+  post({ type: 'markDone', id, doneCount: state.done.size });
+  return state.done.size;
+}
+
+// Dispatch real DOM mouse events at the on-screen midpoint of a named run so the full
+// MapLibre handler + terrain-aware queryRenderedFeatures path is exercised.
+function simulateClick(name) {
+  const pistes = DATA.features.filter(f => f.properties.kind === 'piste');
+  let segs = pistes.filter(f => f.properties.name === name);
+  if (!segs.length) segs = pistes.filter(f => f.properties.named);
+  // A camera animation in flight would move the map between mousedown and click; settle it first.
+  if (map.isMoving()) map.stop();
+  const canvas = map.getCanvas(); const rect = canvas.getBoundingClientRect();
+  let target = null;
+  for (const seg of segs) {
+    const cs = seg.geometry.coordinates; const mid = cs[Math.floor(cs.length / 2)];
+    const p = map.project(mid);
+    if (p.x > 20 && p.y > 20 && p.x < rect.width - 20 && p.y < rect.height - 20) { target = { seg, mid, p }; break; }
+  }
+  if (!target) { post({ type: 'simulateClick', ok: false, reason: 'no on-screen segment for ' + name }); return false; }
+  const { seg, mid, p } = target;
+  const hitsBefore = map.queryRenderedFeatures(p, { layers: ['pistes'] }).map(f => f.properties.name);
+  const opts = { bubbles: true, cancelable: true, clientX: rect.left + p.x, clientY: rect.top + p.y, button: 0 };
+  for (const t of ['mousedown', 'mouseup', 'click']) {
+    const ev = new MouseEvent(t, Object.assign({}, opts, { buttons: t === 'mousedown' ? 1 : 0 }));
+    ev.__synthetic = true;
+    canvas.dispatchEvent(ev);
+  }
+  post({ type: 'simulateClick', ok: true, requested: name, name: seg.properties.name, id: seg.properties.id,
+    point: [Math.round(p.x), Math.round(p.y)], lngLat: mid, elev_m: elev(mid), queryHitsAtPoint: hitsBefore });
+  return true;
+}
+
+// Rotate the camera 25 degrees and count rendered frames -> fps while 3D terrain is active.
+function bench(durationMs) {
+  return new Promise((resolve) => {
+    const b0 = map.getBearing(); let frames = 0; const t0 = performance.now();
+    const onRender = () => { frames++; };
+    map.on('render', onRender);
+    map.once('moveend', () => {
+      const ms = performance.now() - t0; map.off('render', onRender);
+      state.fps = Math.round(frames / (ms / 1000));
+      map.jumpTo({ bearing: b0 });
+      post({ type: 'bench', frames, ms: Math.round(ms), fps: state.fps, pageVisibility: document.visibilityState, dpr: window.devicePixelRatio, canvas: [map.getCanvas().width, map.getCanvas().height] });
+      resolve(state.fps);
+    });
+    map.easeTo({ bearing: b0 + 25, duration: durationMs, easing: (t) => t });
+  });
+}
+
+function diag() {
+  const c = map.getCenter();
+  let renderer = null;
+  try {
+    const gl = map.getCanvas().getContext('webgl2') || map.getCanvas().getContext('webgl');
+    const dbg = gl && gl.getExtension('WEBGL_debug_renderer_info');
+    renderer = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : (gl ? 'context ok (renderer masked)' : 'NO WEBGL CONTEXT');
+  } catch (e) { renderer = 'ERR ' + e.message; }
+  const piste = map.queryRenderedFeatures({ layers: ['pistes'] });
+  return {
+    maplibre: (maplibregl.getVersion ? maplibregl.getVersion() : maplibregl.version), webglRenderer: renderer,
+    terrainEnabled: !!map.getTerrain(), terrain: map.getTerrain(),
+    elev_center_m: elev(c), elev_CA_base_m: elev([-119.9403, 38.9357]), elev_upper_mtn_m: elev([-119.9115, 38.9195]), elev_lake_m: elev([-119.98, 38.96]),
+    renderedPisteSegments: piste.length, renderedPisteNames: new Set(piste.map(f => f.properties.name)).size,
+    totalFeatures: DATA.features.length, selectedId: state.selectedId, done: Array.from(state.done), fps: state.fps,
+    mapErrors: state.errors.length, firstErrors: state.errors.slice(0, 3), loaded: map.loaded(), tilesLoaded: map.areTilesLoaded(),
+    camera: { center: [+c.lng.toFixed(4), +c.lat.toFixed(4)], zoom: +map.getZoom().toFixed(2), pitch: map.getPitch(), bearing: +map.getBearing().toFixed(1) },
+    canvasPx: [map.getCanvas().width, map.getCanvas().height], dpr: window.devicePixelRatio,
+    loadedParts: loadedParts(), pageVisibility: document.visibilityState, pageHidden: document.hidden
+  };
+}
+// Why is map.loaded() false? Breaks down the private state MapLibre's load/idle gating depends on.
+function loadedParts() {
+  try {
+    const st = map.style;
+    const sources = {};
+    for (const [k, sc] of Object.entries(st.sourceCaches || {})) {
+      const tiles = {};
+      for (const t of Object.values(sc._tiles || {})) tiles[t.state] = (tiles[t.state] || 0) + 1;
+      sources[k] = { loaded: sc.loaded(), sourceLoaded: sc._sourceLoaded, srcLoaded: sc._source && sc._source.loaded(), tiles };
+    }
+    return { mapLoaded: map.loaded(), styleDirty: map._styleDirty, sourcesDirty: map._sourcesDirty, styleLoaded: st._loaded,
+      styleLoadedFn: st.loaded(), imagesLoaded: st.imageManager && st.imageManager.isLoaded(),
+      updatedSources: Object.keys(st._updatedSources || {}), spriteLoaded: st._spritesImagesIds ? Object.keys(st._spritesImagesIds).length : null, sources };
+  } catch (e) { return { err: String(e) }; }
+}
+function canvasPNG() { map.redraw(); return map.getCanvas().toDataURL('image/png'); }
+
+window.spike = { map, diag, simulateClick, markDone, bench, canvasPNG, select, state };
+post({ type: 'scriptReady', hasData: !!DATA, hasMapLibre: !!window.maplibregl });
+</script>
+</body>
+</html>

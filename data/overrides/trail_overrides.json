@@ -1,0 +1,25 @@
+{
+  "_about": "Hand corrections applied last by tools/build_catalog.py. Keys are exact OSM names.",
+  "areaByName": {},
+  "liftNameByName": {},
+  "subAreaByName": {
+    "Pipeline": "killebrewCanyon", "Outer Limits": "killebrewCanyon", "The Fingers": "killebrewCanyon",
+    "Ramarah's": "killebrewCanyon", "Bobs Boulevard": "killebrewCanyon", "Boundry Chutes": "killebrewCanyon",
+    "Meadows": "killebrewCanyon", "Pac-Man": "killebrewCanyon", "Under the Gun": "killebrewCanyon",
+    "Sweetwater": "killebrewCanyon", "Rim Trail": "killebrewCanyon",
+    "Bill's": "mottCanyon", "Ernie's": "mottCanyon", "Hemlock": "mottCanyon", "Hully Gully": "mottCanyon",
+    "Mott Canyon Trail": "mottCanyon", "North 40": "mottCanyon", "On Hold": "mottCanyon", "Pinenuts": "mottCanyon",
+    "Promised Land": "mottCanyon", "Snake Eyes": "mottCanyon", "Southern Comfort": "mottCanyon",
+    "Stateline": "mottCanyon", "The \"Y\"": "mottCanyon", "Widow Maker": "mottCanyon",
+    "Milky Way Bowl": "dipperComet", "Orion's Belt": "dipperComet", "Pinnacles": "skyCanyonPowderbowl", "Backstroke": "tamarackTop"
+  },
+  "liftPods": {
+    "gunbarrelFace": ["Gunbarrel Express", "World Cup", "Aerial Tramway", "Patsy's", "First Ride", "Groove", "Pioneer", "Big Easy", "Tubing Hill"],
+    "skyCanyonPowderbowl": ["Sky Express", "Canyon Express", "Powderbowl Express", "Heavenly Gondola"],
+    "tamarackTop": ["Tamarack Express"],
+    "dipperComet": ["Dipper Express", "Comet Express"],
+    "olympicStagecoach": ["Olympic Express", "Stagecoach Express"],
+    "boulderGalaxyNorthBowl": ["Boulder", "Galaxy", "North Bowl Express", "Unnamed magic carpet"],
+    "mottCanyon": ["Mott Canyon"]
+  }
+}

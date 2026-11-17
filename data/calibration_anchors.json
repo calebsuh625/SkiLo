@@ -1,0 +1,2148 @@
+{
+ "_about": "Inputs are terrain-tile statistics computed 2026-11-01 (see docs/RATING_METHOD.md section 1.5 and 9). expected_rating is DifficultyRating.rating(inputs, curated_modifiers[name]) with v1 constants. target/tol are human calibration anchors. Cross-check: on data/trails.json (pipeline stats, 15 m sampling) ratings are median +1 vs expected_rating, max +10 on short glades; all targets pass there too.",
+ "constants_version": "v1-2026-11-01",
+ "trails": [
+  {
+   "name": "The Fingers",
+   "expected_rating": 97,
+   "target": 99,
+   "tol": 2,
+   "inputs": {
+    "length_m": 460.3,
+    "vertical_drop_m": 259.76,
+    "avg_grade_pct": 56.43,
+    "max_grade_pct": 100.63,
+    "sustained_grade_pct": 91.41,
+    "p90_grade": 100.46,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Ramarah's",
+   "expected_rating": 96,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 272.35,
+    "vertical_drop_m": 173.41,
+    "avg_grade_pct": 63.67,
+    "max_grade_pct": 95.07,
+    "sustained_grade_pct": 88.18,
+    "p90_grade": 94.84,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Pipeline",
+   "expected_rating": 96,
+   "target": 95,
+   "tol": 4,
+   "inputs": {
+    "length_m": 475.68,
+    "vertical_drop_m": 223.33,
+    "avg_grade_pct": 46.95,
+    "max_grade_pct": 84.81,
+    "sustained_grade_pct": 76.45,
+    "p90_grade": 79.04,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Snake Eyes",
+   "expected_rating": 95,
+   "target": 96,
+   "tol": 3,
+   "inputs": {
+    "length_m": 369.39,
+    "vertical_drop_m": 184.53,
+    "avg_grade_pct": 49.95,
+    "max_grade_pct": 78.99,
+    "sustained_grade_pct": 72.85,
+    "p90_grade": 77.46,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Under the Gun",
+   "expected_rating": 94,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 274.22,
+    "vertical_drop_m": 149.32,
+    "avg_grade_pct": 54.45,
+    "max_grade_pct": 71.01,
+    "sustained_grade_pct": 70.04,
+    "p90_grade": 71.04,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "The \"Y\"",
+   "expected_rating": 93,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 230.55,
+    "vertical_drop_m": 130.59,
+    "avg_grade_pct": 56.64,
+    "max_grade_pct": 78.38,
+    "sustained_grade_pct": 72.21,
+    "p90_grade": 77.95,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Stateline",
+   "expected_rating": 93,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 252.99,
+    "vertical_drop_m": 141.08,
+    "avg_grade_pct": 55.76,
+    "max_grade_pct": 74.76,
+    "sustained_grade_pct": 69.48,
+    "p90_grade": 74.03,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Bill's",
+   "expected_rating": 92,
+   "target": 90,
+   "tol": 5,
+   "inputs": {
+    "length_m": 581.53,
+    "vertical_drop_m": 239.32,
+    "avg_grade_pct": 41.15,
+    "max_grade_pct": 78.51,
+    "sustained_grade_pct": 74.79,
+    "p90_grade": 75.3,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Bobs Boulevard",
+   "expected_rating": 90,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 523.71,
+    "vertical_drop_m": 231.03,
+    "avg_grade_pct": 44.11,
+    "max_grade_pct": 71.09,
+    "sustained_grade_pct": 66.39,
+    "p90_grade": 70.91,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Outer Limits",
+   "expected_rating": 90,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 598.14,
+    "vertical_drop_m": 235.1,
+    "avg_grade_pct": 39.3,
+    "max_grade_pct": 69.68,
+    "sustained_grade_pct": 65.6,
+    "p90_grade": 66.57,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Hemlock",
+   "expected_rating": 89,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 354.35,
+    "vertical_drop_m": 152.2,
+    "avg_grade_pct": 42.95,
+    "max_grade_pct": 76.08,
+    "sustained_grade_pct": 68.45,
+    "p90_grade": 76.03,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Boundry Chutes",
+   "expected_rating": 89,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 195.92,
+    "vertical_drop_m": 97.39,
+    "avg_grade_pct": 49.71,
+    "max_grade_pct": 63.1,
+    "sustained_grade_pct": 60.7,
+    "p90_grade": 63.07,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Sweetwater",
+   "expected_rating": 88,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 317.68,
+    "vertical_drop_m": 167.4,
+    "avg_grade_pct": 52.69,
+    "max_grade_pct": 69.17,
+    "sustained_grade_pct": 65.22,
+    "p90_grade": 69.06,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Pac-Man",
+   "expected_rating": 88,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 216.26,
+    "vertical_drop_m": 103.28,
+    "avg_grade_pct": 47.76,
+    "max_grade_pct": 77.24,
+    "sustained_grade_pct": 61.73,
+    "p90_grade": 76.98,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Widow Maker",
+   "expected_rating": 88,
+   "target": 91,
+   "tol": 4,
+   "inputs": {
+    "length_m": 400.24,
+    "vertical_drop_m": 174.9,
+    "avg_grade_pct": 43.7,
+    "max_grade_pct": 64.58,
+    "sustained_grade_pct": 57.01,
+    "p90_grade": 64.08,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Ernie's",
+   "expected_rating": 87,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 97.55,
+    "vertical_drop_m": 55.83,
+    "avg_grade_pct": 57.23,
+    "max_grade_pct": 74.84,
+    "sustained_grade_pct": 69.78,
+    "p90_grade": 75.75,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Hogsback",
+   "expected_rating": 86,
+   "target": 84,
+   "tol": 5,
+   "inputs": {
+    "length_m": 1205.19,
+    "vertical_drop_m": 467.6,
+    "avg_grade_pct": 38.8,
+    "max_grade_pct": 63.2,
+    "sustained_grade_pct": 62.7,
+    "p90_grade": 61.58,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Milky Way Bowl",
+   "expected_rating": 86,
+   "target": 82,
+   "tol": 5,
+   "inputs": {
+    "length_m": 409.3,
+    "vertical_drop_m": 194.74,
+    "avg_grade_pct": 47.58,
+    "max_grade_pct": 63.06,
+    "sustained_grade_pct": 59.14,
+    "p90_grade": 63.06,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "North 40",
+   "expected_rating": 85,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 211.06,
+    "vertical_drop_m": 110.21,
+    "avg_grade_pct": 52.22,
+    "max_grade_pct": 70.93,
+    "sustained_grade_pct": 63.91,
+    "p90_grade": 71.1,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Hully Gully",
+   "expected_rating": 84,
+   "target": 84,
+   "tol": 5,
+   "inputs": {
+    "length_m": 675.98,
+    "vertical_drop_m": 217.61,
+    "avg_grade_pct": 32.19,
+    "max_grade_pct": 57.48,
+    "sustained_grade_pct": 55.07,
+    "p90_grade": 55.07,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "East Bowl Woods",
+   "expected_rating": 83,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 585.38,
+    "vertical_drop_m": 304.43,
+    "avg_grade_pct": 52.0,
+    "max_grade_pct": 66.49,
+    "sustained_grade_pct": 65.79,
+    "p90_grade": 66.49,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Pinenuts",
+   "expected_rating": 81,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 342.75,
+    "vertical_drop_m": 165.77,
+    "avg_grade_pct": 48.36,
+    "max_grade_pct": 62.0,
+    "sustained_grade_pct": 60.19,
+    "p90_grade": 62.0,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Gunbarrel",
+   "expected_rating": 80,
+   "target": 82,
+   "tol": 4,
+   "inputs": {
+    "length_m": 636.41,
+    "vertical_drop_m": 283.05,
+    "avg_grade_pct": 44.48,
+    "max_grade_pct": 62.33,
+    "sustained_grade_pct": 58.94,
+    "p90_grade": 61.96,
+    "osm_difficulty": "expert",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Southern Comfort",
+   "expected_rating": 80,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 458.35,
+    "vertical_drop_m": 183.53,
+    "avg_grade_pct": 40.04,
+    "max_grade_pct": 62.09,
+    "sustained_grade_pct": 58.42,
+    "p90_grade": 59.68,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Meadows",
+   "expected_rating": 77,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 289.92,
+    "vertical_drop_m": 105.6,
+    "avg_grade_pct": 36.43,
+    "max_grade_pct": 62.25,
+    "sustained_grade_pct": 50.49,
+    "p90_grade": 58.91,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Backstroke",
+   "expected_rating": 75,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 695.72,
+    "vertical_drop_m": 272.8,
+    "avg_grade_pct": 39.21,
+    "max_grade_pct": 57.26,
+    "sustained_grade_pct": 56.81,
+    "p90_grade": 57.26,
+    "osm_difficulty": "expert",
+    "grooming": "backcountry",
+    "gladed": true
+   }
+  },
+  {
+   "name": "Pistol",
+   "expected_rating": 74,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 447.31,
+    "vertical_drop_m": 200.23,
+    "avg_grade_pct": 44.76,
+    "max_grade_pct": 57.19,
+    "sustained_grade_pct": 55.26,
+    "p90_grade": 56.47,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Promised Land",
+   "expected_rating": 74,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 209.13,
+    "vertical_drop_m": 87.39,
+    "avg_grade_pct": 41.79,
+    "max_grade_pct": 61.74,
+    "sustained_grade_pct": 51.83,
+    "p90_grade": 60.9,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "East Bowl",
+   "expected_rating": 71,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 435.77,
+    "vertical_drop_m": 194.4,
+    "avg_grade_pct": 44.61,
+    "max_grade_pct": 54.04,
+    "sustained_grade_pct": 53.6,
+    "p90_grade": 54.04,
+    "osm_difficulty": "expert",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Express Line",
+   "expected_rating": 71,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1014.95,
+    "vertical_drop_m": 357.25,
+    "avg_grade_pct": 35.2,
+    "max_grade_pct": 55.74,
+    "sustained_grade_pct": 48.36,
+    "p90_grade": 47.85,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Advanced Round-a-Bout",
+   "expected_rating": 69,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 582.35,
+    "vertical_drop_m": 159.78,
+    "avg_grade_pct": 27.44,
+    "max_grade_pct": 58.1,
+    "sustained_grade_pct": 52.96,
+    "p90_grade": 58.1,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Pinnacles",
+   "expected_rating": 69,
+   "target": 70,
+   "tol": 6,
+   "inputs": {
+    "length_m": 1903.37,
+    "vertical_drop_m": 618.7,
+    "avg_grade_pct": 32.51,
+    "max_grade_pct": 47.7,
+    "sustained_grade_pct": 45.54,
+    "p90_grade": 44.91,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Upper Tamarack Woods",
+   "expected_rating": 67,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 507.56,
+    "vertical_drop_m": 191.62,
+    "avg_grade_pct": 37.75,
+    "max_grade_pct": 50.79,
+    "sustained_grade_pct": 50.63,
+    "p90_grade": 50.79,
+    "osm_difficulty": "expert",
+    "grooming": "backcountry",
+    "gladed": true
+   }
+  },
+  {
+   "name": "The Face",
+   "expected_rating": 67,
+   "target": 72,
+   "tol": 6,
+   "inputs": {
+    "length_m": 525.38,
+    "vertical_drop_m": 189.54,
+    "avg_grade_pct": 36.08,
+    "max_grade_pct": 50.66,
+    "sustained_grade_pct": 50.46,
+    "p90_grade": 50.66,
+    "osm_difficulty": "expert",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "West Bowl",
+   "expected_rating": 67,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 527.23,
+    "vertical_drop_m": 194.59,
+    "avg_grade_pct": 36.91,
+    "max_grade_pct": 54.12,
+    "sustained_grade_pct": 47.06,
+    "p90_grade": 45.48,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Bohemian Grove",
+   "expected_rating": 66,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 760.74,
+    "vertical_drop_m": 297.88,
+    "avg_grade_pct": 39.16,
+    "max_grade_pct": 52.04,
+    "sustained_grade_pct": 48.09,
+    "p90_grade": 49.53,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "North Bowl",
+   "expected_rating": 64,
+   "target": 60,
+   "tol": 6,
+   "inputs": {
+    "length_m": 993.73,
+    "vertical_drop_m": 256.72,
+    "avg_grade_pct": 25.83,
+    "max_grade_pct": 53.29,
+    "sustained_grade_pct": 44.89,
+    "p90_grade": 41.32,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Ellie's",
+   "expected_rating": 64,
+   "target": 62,
+   "tol": 5,
+   "inputs": {
+    "length_m": 1201.76,
+    "vertical_drop_m": 380.31,
+    "avg_grade_pct": 31.65,
+    "max_grade_pct": 46.87,
+    "sustained_grade_pct": 44.19,
+    "p90_grade": 43.12,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Fall Line",
+   "expected_rating": 62,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 243.07,
+    "vertical_drop_m": 103.37,
+    "avg_grade_pct": 42.53,
+    "max_grade_pct": 50.84,
+    "sustained_grade_pct": 48.63,
+    "p90_grade": 50.84,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Double Down",
+   "expected_rating": 62,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 335.53,
+    "vertical_drop_m": 100.89,
+    "avg_grade_pct": 30.07,
+    "max_grade_pct": 48.95,
+    "sustained_grade_pct": 46.72,
+    "p90_grade": 48.76,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Milky Way",
+   "expected_rating": 62,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 377.68,
+    "vertical_drop_m": 114.19,
+    "avg_grade_pct": 30.24,
+    "max_grade_pct": 55.79,
+    "sustained_grade_pct": 44.21,
+    "p90_grade": 52.21,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Powder Line",
+   "expected_rating": 61,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 252.61,
+    "vertical_drop_m": 104.47,
+    "avg_grade_pct": 41.35,
+    "max_grade_pct": 48.84,
+    "sustained_grade_pct": 47.62,
+    "p90_grade": 48.76,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Waterfall",
+   "expected_rating": 61,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 313.57,
+    "vertical_drop_m": 119.27,
+    "avg_grade_pct": 38.04,
+    "max_grade_pct": 47.31,
+    "sustained_grade_pct": 45.89,
+    "p90_grade": 47.02,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Aries Woods",
+   "expected_rating": 60,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 628.7,
+    "vertical_drop_m": 187.78,
+    "avg_grade_pct": 29.87,
+    "max_grade_pct": 48.94,
+    "sustained_grade_pct": 45.27,
+    "p90_grade": 45.68,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "On Hold",
+   "expected_rating": 60,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 638.3,
+    "vertical_drop_m": 187.95,
+    "avg_grade_pct": 29.45,
+    "max_grade_pct": 42.74,
+    "sustained_grade_pct": 39.2,
+    "p90_grade": 40.47,
+    "osm_difficulty": "expert",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Mott Canyon Trail",
+   "expected_rating": 60,
+   "target": 60,
+   "tol": 4,
+   "inputs": {
+    "length_m": 947.74,
+    "vertical_drop_m": 120.87,
+    "avg_grade_pct": 12.75,
+    "max_grade_pct": 19.83,
+    "sustained_grade_pct": 18.98,
+    "p90_grade": 18.82,
+    "osm_difficulty": "advanced",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Rim Trail",
+   "expected_rating": 60,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 732.39,
+    "vertical_drop_m": 59.16,
+    "avg_grade_pct": 8.08,
+    "max_grade_pct": 26.93,
+    "sustained_grade_pct": 16.51,
+    "p90_grade": 20.73,
+    "osm_difficulty": "expert",
+    "grooming": "classic",
+    "gladed": true
+   }
+  },
+  {
+   "name": "Tamarack Woods",
+   "expected_rating": 59,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 429.55,
+    "vertical_drop_m": 156.55,
+    "avg_grade_pct": 36.45,
+    "max_grade_pct": 47.98,
+    "sustained_grade_pct": 44.97,
+    "p90_grade": 45.47,
+    "osm_difficulty": "advanced",
+    "grooming": "backcountry",
+    "gladed": true
+   }
+  },
+  {
+   "name": "Little Dipper",
+   "expected_rating": 59,
+   "target": 56,
+   "tol": 5,
+   "inputs": {
+    "length_m": 738.14,
+    "vertical_drop_m": 201.87,
+    "avg_grade_pct": 27.35,
+    "max_grade_pct": 45.58,
+    "sustained_grade_pct": 43.34,
+    "p90_grade": 42.45,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Sky Canyon",
+   "expected_rating": 58,
+   "target": 57,
+   "tol": 5,
+   "inputs": {
+    "length_m": 576.93,
+    "vertical_drop_m": 138.72,
+    "avg_grade_pct": 24.05,
+    "max_grade_pct": 47.33,
+    "sustained_grade_pct": 43.42,
+    "p90_grade": 43.64,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Dipper Bowl",
+   "expected_rating": 58,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 609.49,
+    "vertical_drop_m": 152.89,
+    "avg_grade_pct": 25.09,
+    "max_grade_pct": 47.29,
+    "sustained_grade_pct": 43.31,
+    "p90_grade": 44.15,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Powderbowl Woods",
+   "expected_rating": 57,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 356.11,
+    "vertical_drop_m": 133.85,
+    "avg_grade_pct": 37.59,
+    "max_grade_pct": 45.09,
+    "sustained_grade_pct": 44.3,
+    "p90_grade": 45.09,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "The Burn",
+   "expected_rating": 57,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 580.87,
+    "vertical_drop_m": 186.84,
+    "avg_grade_pct": 32.17,
+    "max_grade_pct": 44.88,
+    "sustained_grade_pct": 43.39,
+    "p90_grade": 44.88,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Ski Ways Glades",
+   "expected_rating": 57,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1189.0,
+    "vertical_drop_m": 337.72,
+    "avg_grade_pct": 28.4,
+    "max_grade_pct": 49.77,
+    "sustained_grade_pct": 39.37,
+    "p90_grade": 40.98,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "The Pines",
+   "expected_rating": 56,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 596.7,
+    "vertical_drop_m": 140.16,
+    "avg_grade_pct": 23.49,
+    "max_grade_pct": 44.14,
+    "sustained_grade_pct": 43.13,
+    "p90_grade": 43.44,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Cepheus",
+   "expected_rating": 55,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 443.63,
+    "vertical_drop_m": 142.87,
+    "avg_grade_pct": 32.2,
+    "max_grade_pct": 54.73,
+    "sustained_grade_pct": 40.26,
+    "p90_grade": 43.3,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Ponderosa",
+   "expected_rating": 54,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 777.09,
+    "vertical_drop_m": 237.21,
+    "avg_grade_pct": 30.52,
+    "max_grade_pct": 50.42,
+    "sustained_grade_pct": 45.07,
+    "p90_grade": 45.0,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Mineshaft",
+   "expected_rating": 52,
+   "target": 51,
+   "tol": 5,
+   "inputs": {
+    "length_m": 658.52,
+    "vertical_drop_m": 191.7,
+    "avg_grade_pct": 29.11,
+    "max_grade_pct": 46.6,
+    "sustained_grade_pct": 45.72,
+    "p90_grade": 46.43,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Stagecoach Woods",
+   "expected_rating": 52,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 322.19,
+    "vertical_drop_m": 117.5,
+    "avg_grade_pct": 36.47,
+    "max_grade_pct": 43.41,
+    "sustained_grade_pct": 40.82,
+    "p90_grade": 42.59,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Dipper Line",
+   "expected_rating": 52,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 232.63,
+    "vertical_drop_m": 75.62,
+    "avg_grade_pct": 32.51,
+    "max_grade_pct": 39.2,
+    "sustained_grade_pct": 35.44,
+    "p90_grade": 38.9,
+    "osm_difficulty": "advanced",
+    "grooming": "mogul",
+    "gladed": true
+   }
+  },
+  {
+   "name": "Nevada Woods",
+   "expected_rating": 51,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 839.16,
+    "vertical_drop_m": 283.01,
+    "avg_grade_pct": 33.73,
+    "max_grade_pct": 39.54,
+    "sustained_grade_pct": 38.33,
+    "p90_grade": 38.75,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Meteor",
+   "expected_rating": 51,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 525.44,
+    "vertical_drop_m": 161.52,
+    "avg_grade_pct": 30.74,
+    "max_grade_pct": 42.5,
+    "sustained_grade_pct": 38.09,
+    "p90_grade": 41.91,
+    "osm_difficulty": "intermediate",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Comstock",
+   "expected_rating": 50,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1153.96,
+    "vertical_drop_m": 315.48,
+    "avg_grade_pct": 27.34,
+    "max_grade_pct": 46.93,
+    "sustained_grade_pct": 41.19,
+    "p90_grade": 36.05,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Scorpion Woods",
+   "expected_rating": 50,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 798.95,
+    "vertical_drop_m": 246.41,
+    "avg_grade_pct": 30.84,
+    "max_grade_pct": 39.57,
+    "sustained_grade_pct": 37.87,
+    "p90_grade": 38.07,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Emily's Run",
+   "expected_rating": 49,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 636.48,
+    "vertical_drop_m": 212.38,
+    "avg_grade_pct": 33.37,
+    "max_grade_pct": 46.67,
+    "sustained_grade_pct": 42.72,
+    "p90_grade": 44.56,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Stage Line",
+   "expected_rating": 48,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 597.16,
+    "vertical_drop_m": 207.36,
+    "avg_grade_pct": 34.72,
+    "max_grade_pct": 37.03,
+    "sustained_grade_pct": 37.03,
+    "p90_grade": 37.03,
+    "osm_difficulty": "intermediate",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Maggie's Canyon",
+   "expected_rating": 48,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 661.09,
+    "vertical_drop_m": 165.65,
+    "avg_grade_pct": 25.06,
+    "max_grade_pct": 43.97,
+    "sustained_grade_pct": 35.96,
+    "p90_grade": 38.28,
+    "osm_difficulty": "advanced",
+    "grooming": "classic",
+    "gladed": true
+   }
+  },
+  {
+   "name": "Powderbowl Run",
+   "expected_rating": 46,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 496.48,
+    "vertical_drop_m": 126.84,
+    "avg_grade_pct": 25.55,
+    "max_grade_pct": 43.05,
+    "sustained_grade_pct": 41.85,
+    "p90_grade": 42.42,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Stagecoach",
+   "expected_rating": 46,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 661.98,
+    "vertical_drop_m": 203.27,
+    "avg_grade_pct": 30.71,
+    "max_grade_pct": 42.47,
+    "sustained_grade_pct": 41.27,
+    "p90_grade": 40.83,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Dipper Woods",
+   "expected_rating": 45,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 657.55,
+    "vertical_drop_m": 188.34,
+    "avg_grade_pct": 28.64,
+    "max_grade_pct": 35.62,
+    "sustained_grade_pct": 35.62,
+    "p90_grade": 35.62,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Upper Bonanza",
+   "expected_rating": 44,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 316.28,
+    "vertical_drop_m": 62.73,
+    "avg_grade_pct": 19.83,
+    "max_grade_pct": 40.65,
+    "sustained_grade_pct": 36.0,
+    "p90_grade": 40.65,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Galaxy Woods",
+   "expected_rating": 44,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 514.09,
+    "vertical_drop_m": 155.54,
+    "avg_grade_pct": 30.25,
+    "max_grade_pct": 40.35,
+    "sustained_grade_pct": 34.33,
+    "p90_grade": 38.65,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": true
+   }
+  },
+  {
+   "name": "Boulder Chute",
+   "expected_rating": 42,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 503.92,
+    "vertical_drop_m": 153.4,
+    "avg_grade_pct": 30.44,
+    "max_grade_pct": 36.98,
+    "sustained_grade_pct": 33.71,
+    "p90_grade": 34.52,
+    "osm_difficulty": "advanced",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "High Five",
+   "expected_rating": 41,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1439.45,
+    "vertical_drop_m": 334.67,
+    "avg_grade_pct": 23.25,
+    "max_grade_pct": 39.38,
+    "sustained_grade_pct": 35.23,
+    "p90_grade": 34.71,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Cascade",
+   "expected_rating": 41,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 726.96,
+    "vertical_drop_m": 156.1,
+    "avg_grade_pct": 21.47,
+    "max_grade_pct": 35.63,
+    "sustained_grade_pct": 33.0,
+    "p90_grade": 33.07,
+    "osm_difficulty": "intermediate",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Ridge Bowl",
+   "expected_rating": 40,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 559.31,
+    "vertical_drop_m": 101.64,
+    "avg_grade_pct": 18.17,
+    "max_grade_pct": 37.84,
+    "sustained_grade_pct": 35.18,
+    "p90_grade": 37.25,
+    "osm_difficulty": "advanced",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Liz's",
+   "expected_rating": 40,
+   "target": 38,
+   "tol": 5,
+   "inputs": {
+    "length_m": 1480.43,
+    "vertical_drop_m": 383.1,
+    "avg_grade_pct": 25.88,
+    "max_grade_pct": 37.48,
+    "sustained_grade_pct": 34.66,
+    "p90_grade": 33.3,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Bonanza",
+   "expected_rating": 39,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 449.22,
+    "vertical_drop_m": 129.99,
+    "avg_grade_pct": 28.94,
+    "max_grade_pct": 42.36,
+    "sustained_grade_pct": 36.41,
+    "p90_grade": 40.97,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Big Dipper",
+   "expected_rating": 39,
+   "target": 39,
+   "tol": 5,
+   "inputs": {
+    "length_m": 2011.65,
+    "vertical_drop_m": 355.41,
+    "avg_grade_pct": 17.67,
+    "max_grade_pct": 37.12,
+    "sustained_grade_pct": 34.59,
+    "p90_grade": 33.11,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Nova",
+   "expected_rating": 36,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 460.7,
+    "vertical_drop_m": 98.72,
+    "avg_grade_pct": 21.43,
+    "max_grade_pct": 32.0,
+    "sustained_grade_pct": 31.04,
+    "p90_grade": 31.51,
+    "osm_difficulty": "intermediate",
+    "grooming": "mogul",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Olympic Downhill",
+   "expected_rating": 36,
+   "target": 36,
+   "tol": 5,
+   "inputs": {
+    "length_m": 2133.01,
+    "vertical_drop_m": 472.57,
+    "avg_grade_pct": 22.16,
+    "max_grade_pct": 35.3,
+    "sustained_grade_pct": 30.2,
+    "p90_grade": 29.63,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "49'er",
+   "expected_rating": 33,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 472.56,
+    "vertical_drop_m": 108.24,
+    "avg_grade_pct": 22.91,
+    "max_grade_pct": 36.5,
+    "sustained_grade_pct": 33.84,
+    "p90_grade": 34.78,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Canyonland",
+   "expected_rating": 33,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1230.24,
+    "vertical_drop_m": 311.56,
+    "avg_grade_pct": 25.33,
+    "max_grade_pct": 33.72,
+    "sustained_grade_pct": 30.81,
+    "p90_grade": 30.17,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Comet",
+   "expected_rating": 32,
+   "target": 33,
+   "tol": 5,
+   "inputs": {
+    "length_m": 1337.18,
+    "vertical_drop_m": 268.24,
+    "avg_grade_pct": 20.06,
+    "max_grade_pct": 34.65,
+    "sustained_grade_pct": 30.71,
+    "p90_grade": 31.04,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Ridge Run",
+   "expected_rating": 32,
+   "target": 30,
+   "tol": 5,
+   "inputs": {
+    "length_m": 2596.36,
+    "vertical_drop_m": 433.0,
+    "avg_grade_pct": 16.68,
+    "max_grade_pct": 32.49,
+    "sustained_grade_pct": 29.41,
+    "p90_grade": 28.01,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Advanced California Trail",
+   "expected_rating": 32,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 536.55,
+    "vertical_drop_m": 83.56,
+    "avg_grade_pct": 15.57,
+    "max_grade_pct": 29.09,
+    "sustained_grade_pct": 29.07,
+    "p90_grade": 29.09,
+    "osm_difficulty": "intermediate",
+    "grooming": "backcountry",
+    "gladed": true
+   }
+  },
+  {
+   "name": "California Trail",
+   "expected_rating": 31,
+   "target": 28,
+   "tol": 5,
+   "inputs": {
+    "length_m": 2487.48,
+    "vertical_drop_m": 368.72,
+    "avg_grade_pct": 14.82,
+    "max_grade_pct": 32.23,
+    "sustained_grade_pct": 29.45,
+    "p90_grade": 28.21,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "World Cup",
+   "expected_rating": 30,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 392.72,
+    "vertical_drop_m": 99.13,
+    "avg_grade_pct": 25.24,
+    "max_grade_pct": 33.77,
+    "sustained_grade_pct": 32.49,
+    "p90_grade": 32.89,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Cloud 9",
+   "expected_rating": 30,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 761.45,
+    "vertical_drop_m": 179.47,
+    "avg_grade_pct": 23.57,
+    "max_grade_pct": 34.13,
+    "sustained_grade_pct": 30.69,
+    "p90_grade": 31.62,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Orion",
+   "expected_rating": 30,
+   "target": 32,
+   "tol": 5,
+   "inputs": {
+    "length_m": 1693.93,
+    "vertical_drop_m": 337.32,
+    "avg_grade_pct": 19.91,
+    "max_grade_pct": 31.19,
+    "sustained_grade_pct": 29.16,
+    "p90_grade": 27.72,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Upper North Bowl",
+   "expected_rating": 29,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 533.39,
+    "vertical_drop_m": 118.77,
+    "avg_grade_pct": 22.27,
+    "max_grade_pct": 35.59,
+    "sustained_grade_pct": 30.57,
+    "p90_grade": 33.13,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Ellie's Swing",
+   "expected_rating": 29,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 566.1,
+    "vertical_drop_m": 82.87,
+    "avg_grade_pct": 14.64,
+    "max_grade_pct": 24.85,
+    "sustained_grade_pct": 19.08,
+    "p90_grade": 22.01,
+    "osm_difficulty": "advanced",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Jack's",
+   "expected_rating": 26,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 648.69,
+    "vertical_drop_m": 105.85,
+    "avg_grade_pct": 16.32,
+    "max_grade_pct": 36.18,
+    "sustained_grade_pct": 28.82,
+    "p90_grade": 29.66,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Lower Stagecoach",
+   "expected_rating": 26,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1167.32,
+    "vertical_drop_m": 200.37,
+    "avg_grade_pct": 17.16,
+    "max_grade_pct": 31.47,
+    "sustained_grade_pct": 28.38,
+    "p90_grade": 27.08,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "$100 Saddle",
+   "expected_rating": 25,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 351.35,
+    "vertical_drop_m": 88.59,
+    "avg_grade_pct": 25.21,
+    "max_grade_pct": 30.38,
+    "sustained_grade_pct": 29.67,
+    "p90_grade": 30.36,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Aries",
+   "expected_rating": 25,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 338.1,
+    "vertical_drop_m": 73.54,
+    "avg_grade_pct": 21.75,
+    "max_grade_pct": 36.25,
+    "sustained_grade_pct": 28.52,
+    "p90_grade": 34.4,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Perimeter",
+   "expected_rating": 24,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1815.73,
+    "vertical_drop_m": 238.52,
+    "avg_grade_pct": 13.14,
+    "max_grade_pct": 29.93,
+    "sustained_grade_pct": 26.92,
+    "p90_grade": 22.49,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Mombo",
+   "expected_rating": 24,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1529.15,
+    "vertical_drop_m": 241.23,
+    "avg_grade_pct": 15.78,
+    "max_grade_pct": 33.22,
+    "sustained_grade_pct": 26.74,
+    "p90_grade": 24.81,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Galaxy",
+   "expected_rating": 24,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1360.56,
+    "vertical_drop_m": 235.61,
+    "avg_grade_pct": 17.32,
+    "max_grade_pct": 32.62,
+    "sustained_grade_pct": 26.49,
+    "p90_grade": 27.67,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Upper Mombo",
+   "expected_rating": 22,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 305.55,
+    "vertical_drop_m": 57.95,
+    "avg_grade_pct": 18.97,
+    "max_grade_pct": 31.97,
+    "sustained_grade_pct": 27.32,
+    "p90_grade": 31.69,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Steins Way",
+   "expected_rating": 18,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 580.58,
+    "vertical_drop_m": 110.33,
+    "avg_grade_pct": 19.0,
+    "max_grade_pct": 27.23,
+    "sustained_grade_pct": 25.28,
+    "p90_grade": 27.18,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Enchanted Forest",
+   "expected_rating": 18,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 341.92,
+    "vertical_drop_m": 36.14,
+    "avg_grade_pct": 10.57,
+    "max_grade_pct": 42.74,
+    "sustained_grade_pct": 24.53,
+    "p90_grade": 35.77,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Sam's Dream",
+   "expected_rating": 18,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 771.77,
+    "vertical_drop_m": 134.29,
+    "avg_grade_pct": 17.4,
+    "max_grade_pct": 28.75,
+    "sustained_grade_pct": 24.24,
+    "p90_grade": 24.68,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Nevada Trail",
+   "expected_rating": 18,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 2276.88,
+    "vertical_drop_m": 276.72,
+    "avg_grade_pct": 12.15,
+    "max_grade_pct": 31.72,
+    "sustained_grade_pct": 22.91,
+    "p90_grade": 21.39,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Cosmic Wave",
+   "expected_rating": 17,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 734.22,
+    "vertical_drop_m": 143.82,
+    "avg_grade_pct": 19.59,
+    "max_grade_pct": 24.16,
+    "sustained_grade_pct": 24.02,
+    "p90_grade": 24.16,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Boulder Bowl",
+   "expected_rating": 16,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 988.74,
+    "vertical_drop_m": 131.16,
+    "avg_grade_pct": 13.27,
+    "max_grade_pct": 25.1,
+    "sustained_grade_pct": 23.69,
+    "p90_grade": 23.04,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Groove Park",
+   "expected_rating": 15,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 566.7,
+    "vertical_drop_m": 86.87,
+    "avg_grade_pct": 15.33,
+    "max_grade_pct": 26.68,
+    "sustained_grade_pct": 22.57,
+    "p90_grade": 24.18,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Von Schmidt",
+   "expected_rating": 15,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1344.13,
+    "vertical_drop_m": 105.24,
+    "avg_grade_pct": 7.83,
+    "max_grade_pct": 28.66,
+    "sustained_grade_pct": 22.36,
+    "p90_grade": 15.85,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Stagecoach Return",
+   "expected_rating": 15,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 292.87,
+    "vertical_drop_m": 40.92,
+    "avg_grade_pct": 13.97,
+    "max_grade_pct": 27.34,
+    "sustained_grade_pct": 20.92,
+    "p90_grade": 27.34,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Sand Dunes",
+   "expected_rating": 14,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 472.52,
+    "vertical_drop_m": 48.76,
+    "avg_grade_pct": 10.32,
+    "max_grade_pct": 22.8,
+    "sustained_grade_pct": 21.76,
+    "p90_grade": 22.67,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Outlaw",
+   "expected_rating": 14,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 598.28,
+    "vertical_drop_m": 99.18,
+    "avg_grade_pct": 16.58,
+    "max_grade_pct": 22.7,
+    "sustained_grade_pct": 21.65,
+    "p90_grade": 21.87,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Tamarack Return",
+   "expected_rating": 14,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 545.5,
+    "vertical_drop_m": 72.04,
+    "avg_grade_pct": 13.21,
+    "max_grade_pct": 22.91,
+    "sustained_grade_pct": 19.57,
+    "p90_grade": 20.66,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Orion's Belt",
+   "expected_rating": 13,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 203.58,
+    "vertical_drop_m": 38.01,
+    "avg_grade_pct": 18.67,
+    "max_grade_pct": 23.18,
+    "sustained_grade_pct": 19.96,
+    "p90_grade": 23.63,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Round-a-Bout",
+   "expected_rating": 13,
+   "target": 10,
+   "tol": 4,
+   "inputs": {
+    "length_m": 3703.85,
+    "vertical_drop_m": 320.01,
+    "avg_grade_pct": 8.64,
+    "max_grade_pct": 25.99,
+    "sustained_grade_pct": 16.06,
+    "p90_grade": 16.03,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Maggie's",
+   "expected_rating": 11,
+   "target": 12,
+   "tol": 4,
+   "inputs": {
+    "length_m": 1834.57,
+    "vertical_drop_m": 230.74,
+    "avg_grade_pct": 12.58,
+    "max_grade_pct": 20.57,
+    "sustained_grade_pct": 19.25,
+    "p90_grade": 18.16,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Upper Perimeter",
+   "expected_rating": 11,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 353.76,
+    "vertical_drop_m": 51.41,
+    "avg_grade_pct": 14.53,
+    "max_grade_pct": 22.14,
+    "sustained_grade_pct": 16.94,
+    "p90_grade": 19.68,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Crossover",
+   "expected_rating": 11,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 1203.75,
+    "vertical_drop_m": 94.88,
+    "avg_grade_pct": 7.88,
+    "max_grade_pct": 19.89,
+    "sustained_grade_pct": 14.68,
+    "p90_grade": 14.53,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Upper Dipper Return",
+   "expected_rating": 11,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 442.84,
+    "vertical_drop_m": 50.07,
+    "avg_grade_pct": 11.31,
+    "max_grade_pct": 16.24,
+    "sustained_grade_pct": 14.45,
+    "p90_grade": 15.77,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Skyline Trail",
+   "expected_rating": 11,
+   "target": 14,
+   "tol": 4,
+   "inputs": {
+    "length_m": 1604.82,
+    "vertical_drop_m": 124.28,
+    "avg_grade_pct": 7.74,
+    "max_grade_pct": 20.07,
+    "sustained_grade_pct": 13.11,
+    "p90_grade": 13.29,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Swing Trail",
+   "expected_rating": 11,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 421.85,
+    "vertical_drop_m": 39.48,
+    "avg_grade_pct": 9.36,
+    "max_grade_pct": 13.16,
+    "sustained_grade_pct": 11.83,
+    "p90_grade": 12.78,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Pepi's",
+   "expected_rating": 10,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 952.64,
+    "vertical_drop_m": 70.91,
+    "avg_grade_pct": 7.44,
+    "max_grade_pct": 15.7,
+    "sustained_grade_pct": 10.53,
+    "p90_grade": 10.98,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Lower Dipper Return",
+   "expected_rating": 10,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 450.77,
+    "vertical_drop_m": 26.41,
+    "avg_grade_pct": 5.86,
+    "max_grade_pct": 9.54,
+    "sustained_grade_pct": 8.78,
+    "p90_grade": 9.27,
+    "osm_difficulty": "intermediate",
+    "grooming": null,
+    "gladed": false
+   }
+  },
+  {
+   "name": "Silver Spur",
+   "expected_rating": 10,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 250.48,
+    "vertical_drop_m": 15.55,
+    "avg_grade_pct": 6.21,
+    "max_grade_pct": 14.0,
+    "sustained_grade_pct": 8.64,
+    "p90_grade": 13.73,
+    "osm_difficulty": "intermediate",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Easy Street",
+   "expected_rating": 9,
+   "target": 6,
+   "tol": 4,
+   "inputs": {
+    "length_m": 372.39,
+    "vertical_drop_m": 42.09,
+    "avg_grade_pct": 11.3,
+    "max_grade_pct": 21.46,
+    "sustained_grade_pct": 18.5,
+    "p90_grade": 20.44,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Poma Trail",
+   "expected_rating": 7,
+   "target": null,
+   "tol": null,
+   "inputs": {
+    "length_m": 483.27,
+    "vertical_drop_m": 56.1,
+    "avg_grade_pct": 11.61,
+    "max_grade_pct": 26.77,
+    "sustained_grade_pct": 17.02,
+    "p90_grade": 19.52,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  },
+  {
+   "name": "Patsy's",
+   "expected_rating": 6,
+   "target": 5,
+   "tol": 4,
+   "inputs": {
+    "length_m": 554.15,
+    "vertical_drop_m": 67.69,
+    "avg_grade_pct": 12.22,
+    "max_grade_pct": 24.74,
+    "sustained_grade_pct": 15.46,
+    "p90_grade": 15.86,
+    "osm_difficulty": "easy",
+    "grooming": "classic",
+    "gladed": false
+   }
+  }
+ ]
+}

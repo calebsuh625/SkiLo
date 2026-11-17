@@ -1,0 +1,64 @@
+{
+  "source": "AWS Terrain Tiles (Mapzen terrarium), s3://elevation-tiles-prod/terrarium, zoom 14",
+  "license": "Various (SRTM/NED/3DEP etc.) see https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+  "zoom": 14,
+  "tiles": {
+    "x0": 2731,
+    "x1": 2737,
+    "y0": 6262,
+    "y1": 6268
+  },
+  "crop_px": {
+    "col0": 31,
+    "col1": 1663,
+    "row0": 53,
+    "row1": 1702
+  },
+  "global_px_origin": {
+    "col": 699167,
+    "row": 1603125
+  },
+  "rows": 1650,
+  "cols": 1633,
+  "bbox_requested": {
+    "min_lat": 38.88,
+    "max_lat": 38.99,
+    "min_lon": -119.99,
+    "max_lon": -119.85
+  },
+  "extent_pixel_centers": {
+    "lon_w": -119.98997211456299,
+    "lon_e": -119.84989643096924,
+    "lat_n": 38.99000303498831,
+    "lat_s": 38.879908826534205
+  },
+  "grid": "Web Mercator z14 pixel grid; col->lon linear; row->lat via inverse mercator",
+  "resolution_m_at_mid_lat": 7.432162262720536,
+  "elev_min_m": 1536.06640625,
+  "elev_max_m": 3065.76171875,
+  "elev_mean_m": 2170.8208681705682,
+  "dem16_png": "dem16.png: uint16 = round(elev_m*10); elev_m = value/10",
+  "dem_f32": "dem.f32: float32 little-endian, row-major, rows*cols, north row first",
+  "samples": [
+    {
+      "row": 0,
+      "col": 0,
+      "elev_m": 1897.55078125
+    },
+    {
+      "row": 825,
+      "col": 816,
+      "elev_m": 2650.62890625
+    },
+    {
+      "row": 1649,
+      "col": 1632,
+      "elev_m": 1986.77734375
+    },
+    {
+      "row": 100,
+      "col": 200,
+      "elev_m": 1897.55078125
+    }
+  ]
+}

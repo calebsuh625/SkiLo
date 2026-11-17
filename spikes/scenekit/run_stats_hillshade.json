@@ -1,0 +1,38 @@
+{
+  "dem_cols" : 1633,
+  "dem_load_s" : 0.0041949748992919922,
+  "dem_rows" : 1650,
+  "draped_line_vertices" : 13362,
+  "lift_ways" : 23,
+  "pick_test" : {
+    "lookat_center_pass" : true,
+    "projectpoint_pass" : true,
+    "results" : [
+      "y-as-is @(870,378): piste:313466575|Gunbarrel [5.7ms]",
+      "y-flipped @(870,421): terrain [0.3ms]",
+      "look-at center (after frame): piste:313466575|Gunbarrel [1.4ms]"
+    ],
+    "target" : "piste:313466575|Gunbarrel"
+  },
+  "piste_extent_m" : {
+    "east_west" : 5346.07421875,
+    "elev_max" : 3052.17578125,
+    "elev_min" : 2028.7694091796875,
+    "north_south" : 5802.84033203125
+  },
+  "piste_ways" : 165,
+  "render" : {
+    "fps" : 119.84740992606015,
+    "frames" : 819,
+    "seconds" : 6.8253456666661805,
+    "view_px" : "1280x800@2.0"
+  },
+  "screencapture_exit" : 0,
+  "stride" : 2,
+  "terrain_build_s" : 0.051179051399230957,
+  "terrain_triangles" : 1344768,
+  "terrain_vertices" : 674025,
+  "texture" : "hillshade_tex.png",
+  "total_scene_build_s" : 0.065960049629211426,
+  "trails_build_s" : 0.0059019327163696289
+}

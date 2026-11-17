@@ -1,0 +1,20 @@
+[swift +  0.00s] loadFileURL /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web/index.html allowingReadAccessTo /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web
+[swift +  0.04s] window appeared; capture scheduled at +12.0s
+[swift +  0.21s] bridge <- {"hasData":true,"hasMapLibre":true,"type":"scriptReady"}
+[swift +  0.21s] nav didFinish: file:///Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/web/index.html
+[swift +  3.07s] bridge <- {"terrain":{"exaggeration":1,"source":"terrainDEM"},"type":"terrainEvent"}
+[swift +  8.43s] *** TRAIL CLICK via bridge: Round-a-Bout (osm way 313466694) ***
+[swift +  8.43s] bridge <- {"difficulty":"intermediate","grooming":"classic","hits":2,"id":313466694,"lngLat":[-119.937444,38.932941],"name":"Round-a-Bout","point":[1038,483],"synthetic":true,"type":"trailClick"}
+[swift +  8.43s] bridge <- {"elev_m":2170,"id":313466575,"lngLat":[-119.93741420000001,38.932884999999999],"name":"Gunbarrel","ok":true,"point":[1039,483],"queryHitsAtPoint":["Round-a-Bout","Gunbarrel"],"requested":"Gunbarrel","type":"simulateClick"}
+[swift +  8.43s] eval(simulateClick) -> 1
+[swift +  9.47s] bridge <- {"doneCount":1,"id":313466694,"type":"markDone"}
+[swift +  9.47s] eval(markDone(313466694)) -> 1
+[swift + 10.53s] eval(diag) -> {"maplibre":"5.6.0","webglRenderer":"Apple GPU","terrainEnabled":true,"terrain":{"source":"terrainDEM","exaggeration":1},"elev_center_m":2796,"elev_CA_base_m":2023,"elev_upper_mtn_m":2770,"elev_lake_m":2015,"renderedPisteSegments":195,"renderedPisteNames":127,"totalFeatures":189,"selectedId":313466694,"done":[313466694],"fps":null,"mapErrors":0,"firstErrors":[],"loaded":false,"tilesLoaded":true,"c...(504 chars)
+[swift + 12.88s] screencapture exit=0 windowNumber=2436 frame=(116.0, 86.0, 1280.0, 832.0) screen=(0.0, 0.0, 1512.0, 982.0) -> /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/screenshot.png (7380222 bytes)
+[swift + 13.02s] wrote /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/snapshot_webview.png (7750797 bytes, 2560x1600px)
+[swift + 13.06s] eval(canvasPNG length) -> 10501002
+[swift + 13.32s] eval(canvasPNG) -> data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACgAAAAZACAYAAAC1rBvAAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAKAKADAAQAAAABAAAGQAAAAADfywHWAABAAElEQVR4AXTda69mSZYf9Odc855ZlVlV3VXVl5npmbFH8AEsLAGSjYyQ3/Cp+DTwCiEkLMACbCNbxjNjmTGG6Z7u6rplVmVm5fXc+f/+a8fJ7DbszH32LWLFuseKFbH3s/ff/df/1dVub2+3t8vWP1c5udpdXWW/vNpd5niZo+vLq8vdxfnF7uzsdHd6erY7Pz/fXVxc5Pllau...(10500982 chars)
+[swift + 13.33s] wrote /Users/calebsuh/Projects/HeavenlyTracker/spikes/maplibre/out/canvas.png (7875719 bytes)
+[swift + 15.77s] bridge message counts: ["simulateClick": 1, "trailClick": 1, "markDone": 1, "terrainEvent": 1, "scriptReady": 1]
+[swift + 15.77s] last trail click: Round-a-Bout id=313466694
+[swift + 15.77s] exiting
