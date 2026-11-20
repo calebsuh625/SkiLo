@@ -51,8 +51,10 @@ PBKDF2 password hashes) and `accounts/<id>/userdata.json` per account (atomic wr
 
 The sidebar's resort menu (⌃⌘1–3) switches between Heavenly, Kirkwood and Mt. Rose. Your Elo,
 run log and bucket list span all of them; the map, trail list, picks, routes and progress show the
-resort you're on. Heavenly has hand-tuned ratings (29 calibration anchors, curated modifiers);
-Kirkwood and Mt. Rose are rated from OSM + terrain alone for now.
+resort you're on. All three use one rating scale: the same terrain formula plus researched hazard
+modifiers (gates, chutes, cliffs, hikes, trees, moguls) in `data/curated_modifiers.json` (Heavenly)
+and `data/<resort>/curated_modifiers.json`, so an 80 means the same thing everywhere. Heavenly also
+has 29 calibration anchors. Mt. Rose leaves out Sky Tavern, the separate hill next door.
 
 ## iPhone app
 

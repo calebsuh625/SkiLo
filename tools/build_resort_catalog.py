@@ -8,7 +8,8 @@ Run after `tools/build_trails.py --resort=<id>`:
 Same catalog format as trails.json (Heavenly), with three differences:
   * ids carry a resort prefix (t-kw-…, l-kw-…, u-kw-…) so they never collide with Heavenly's;
   * area is "MAIN" and subArea "other" (Heavenly's CA/NV sides and pods don't apply);
-  * no curated modifiers or calibration anchors yet: ratings come from OSM + terrain alone.
+  * curated modifiers come from data/<resort>/curated_modifiers.json (same schema as Heavenly's
+    data/curated_modifiers.json), so gated chutes, cliffs and trees score the same at every resort.
 Stdlib only (rating code is shared with build_catalog.py).
 """
 import datetime
@@ -25,7 +26,9 @@ _spec.loader.exec_module(bc)
 
 RESORTS = {
     "kirkwood": {"name": "Kirkwood Mountain Resort", "prefix": "kw"},
-    "mtrose": {"name": "Mt. Rose Ski Tahoe", "prefix": "mr"},
+    # America, Rocco, Skyridge and the carpet beside them belong to Sky Tavern, the small hill next door.
+    "mtrose": {"name": "Mt. Rose Ski Tahoe", "prefix": "mr",
+               "exclude_lifts": {"America", "Rocco", "Skyridge Chair", "Unnamed magic carpet"}},
 }
 
 
@@ -43,8 +46,17 @@ def main():
     if os.path.exists(boundary_path):
         boundary = [json.load(open(boundary_path, encoding="utf-8"))["geometry"]["coordinates"][0]]
 
+    mods_path = os.path.join(data, "curated_modifiers.json")
+    mods = json.load(open(mods_path, encoding="utf-8")) if os.path.exists(mods_path) else {}
+
     errors = []
     trails, connectors, bounds_pts = [], [], []
+    excluded = info.get("exclude_lifts", set())
+    src["trails"] = [t for t in src["trails"] if (t.get("nearest_lift") or {}).get("name") not in excluded]
+    lifts_src["lifts"] = [l for l in lifts_src["lifts"] if l["name"] not in excluded]
+    kept = {t["name"] for t in src["trails"]}
+    src["trails"] = [t for t in src["trails"]
+                     if not (m := re.match(r"Unnamed \(near (.+?)\)", t["name"])) or m.group(1) in kept]
     named = [t for t in src["trails"] if not t.get("unnamed") and not t["name"].startswith("Unnamed")]
     unnamed = [t for t in src["trails"] if t.get("unnamed") or t["name"].startswith("Unnamed")]
     seen = {}
@@ -78,7 +90,7 @@ def main():
             "geometry": geometry, "midpoint": bc.midpoint(longest["coords"]),
             "top": t["top"], "bottom": t["bottom"], "stats": stats,
             "profile": bc.profile_with_grades(t["profile"]),
-            "modifiers": {}, "expectedRating": bc.rate(rated, {}),
+            "modifiers": mods.get(name, {}), "expectedRating": bc.rate(rated, mods.get(name, {})),
         })
 
     for u in unnamed:
@@ -119,13 +131,22 @@ def main():
             "osmTimestamp": src["osm_timestamp"],
             "elevation": f"AWS Terrain Tiles (Mapzen terrarium) z14; see data/{rid}/dem/dem_meta.json",
             "pipeline": "tools/build_trails.py --resort + tools/build_resort_catalog.py",
-            "modifiersVersion": "none",
+            "modifiersVersion": "v1-2026-11-19" if mods else "none",
         },
         "ratingEngineVersion": bc.RATING_ENGINE_VERSION,
         "bounds": {"minLat": min(lats), "minLon": min(lons), "maxLat": max(lats), "maxLon": max(lons)},
         "trails": trails, "connectors": connectors, "lifts": lifts, "boundary": boundary,
     }
 
+    types = {"gated": bool, "hike_to": bool, "chute": bool, "cliff_exposure": (int, float), "narrow": bool,
+             "traverse": bool, "moguls_typical": bool, "trees": bool, "notes": str, "source": str}
+    for n, m in mods.items():
+        for k, v in m.items():
+            if k not in types or not isinstance(v, types[k]):
+                errors.append(f"curated modifier {n}.{k}: unexpected {type(v).__name__}")
+    unmatched = set(mods) - {t["name"] for t in trails}
+    if unmatched:
+        errors.append(f"curated modifiers for unknown trails: {sorted(unmatched)}")
     ids = [t["id"] for t in trails]
     if len(set(ids)) != len(ids):
         errors.append("duplicate trail ids")
